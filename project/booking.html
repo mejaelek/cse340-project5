@@ -1,0 +1,53 @@
+<!-- booking.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nature Trails | Booking</title>
+    <link rel="stylesheet" href="styles/site.css">
+</head>
+
+<body>
+    <header>
+        <h1>Nature Trails</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="trails.html">Trails</a></li>
+                <li><a href="booking.html" class="active">Booking</a></li>
+                <li><a href="credit.html">Credits</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h2>Book Your Hike</h2>
+        <form action="#" method="post">
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="trail">Select a Trail:</label>
+            <select id="trail" name="trail">
+                <option value="mist">Mountain Mist Loop</option>
+                <option value="river">Riverbank Trek</option>
+                <option value="sunset">Sunset Ridge</option>
+            </select>
+
+            <label for="date">Choose a Date:</label>
+            <input type="date" id="date" name="date" required>
+
+            <label><input type="checkbox" name="newsletter"> Sign up for trail updates</label>
+
+            <button type="submit">Submit</button>
+        </form>
+    </main>
+    <footer>
+        <p>&copy; 2025 Nature Trails | <a href="credit.html">Credits</a></p>
+    </footer>
+</body>
+
+</html>
