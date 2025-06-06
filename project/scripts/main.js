@@ -1,6 +1,6 @@
 // main.js
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListenerEventListener("DOMContentLoaded", () => {
     const savedName = localStorage.getItem("userName");
     if (savedName) {
         const welcomeBanner = document.createElement("div");

@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         localStorage.setItem("userName", name);
+        
         alert("Booking submitted successfully!");
         form.reset();
     });

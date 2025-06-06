@@ -23,7 +23,7 @@
      padding: 1rem;
  }
 
- header,
+ head,
  nav,
  footer {
      background-color: var(--primary-color);
