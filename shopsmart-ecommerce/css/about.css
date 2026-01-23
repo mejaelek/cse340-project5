@@ -1,0 +1,218 @@
+ /* ============================================
+   ABOUT PAGE SPECIFIC STYLES
+   ============================================ */
+
+ .about-hero {
+     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+     color: white;
+     padding: 5rem 2rem;
+     text-align: center;
+ }
+
+ .about-hero h1 {
+     font-size: 3rem;
+     margin-bottom: 1rem;
+     animation: fadeInDown 1s ease;
+ }
+
+ .about-hero p {
+     font-size: 1.3rem;
+     animation: fadeInUp 1s ease;
+ }
+
+ /* ============================================
+   STORY SECTION
+   ============================================ */
+
+ .story-section {
+     display: grid;
+     grid-template-columns: 1fr 1fr;
+     gap: 3rem;
+     margin: 4rem 0;
+     align-items: center;
+ }
+
+ .story-content h2 {
+     font-size: 2.5rem;
+     color: #667eea;
+     margin-bottom: 1.5rem;
+ }
+
+ .story-content p {
+     font-size: 1.1rem;
+     color: #555;
+     margin-bottom: 1rem;
+     line-height: 1.8;
+ }
+
+ .story-image {
+     width: 100%;
+     height: 400px;
+     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+     border-radius: 10px;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     color: white;
+     font-size: 1.5rem;
+     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+ }
+
+ /* ============================================
+   MISSION & VISION
+   ============================================ */
+
+ .mission-vision {
+     display: grid;
+     grid-template-columns: 1fr 1fr;
+     gap: 2rem;
+     margin: 4rem 0;
+ }
+
+ .mission-vision .card {
+     background: #f8f9fa;
+     padding: 2.5rem;
+     border-radius: 10px;
+     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+     transition: all 0.3s ease;
+ }
+
+ .mission-vision .card:hover {
+     transform: translateY(-5px);
+     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+ }
+
+ .mission-vision .card h3 {
+     font-size: 2rem;
+     color: #667eea;
+     margin-bottom: 1rem;
+ }
+
+ .mission-vision .card p {
+     color: #555;
+     font-size: 1.05rem;
+     line-height: 1.8;
+ }
+
+ /* ============================================
+   VALUES SECTION
+   ============================================ */
+
+ .values-section {
+     text-align: center;
+     margin: 4rem 0;
+ }
+
+ .values-section h2 {
+     font-size: 2.5rem;
+     color: #667eea;
+     margin-bottom: 3rem;
+ }
+
+ .values-grid {
+     display: grid;
+     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+     gap: 2rem;
+ }
+
+ .value-item {
+     padding: 2rem;
+     background: white;
+     border-radius: 10px;
+     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+     transition: transform 0.3s ease;
+ }
+
+ .value-item:hover {
+     transform: translateY(-5px);
+ }
+
+ .value-icon {
+     width: 80px;
+     height: 80px;
+     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+     border-radius: 50%;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     margin: 0 auto 1.5rem;
+     color: white;
+     font-size: 2rem;
+ }
+
+ .value-item h4 {
+     font-size: 1.4rem;
+     color: #333;
+     margin-bottom: 1rem;
+ }
+
+ .value-item p {
+     color: #666;
+     line-height: 1.6;
+ }
+
+ /* ============================================
+   TEAM SECTION
+   ============================================ */
+
+ .team-section {
+     text-align: center;
+     margin: 4rem 0;
+ }
+
+ .team-section h2 {
+     font-size: 2.5rem;
+     color: #667eea;
+     margin-bottom: 3rem;
+ }
+
+ .team-grid {
+     display: grid;
+     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+     gap: 2rem;
+ }
+
+ .team-member {
+     background: white;
+     padding: 2rem;
+     border-radius: 10px;
+     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+     transition: transform 0.3s ease;
+ }
+
+ .team-member:hover {
+     transform: translateY(-5px);
+ }
+
+ .member-photo {
+     width: 120px;
+     height: 120px;
+     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+     border-radius: 50%;
+     margin: 0 auto 1.5rem;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     color: white;
+     font-size: 2.5rem;
+     font-weight: bold;
+ }
+
+ .team-member h4 {
+     font-size: 1.3rem;
+     margin-bottom: 0.5rem;
+     color: #333;
+ }
+
+ .team-member .role {
+     color: #667eea;
+     font-weight: 600;
+     margin-bottom: 1rem;
+     font-size: 1rem;
+ }
+
+ .team-member p {
+     color: #666;
+     font-size: 0.95rem;
+     line-height: 1.6;
+ }
