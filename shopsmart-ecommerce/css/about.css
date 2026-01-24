@@ -181,7 +181,7 @@
  }
 
  .team-member:hover {
-     transform: translateY(-5px);
+     transition: translateY(-5px);
  }
 
  .member-photo {
