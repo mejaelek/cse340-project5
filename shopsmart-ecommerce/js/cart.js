@@ -1,8 +1,8 @@
-// ============================================
+ // ============================================
 // CART PAGE FUNCTIONALITY
 // ============================================
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
     initializeCart();
     setupCartEventListeners();
 });
@@ -73,7 +73,7 @@ function displayCartItems() {
 function attachCartItemListeners() {
     // Increase quantity
     document.querySelectorAll('.increase-qty').forEach(btn => {
-        btn.addEventListener('click', function () {
+        btn.addEventListener('click', function() {
             const id = parseInt(this.dataset.id);
             const cart = window.shopSmart.getCart();
             const item = cart.find(i => i.id === id);
@@ -87,7 +87,7 @@ function attachCartItemListeners() {
 
     // Decrease quantity
     document.querySelectorAll('.decrease-qty').forEach(btn => {
-        btn.addEventListener('click', function () {
+        btn.addEventListener('click', function() {
             const id = parseInt(this.dataset.id);
             const cart = window.shopSmart.getCart();
             const item = cart.find(i => i.id === id);
@@ -101,7 +101,7 @@ function attachCartItemListeners() {
 
     // Remove item
     document.querySelectorAll('.remove-btn').forEach(btn => {
-        btn.addEventListener('click', function () {
+        btn.addEventListener('click', function() {
             const id = parseInt(this.dataset.id);
             if (confirm('Are you sure you want to remove this item?')) {
                 window.shopSmart.removeFromCart(id);
@@ -119,7 +119,7 @@ function attachCartItemListeners() {
 
 function updateCartSummary() {
     const cart = window.shopSmart.getCart();
-
+    
     // Calculate totals
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const shipping = subtotal > 500 ? 0 : 50; // Free shipping over R500
@@ -148,13 +148,13 @@ function setupCartEventListeners() {
     // Checkout button
     const checkoutBtn = document.getElementById('checkout-btn');
     if (checkoutBtn) {
-        checkoutBtn.addEventListener('click', function () {
+        checkoutBtn.addEventListener('click', function() {
             const cart = window.shopSmart.getCart();
             if (cart.length === 0) {
                 window.shopSmart.showNotification('Your cart is empty!', 'error');
                 return;
             }
-
+            
             window.shopSmart.showNotification('Redirecting to checkout...', 'success');
             setTimeout(() => {
                 // Here you would redirect to actual checkout page
@@ -166,10 +166,10 @@ function setupCartEventListeners() {
     // Promo code
     const applyPromoBtn = document.getElementById('apply-promo');
     if (applyPromoBtn) {
-        applyPromoBtn.addEventListener('click', function () {
+        applyPromoBtn.addEventListener('click', function() {
             const promoInput = document.getElementById('promo-input');
             const code = promoInput.value.trim().toUpperCase();
-
+            
             if (!code) {
                 window.shopSmart.showNotification('Please enter a promo code', 'error');
                 return;

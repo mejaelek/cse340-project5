@@ -1,4 +1,4 @@
- // ============================================
+// ============================================
 // PRODUCTS DATA & FUNCTIONALITY
 // ============================================
 
@@ -24,7 +24,7 @@ let currentProducts = [...productsData];
 // INITIALIZE PRODUCTS
 // ============================================
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const productsContainer = document.getElementById('products-container');
     const featuredContainer = document.getElementById('featured-products');
 
@@ -103,7 +103,7 @@ function createProductCard(product) {
 function attachProductListeners() {
     // Add to Cart buttons
     document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
+        btn.addEventListener('click', function (e) {
             e.stopPropagation();
             const productId = parseInt(this.dataset.id);
             const product = productsData.find(p => p.id === productId);
@@ -115,7 +115,7 @@ function attachProductListeners() {
 
     // View Details buttons
     document.querySelectorAll('.view-details-btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
+        btn.addEventListener('click', function (e) {
             e.stopPropagation();
             const productId = parseInt(this.dataset.id);
             viewProductDetails(productId);
@@ -124,7 +124,7 @@ function attachProductListeners() {
 
     // Product card click
     document.querySelectorAll('.product-card').forEach(card => {
-        card.addEventListener('click', function() {
+        card.addEventListener('click', function () {
             const productId = parseInt(this.dataset.id);
             viewProductDetails(productId);
         });
@@ -151,7 +151,7 @@ function setupFilters() {
 
     if (searchInput) {
         searchInput.addEventListener('input', applyFilters);
-        searchInput.addEventListener('keypress', function(e) {
+        searchInput.addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 applyFilters();
             }
@@ -176,7 +176,7 @@ function applyFilters() {
     const searchInput = document.getElementById('search-input');
     if (searchInput && searchInput.value.trim()) {
         const searchTerm = searchInput.value.toLowerCase().trim();
-        filtered = filtered.filter(p => 
+        filtered = filtered.filter(p =>
             p.name.toLowerCase().includes(searchTerm) ||
             p.category.toLowerCase().includes(searchTerm)
         );
@@ -185,7 +185,7 @@ function applyFilters() {
     // Sort
     const sortFilter = document.getElementById('sort-filter');
     if (sortFilter) {
-        switch(sortFilter.value) {
+        switch (sortFilter.value) {
             case 'price-low':
                 filtered.sort((a, b) => a.price - b.price);
                 break;
@@ -214,7 +214,7 @@ function viewProductDetails(productId) {
     document.body.appendChild(modal);
 
     // Close modal on background click
-    modal.addEventListener('click', function(e) {
+    modal.addEventListener('click', function (e) {
         if (e.target === modal) {
             modal.remove();
         }
@@ -229,7 +229,7 @@ function viewProductDetails(productId) {
     // Add to cart from modal
     const addToCartBtn = modal.querySelector('.modal-add-to-cart');
     if (addToCartBtn) {
-        addToCartBtn.addEventListener('click', function() {
+        addToCartBtn.addEventListener('click', function () {
             window.shopSmart.addToCart(product);
             modal.remove();
         });
@@ -368,7 +368,7 @@ function createProductModal(product) {
             }
         }
     `;
-    
+
     if (!document.querySelector('style[data-modal-styles]')) {
         style.setAttribute('data-modal-styles', 'true');
         document.head.appendChild(style);
