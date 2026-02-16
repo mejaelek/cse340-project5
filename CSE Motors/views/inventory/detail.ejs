@@ -1,0 +1,23 @@
+<div class="vehicle-detail-page">
+    <h1>
+        <%= title %>
+    </h1>
+
+    <!-- Display flash messages -->
+    <% if (messages.notice) { %>
+        <p class="notice">
+            <%= messages.notice %>
+        </p>
+        <% } %>
+
+            <% if (locals.vehicle) { %>
+                <%- vehicle %>
+                    <% } else { %>
+                        <p class="error">Sorry, this vehicle could not be found.</p>
+                        <p><a href="/">Return to Home</a></p>
+                        <% } %>
+
+                            <p class="back-link">
+                                <a href="/inv/type/<%= locals.classification_id %>">← Back to Classification</a>
+                            </p>
+</div>

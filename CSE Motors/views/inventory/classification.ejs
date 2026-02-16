@@ -1,0 +1,19 @@
+<div class="classification-view">
+    <h1>
+        <%= title %>
+    </h1>
+
+    <!-- Display flash messages -->
+    <% if (messages.notice) { %>
+        <p class="notice">
+            <%= messages.notice %>
+        </p>
+        <% } %>
+
+            <% if (locals.grid) { %>
+                <!-- Display vehicle grid -->
+                <%- grid %>
+                    <% } else { %>
+                        <p class="notice">Sorry, no matching vehicles could be found.</p>
+                        <% } %>
+</div>

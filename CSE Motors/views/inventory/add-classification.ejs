@@ -1,0 +1,47 @@
+<div class="form-container">
+    <h1>
+        <%= title %>
+    </h1>
+
+    <!-- Display flash messages -->
+    <% if (messages.notice) { %>
+        <p class="notice">
+            <%= messages.notice %>
+        </p>
+        <% } %>
+
+            <!-- Display errors -->
+            <% if (errors) { %>
+                <ul class="error-list">
+                    <% errors.array().forEach(function(error) { %>
+                        <li>
+                            <%= error.msg %>
+                        </li>
+                        <% }) %>
+                </ul>
+                <% } %>
+
+                    <div class="form-section">
+                        <h2>Add New Classification</h2>
+
+                        <p class="form-instructions">
+                            Classification names must be alphanumeric and cannot contain spaces.
+                        </p>
+
+                        <form id="addClassificationForm" action="/inv/add-classification" method="post">
+
+                            <label for="classification_name">Classification Name:</label>
+                            <input type="text" id="classification_name" name="classification_name"
+                                value="<%= locals.classification_name %>" required placeholder="e.g., SUV, Sedan, Truck"
+                                pattern="^[A-Za-z0-9]+$"
+                                title="Classification name must be alphanumeric with no spaces">
+                            <p class="field-note">Examples: SUV, Sedan, Truck, Coupe, Convertible</p>
+
+                            <button type="submit" class="submit-btn">Add Classification</button>
+                        </form>
+
+                        <p class="back-link">
+                            <a href="/inv">← Back to Inventory Management</a>
+                        </p>
+                    </div>
+</div>
