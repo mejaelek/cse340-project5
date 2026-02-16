@@ -1,0 +1,113 @@
+<!-- views/account/update.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %> | CSE Motors
+    </title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+
+<body>
+    <%- include('../partials/header') %>
+
+        <main>
+            <h1>
+                <%= title %>
+            </h1>
+
+            <!-- Display flash messages -->
+            <% if (messages.notice) { %>
+                <p class="notice">
+                    <%= messages.notice %>
+                </p>
+                <% } %>
+
+                    <!-- Display errors -->
+                    <% if (errors) { %>
+                        <ul class="error-list">
+                            <% errors.array().forEach(function(error) { %>
+                                <li>
+                                    <%= error.msg %>
+                                </li>
+                                <% }) %>
+                        </ul>
+                        <% } %>
+
+                            <!-- Account Update Form -->
+                            <section class="form-section">
+                                <h2>Update Account Information</h2>
+                                <form id="updateForm" action="/account/update" method="post">
+
+                                    <label for="account_firstname">First Name:</label>
+                                    <input type="text" id="account_firstname" name="account_firstname"
+                                        value="<%= locals.account_firstname || accountData.account_firstname %>"
+                                        required pattern="^[A-Za-z]{2,}$"
+                                        title="First name must be at least 2 characters and contain only letters">
+
+                                    <label for="account_lastname">Last Name:</label>
+                                    <input type="text" id="account_lastname" name="account_lastname"
+                                        value="<%= locals.account_lastname || accountData.account_lastname %>" required
+                                        pattern="^[A-Za-z]{2,}$"
+                                        title="Last name must be at least 2 characters and contain only letters">
+
+                                    <label for="account_email">Email Address:</label>
+                                    <input type="email" id="account_email" name="account_email"
+                                        value="<%= locals.account_email || accountData.account_email %>" required
+                                        pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$" title="Please enter a valid email address">
+
+                                    <input type="hidden" name="account_id" value="<%= accountData.account_id %>">
+
+                                    <button type="submit" class="submit-btn">Update Information</button>
+                                </form>
+                            </section>
+
+                            <!-- Password Change Form -->
+                            <section class="form-section">
+                                <h2>Change Password</h2>
+                                <p class="password-requirements">
+                                    Password must be at least 12 characters long and contain at least
+                                    1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.
+                                </p>
+                                <p class="password-note">
+                                    <strong>Note:</strong> Entering a new password will replace your current password.
+                                </p>
+
+                                <form id="passwordForm" action="/account/change-password" method="post">
+
+                                    <label for="account_password">New Password:</label>
+                                    <input type="password" id="account_password" name="account_password" required
+                                        pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$"
+                                        title="Password must meet the requirements listed above">
+                                    <button type="button" id="pswdBtn" onclick="togglePassword()">Show Password</button>
+
+                                    <input type="hidden" name="account_id" value="<%= accountData.account_id %>">
+
+                                    <button type="submit" class="submit-btn">Change Password</button>
+                                </form>
+                            </section>
+        </main>
+
+        <%- include('../partials/footer') %>
+
+            <script>
+                // Password visibility toggle
+                function togglePassword() {
+                    const passwordInput = document.getElementById('account_password');
+                    const pswdBtn = document.getElementById('pswdBtn');
+
+                    if (passwordInput.type === 'password') {
+                        passwordInput.type = 'text';
+                        pswdBtn.textContent = 'Hide Password';
+                    } else {
+                        passwordInput.type = 'password';
+                        pswdBtn.textContent = 'Show Password';
+                    }
+                }
+            </script>
+</body>
+
+</html>

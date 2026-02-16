@@ -1,0 +1,27 @@
+<!-- views/partials/header.ejs -->
+<header>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+
+            <% if (locals.loggedin) { %>
+                <!-- Welcome link - only visible when logged in -->
+                <li>
+                    <a href="/account/management">
+                        Welcome <%= locals.accountData.account_firstname %>
+                    </a>
+                </li>
+
+                <!-- Logout link - only visible when logged in -->
+                <li>
+                    <a href="/account/logout">Logout</a>
+                </li>
+                <% } else { %>
+                    <!-- My Account link - only visible when NOT logged in -->
+                    <li>
+                        <a href="/account/login">My Account</a>
+                    </li>
+                    <% } %>
+        </ul>
+    </nav>
+</header>
