@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description"
+        content="WorldPulse — Explore countries, convert currencies, and discover world facts in real time." />
+    <meta name="robots" content="index, follow" />
+    <meta property="og:title" content="WorldPulse — Global Explorer" />
+    <meta property="og:description" content="Explore countries, currencies, and world facts in real time." />
+    <meta property="og:type" content="website" />
+    <title>WorldPulse — Global Explorer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+    <link rel="stylesheet" href="css/components.css" />
+</head>
+
+<body>
+    <!-- Skip to main content for accessibility -->
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <!-- ===== HEADER ===== -->
+    <header class="site-header" role="banner">
+        <div class="header-inner">
+            <a href="/" class="logo" aria-label="WorldPulse Home">
+                <span class="logo-icon" aria-hidden="true">🌍</span>
+                <span class="logo-text">World<em>Pulse</em></span>
+            </a>
+            <nav class="main-nav" role="navigation" aria-label="Main navigation">
+                <button class="nav-btn active" data-tab="explore" aria-current="page" aria-controls="tab-explore">
+                    Explore
+                </button>
+                <button class="nav-btn" data-tab="converter" aria-controls="tab-converter">
+                    Currency
+                </button>
+                <button class="nav-btn" data-tab="favorites" aria-controls="tab-favorites">
+                    Favorites <span class="fav-count" id="fav-count" aria-live="polite">0</span>
+                </button>
+            </nav>
+            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+                <span class="theme-icon">☀️</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" aria-label="Hero section">
+        <div class="hero-globe" aria-hidden="true">
+            <div class="globe-ring ring-1"></div>
+            <div class="globe-ring ring-2"></div>
+            <div class="globe-ring ring-3"></div>
+            <div class="globe-dot"></div>
+        </div>
+        <div class="hero-content">
+            <p class="hero-eyebrow">Discover the world</p>
+            <h1 class="hero-title">
+                Explore <span class="highlight">195</span> Countries
+            </h1>
+            <p class="hero-sub">
+                Real-time country data, live currency rates, and curated world facts — all in one place.
+            </p>
+            <form class="search-form" role="search" id="search-form">
+                <label for="search-input" class="sr-only">Search countries</label>
+                <input type="search" id="search-input" class="search-input" placeholder="Search countries…"
+                    autocomplete="off" aria-label="Search countries" />
+                <button type="submit" class="search-btn" aria-label="Search">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                        aria-hidden="true">
+                        <circle cx="11" cy="11" r="8" />
+                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </svg>
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- ===== MAIN ===== -->
+    <main id="main-content" class="main-wrapper">
+        <!-- FILTERS BAR -->
+        <div class="filters-bar" role="group" aria-label="Filter countries">
+            <button class="filter-chip active" data-region="all">All</button>
+            <button class="filter-chip" data-region="Africa">Africa</button>
+            <button class="filter-chip" data-region="Americas">Americas</button>
+            <button class="filter-chip" data-region="Asia">Asia</button>
+            <button class="filter-chip" data-region="Europe">Europe</button>
+            <button class="filter-chip" data-region="Oceania">Oceania</button>
+            <div class="sort-group">
+                <label for="sort-select" class="sr-only">Sort by</label>
+                <select id="sort-select" class="sort-select" aria-label="Sort countries">
+                    <option value="name">Name A–Z</option>
+                    <option value="name-desc">Name Z–A</option>
+                    <option value="pop-desc">Population ↓</option>
+                    <option value="pop-asc">Population ↑</option>
+                    <option value="area-desc">Area ↓</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- STATS BAR -->
+        <div class="stats-bar" aria-label="Global statistics" id="stats-bar">
+            <div class="stat-item">
+                <span class="stat-num" id="stat-countries">—</span>
+                <span class="stat-label">Countries</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num" id="stat-population">—</span>
+                <span class="stat-label">World Population</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num" id="stat-languages">—</span>
+                <span class="stat-label">Languages</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-num" id="stat-regions">—</span>
+                <span class="stat-label">Regions</span>
+            </div>
+        </div>
+
+        <!-- TAB PANELS -->
+        <!-- Explore Tab -->
+        <section id="tab-explore" class="tab-panel active" role="tabpanel" aria-label="Explore countries">
+            <div class="results-meta" aria-live="polite" id="results-meta"></div>
+            <div class="countries-grid" id="countries-grid" role="list" aria-label="Countries list"></div>
+            <div class="loader" id="loader" aria-live="polite" aria-label="Loading countries">
+                <div class="spinner" aria-hidden="true"></div>
+                <p>Fetching world data…</p>
+            </div>
+            <div class="empty-state hidden" id="empty-state">
+                <p class="empty-icon" aria-hidden="true">🔍</p>
+                <p>No countries match your search.</p>
+                <button class="btn-secondary" id="clear-search">Clear search</button>
+            </div>
+        </section>
+
+        <!-- Currency Tab -->
+        <section id="tab-converter" class="tab-panel" role="tabpanel" aria-label="Currency converter" hidden>
+            <div class="converter-card">
+                <h2 class="section-title">Live Currency Converter</h2>
+                <p class="section-sub">Rates updated from Open Exchange Rates API</p>
+                <div class="converter-grid">
+                    <div class="conv-field">
+                        <label for="conv-amount" class="field-label">Amount</label>
+                        <input type="number" id="conv-amount" class="field-input" value="100" min="0" step="any"
+                            aria-label="Amount to convert" />
+                    </div>
+                    <div class="conv-field">
+                        <label for="conv-from" class="field-label">From</label>
+                        <select id="conv-from" class="field-input" aria-label="Convert from currency"></select>
+                    </div>
+                    <button class="swap-btn" id="swap-btn" aria-label="Swap currencies">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" aria-hidden="true">
+                            <path d="M7 16V4m0 0L3 8m4-4l4 4" />
+                            <path d="M17 8v12m0 0l4-4m-4 4l-4-4" />
+                        </svg>
+                    </button>
+                    <div class="conv-field">
+                        <label for="conv-to" class="field-label">To</label>
+                        <select id="conv-to" class="field-input" aria-label="Convert to currency"></select>
+                    </div>
+                </div>
+                <div class="conv-result" id="conv-result" aria-live="polite">
+                    <span class="result-amount" id="result-amount">—</span>
+                    <span class="result-label" id="result-label">Enter an amount</span>
+                </div>
+                <div class="rate-info" id="rate-info"></div>
+                <div class="rate-history" id="rate-history">
+                    <h3 class="rh-title">Popular Rates (vs USD)</h3>
+                    <div class="rh-grid" id="rh-grid" aria-label="Popular exchange rates"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Favorites Tab -->
+        <section id="tab-favorites" class="tab-panel" role="tabpanel" aria-label="Favorite countries" hidden>
+            <div class="fav-header">
+                <h2 class="section-title">Your Favorites</h2>
+                <button class="btn-danger" id="clear-favs" aria-label="Clear all favorites">Clear All</button>
+            </div>
+            <div class="countries-grid" id="favorites-grid" role="list" aria-label="Favorite countries list"></div>
+            <div class="empty-state" id="fav-empty">
+                <p class="empty-icon" aria-hidden="true">⭐</p>
+                <p>No favorites yet. Click the star on any country card.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===== COUNTRY MODAL ===== -->
+    <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-country-name"
+        hidden>
+        <div class="modal-card">
+            <button class="modal-close" id="modal-close" aria-label="Close modal">✕</button>
+            <div class="modal-body" id="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- ===== TOAST ===== -->
+    <div class="toast-container" id="toast-container" aria-live="assertive"></div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="site-footer" role="contentinfo">
+        <p>
+            Built with ❤️ using
+            <a href="https://restcountries.com" target="_blank" rel="noopener noreferrer">REST Countries API</a>
+            &amp;
+            <a href="https://exchangerate.host" target="_blank" rel="noopener noreferrer">Frankfurter API</a>.
+            Data for educational use.
+        </p>
+    </footer>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,324 @@
+/* =========================================
+   WorldPulse — animations.css
+   Keyframes, transitions, animated elements
+   ========================================= */
+
+/* ── Keyframes ── */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes orbitRing {
+    from {
+        transform: rotateX(75deg) rotateZ(0deg);
+    }
+
+    to {
+        transform: rotateX(75deg) rotateZ(360deg);
+    }
+}
+
+@keyframes orbitRing2 {
+    from {
+        transform: rotateX(60deg) rotateZ(120deg);
+    }
+
+    to {
+        transform: rotateX(60deg) rotateZ(480deg);
+    }
+}
+
+@keyframes orbitRing3 {
+    from {
+        transform: rotateX(80deg) rotateZ(240deg);
+    }
+
+    to {
+        transform: rotateX(80deg) rotateZ(600deg);
+    }
+}
+
+@keyframes globePulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(232, 100, 60, 0.4);
+        transform: scale(1);
+    }
+
+    50% {
+        box-shadow: 0 0 0 16px rgba(232, 100, 60, 0);
+        transform: scale(1.06);
+    }
+}
+
+@keyframes cardEnter {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.97);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -400px 0;
+    }
+
+    100% {
+        background-position: 400px 0;
+    }
+}
+
+@keyframes flagWave {
+
+    0%,
+    100% {
+        transform: skewX(0deg) scaleX(1);
+    }
+
+    25% {
+        transform: skewX(-1deg) scaleX(0.99);
+    }
+
+    75% {
+        transform: skewX(1deg) scaleX(1.01);
+    }
+}
+
+@keyframes countUp {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── Animated Globe ── */
+.globe-dot {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle at 35% 35%, var(--accent), #b83010);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    animation: globePulse 3s ease-in-out infinite;
+}
+
+.globe-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: 2px solid rgba(232, 100, 60, 0.35);
+    border-radius: 50%;
+    transform-origin: center center;
+}
+
+.ring-1 {
+    width: 140px;
+    height: 140px;
+    margin-top: -70px;
+    margin-left: -70px;
+    animation: orbitRing 6s linear infinite;
+}
+
+.ring-2 {
+    width: 180px;
+    height: 180px;
+    margin-top: -90px;
+    margin-left: -90px;
+    border-color: rgba(42, 157, 143, 0.3);
+    animation: orbitRing2 9s linear infinite;
+}
+
+.ring-3 {
+    width: 220px;
+    height: 220px;
+    margin-top: -110px;
+    margin-left: -110px;
+    border-color: rgba(240, 165, 0, 0.2);
+    animation: orbitRing3 13s linear infinite;
+}
+
+/* ── Card Animations ── */
+.country-card {
+    animation: cardEnter 0.35s ease both;
+}
+
+/* Stagger delay for cards */
+.country-card:nth-child(1) {
+    animation-delay: 0.02s;
+}
+
+.country-card:nth-child(2) {
+    animation-delay: 0.04s;
+}
+
+.country-card:nth-child(3) {
+    animation-delay: 0.06s;
+}
+
+.country-card:nth-child(4) {
+    animation-delay: 0.08s;
+}
+
+.country-card:nth-child(5) {
+    animation-delay: 0.10s;
+}
+
+.country-card:nth-child(6) {
+    animation-delay: 0.12s;
+}
+
+.country-card:nth-child(7) {
+    animation-delay: 0.14s;
+}
+
+.country-card:nth-child(8) {
+    animation-delay: 0.16s;
+}
+
+.country-card:nth-child(9) {
+    animation-delay: 0.18s;
+}
+
+.country-card:nth-child(10) {
+    animation-delay: 0.20s;
+}
+
+.country-card:nth-child(11) {
+    animation-delay: 0.22s;
+}
+
+.country-card:nth-child(12) {
+    animation-delay: 0.24s;
+}
+
+/* ── Flag Wave ── */
+.flag-img:hover {
+    animation: flagWave 0.5s ease-in-out;
+}
+
+/* ── Skeleton Loader ── */
+.skeleton {
+    background: linear-gradient(90deg,
+            var(--paper-2) 25%,
+            var(--card-border) 50%,
+            var(--paper-2) 75%);
+    background-size: 400px 100%;
+    animation: shimmer 1.4s infinite;
+    border-radius: var(--radius-sm);
+}
+
+/* ── Swap Button Spin ── */
+.swap-btn.spinning {
+    animation: spin 0.4s ease;
+}
+
+/* ── Stat Number Count-up ── */
+.stat-num.counting {
+    animation: countUp 0.4s ease;
+}
+
+/* ── Favorite Star ── */
+.fav-btn {
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.fav-btn.favorited {
+    animation: pulse 0.4s ease;
+}
+
+/* ── Reduced Motion Support ── */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
