@@ -1,0 +1,20 @@
+<nav aria-label="Main navigation">
+    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle navigation menu">
+        <span class="hamburger" aria-hidden="true"></span>
+    </button>
+    <ul id="primary-nav" role="list">
+        <li><a href="/">Home</a></li>
+        <li><a href="/inv/">Vehicles</a></li>
+        <li><a href="/account/">My Account</a></li>
+    </ul>
+</nav>
+
+<script>
+    const navToggle = document.querySelector('.nav-toggle');
+    const navList = document.getElementById('primary-nav');
+
+    navToggle.addEventListener('click', function () {
+        const isOpen = navList.classList.toggle('nav-open');
+        navToggle.setAttribute('aria-expanded', isOpen);
+    });
+</script>
