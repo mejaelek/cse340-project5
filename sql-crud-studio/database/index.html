@@ -1,0 +1,1961 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SQL CRUD Studio — CSE 340 Assignment 2</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --bg: #0d0f14;
+            --surface: #161920;
+            --surface2: #1e2330;
+            --surface3: #252c3a;
+            --border: rgba(255, 255, 255, 0.07);
+            --border2: rgba(255, 255, 255, 0.13);
+            --text: #e8eaf0;
+            --muted: #6b7280;
+            --accent: #4ade80;
+            --accent2: #22d3ee;
+            --accent3: #f59e0b;
+            --accent4: #f87171;
+            --accent5: #a78bfa;
+            --mono: 'Space Mono', monospace;
+            --sans: 'DM Sans', sans-serif;
+            --radius: 10px;
+            --radius-lg: 16px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--sans);
+            font-size: 15px;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* ── Noise texture overlay ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        /* ── Header ── */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(13, 15, 20, 0.92);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--mono);
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: -0.02em;
+        }
+
+        .logo-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.4);
+            }
+
+            50% {
+                box-shadow: 0 0 0 6px rgba(74, 222, 128, 0);
+            }
+        }
+
+        .badge {
+            font-family: var(--mono);
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            background: rgba(74, 222, 128, 0.1);
+            color: var(--accent);
+            border: 1px solid rgba(74, 222, 128, 0.2);
+        }
+
+        nav {
+            display: flex;
+            gap: 6px;
+        }
+
+        nav a {
+            font-size: 13px;
+            color: var(--muted);
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        nav a:hover {
+            color: var(--text);
+            background: var(--surface2);
+        }
+
+        nav a.active {
+            color: var(--accent);
+            background: rgba(74, 222, 128, 0.08);
+        }
+
+        /* ── Main layout ── */
+        main {
+            position: relative;
+            z-index: 1;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 3rem 2rem 6rem;
+        }
+
+        /* ── Hero ── */
+        .hero {
+            margin-bottom: 4rem;
+        }
+
+        .hero-eyebrow {
+            font-family: var(--mono);
+            font-size: 12px;
+            color: var(--accent2);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hero-eyebrow::before {
+            content: '';
+            display: block;
+            width: 24px;
+            height: 1px;
+            background: var(--accent2);
+        }
+
+        h1 {
+            font-family: var(--mono);
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+        }
+
+        h1 span {
+            color: var(--accent);
+        }
+
+        .hero-sub {
+            font-size: 17px;
+            color: var(--muted);
+            max-width: 600px;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .stat-value {
+            font-family: var(--mono);
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1;
+        }
+
+        .stat-value span {
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        /* ── Section titles ── */
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-tag {
+            font-family: var(--mono);
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .tag-green {
+            background: rgba(74, 222, 128, 0.1);
+            color: var(--accent);
+            border: 1px solid rgba(74, 222, 128, 0.2);
+        }
+
+        .tag-cyan {
+            background: rgba(34, 211, 238, 0.1);
+            color: var(--accent2);
+            border: 1px solid rgba(34, 211, 238, 0.2);
+        }
+
+        .tag-amber {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--accent3);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        .tag-red {
+            background: rgba(248, 113, 113, 0.1);
+            color: var(--accent4);
+            border: 1px solid rgba(248, 113, 113, 0.2);
+        }
+
+        .tag-purple {
+            background: rgba(167, 139, 250, 0.1);
+            color: var(--accent5);
+            border: 1px solid rgba(167, 139, 250, 0.2);
+        }
+
+        .section-title {
+            font-family: var(--mono);
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        .section-divider {
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* ── Cards ── */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+
+        .card:hover {
+            border-color: var(--border2);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border);
+            background: var(--surface2);
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--mono);
+            font-size: 13px;
+            color: var(--text);
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        /* ── Grid layouts ── */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .grid-auto {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ── SQL Code blocks ── */
+        .sql-block {
+            background: #0a0c10;
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin: 0;
+            position: relative;
+        }
+
+        .sql-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .sql-toolbar-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .traffic-lights {
+            display: flex;
+            gap: 6px;
+        }
+
+        .tl {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+        }
+
+        .tl-red {
+            background: #ff5f56;
+        }
+
+        .tl-yellow {
+            background: #ffbd2e;
+        }
+
+        .tl-green {
+            background: #27c93f;
+        }
+
+        .sql-filename {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .btn-copy {
+            font-family: var(--mono);
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 5px;
+            border: 1px solid var(--border2);
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-copy:hover {
+            color: var(--accent);
+            border-color: rgba(74, 222, 128, 0.4);
+            background: rgba(74, 222, 128, 0.05);
+        }
+
+        .btn-copy.copied {
+            color: var(--accent);
+            border-color: rgba(74, 222, 128, 0.4);
+        }
+
+        pre {
+            margin: 0;
+            padding: 20px;
+            font-family: var(--mono);
+            font-size: 13px;
+            line-height: 1.8;
+            overflow-x: auto;
+            color: #c9d1d9;
+        }
+
+        pre::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        pre::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        pre::-webkit-scrollbar-thumb {
+            background: var(--border2);
+            border-radius: 2px;
+        }
+
+        /* SQL syntax highlighting */
+        .kw {
+            color: #ff7b72;
+        }
+
+        /* keywords */
+        .fn {
+            color: #d2a8ff;
+        }
+
+        /* functions */
+        .str {
+            color: #a5d6ff;
+        }
+
+        /* strings */
+        .cmt {
+            color: #6a737d;
+            font-style: italic;
+        }
+
+        /* comments */
+        .tbl {
+            color: #79c0ff;
+        }
+
+        /* table/column names */
+        .num {
+            color: #f0883e;
+        }
+
+        /* numbers */
+        .op {
+            color: #ffa657;
+        }
+
+        /* operators */
+        .val {
+            color: #56d364;
+        }
+
+        /* values */
+
+        /* ── Query tabs ── */
+        .query-tabs {
+            display: flex;
+            gap: 4px;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+        }
+
+        .q-tab {
+            font-family: var(--mono);
+            font-size: 11px;
+            padding: 5px 12px;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .q-tab:hover {
+            color: var(--text);
+            border-color: var(--border2);
+        }
+
+        .q-tab.active {
+            background: rgba(74, 222, 128, 0.1);
+            color: var(--accent);
+            border-color: rgba(74, 222, 128, 0.3);
+        }
+
+        .q-tab.crud-insert {}
+
+        .q-tab.crud-update.active {
+            background: rgba(34, 211, 238, 0.1);
+            color: var(--accent2);
+            border-color: rgba(34, 211, 238, 0.3);
+        }
+
+        .q-tab.crud-delete.active {
+            background: rgba(248, 113, 113, 0.1);
+            color: var(--accent4);
+            border-color: rgba(248, 113, 113, 0.3);
+        }
+
+        .q-tab.crud-select.active {
+            background: rgba(167, 139, 250, 0.1);
+            color: var(--accent5);
+            border-color: rgba(167, 139, 250, 0.3);
+        }
+
+        .query-panel {
+            display: none;
+        }
+
+        .query-panel.active {
+            display: block;
+        }
+
+        /* ── CRUD badge ── */
+        .crud-badge {
+            font-family: var(--mono);
+            font-size: 10px;
+            padding: 2px 7px;
+            border-radius: 3px;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+        }
+
+        .crud-INSERT {
+            background: rgba(74, 222, 128, 0.15);
+            color: var(--accent);
+        }
+
+        .crud-UPDATE {
+            background: rgba(34, 211, 238, 0.15);
+            color: var(--accent2);
+        }
+
+        .crud-DELETE {
+            background: rgba(248, 113, 113, 0.15);
+            color: var(--accent4);
+        }
+
+        .crud-SELECT {
+            background: rgba(167, 139, 250, 0.15);
+            color: var(--accent5);
+        }
+
+        .crud-CREATE {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--accent3);
+        }
+
+        /* ── Query description cards ── */
+        .query-card {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin-bottom: 16px;
+            transition: border-color 0.2s;
+        }
+
+        .query-card:hover {
+            border-color: var(--border2);
+        }
+
+        .query-card-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: var(--surface2);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .query-card-head:hover {
+            background: var(--surface3);
+        }
+
+        .query-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .query-num {
+            font-family: var(--mono);
+            font-size: 11px;
+            width: 22px;
+            height: 22px;
+            border-radius: 4px;
+            background: var(--surface3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted);
+        }
+
+        .query-card-body {
+            padding: 16px;
+            border-top: 1px solid var(--border);
+            background: #0a0c10;
+        }
+
+        .chevron {
+            width: 16px;
+            height: 16px;
+            color: var(--muted);
+            transition: transform 0.2s;
+            flex-shrink: 0;
+        }
+
+        .query-card.open .chevron {
+            transform: rotate(180deg);
+        }
+
+        .query-card-body pre {
+            padding: 0;
+            font-size: 13px;
+        }
+
+        .query-desc {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        /* ── Schema / ERD ── */
+        .schema-table {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .schema-table-head {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background: var(--surface3);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .schema-table-name {
+            font-family: var(--mono);
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--accent2);
+        }
+
+        .schema-cols {
+            font-family: var(--mono);
+            font-size: 12px;
+        }
+
+        .schema-row {
+            display: grid;
+            grid-template-columns: 160px 120px 1fr;
+            gap: 0;
+            padding: 8px 16px;
+            border-bottom: 1px solid var(--border);
+            align-items: center;
+            transition: background 0.15s;
+        }
+
+        .schema-row:hover {
+            background: var(--surface3);
+        }
+
+        .schema-row:last-child {
+            border-bottom: none;
+        }
+
+        .col-name {
+            color: var(--text);
+        }
+
+        .col-type {
+            color: var(--accent3);
+        }
+
+        .col-constraint {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .pk {
+            color: var(--accent);
+        }
+
+        .fk {
+            color: var(--accent5);
+        }
+
+        /* ── Checklist ── */
+        .checklist {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .checklist li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .check-icon {
+            width: 18px;
+            height: 18px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+            font-size: 10px;
+        }
+
+        .check-done {
+            background: rgba(74, 222, 128, 0.15);
+            color: var(--accent);
+        }
+
+        .check-info {
+            background: rgba(34, 211, 238, 0.15);
+            color: var(--accent2);
+        }
+
+        .check-warn {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--accent3);
+        }
+
+        /* ── File tree ── */
+        .file-tree {
+            font-family: var(--mono);
+            font-size: 13px;
+            line-height: 2;
+        }
+
+        .ft-dir {
+            color: var(--accent2);
+        }
+
+        .ft-sql {
+            color: var(--accent3);
+        }
+
+        .ft-html {
+            color: var(--accent4);
+        }
+
+        .ft-md {
+            color: var(--accent5);
+        }
+
+        .ft-indent {
+            padding-left: 20px;
+            border-left: 1px dashed var(--border2);
+            margin-left: 8px;
+        }
+
+        /* ── Timeline ── */
+        .timeline {
+            position: relative;
+            padding-left: 24px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 8px;
+            bottom: 8px;
+            width: 1px;
+            background: var(--border2);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -22px;
+            top: 6px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 2px solid var(--bg);
+        }
+
+        .timeline-step {
+            font-family: var(--mono);
+            font-size: 11px;
+            color: var(--accent);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .timeline-text {
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        /* ── Progress bar ── */
+        .progress-wrap {
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+
+        .progress-bar-bg {
+            height: 6px;
+            background: var(--surface3);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ── Buttons ── */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: var(--mono);
+            font-size: 13px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #0d0f14;
+            border-color: var(--accent);
+        }
+
+        .btn-primary:hover {
+            background: #86efac;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--muted);
+            border-color: var(--border2);
+        }
+
+        .btn-ghost:hover {
+            color: var(--text);
+            background: var(--surface2);
+        }
+
+        /* ── Tabs (section) ── */
+        .tabs-nav {
+            display: flex;
+            gap: 2px;
+            margin-bottom: 1.5rem;
+            background: var(--surface2);
+            border-radius: 10px;
+            padding: 4px;
+            width: fit-content;
+        }
+
+        .tab-btn {
+            font-family: var(--mono);
+            font-size: 12px;
+            padding: 7px 16px;
+            border-radius: 7px;
+            border: none;
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background: var(--surface);
+            color: var(--text);
+            border: 1px solid var(--border2);
+        }
+
+        /* ── Toast notification ── */
+        #toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--surface2);
+            border: 1px solid var(--accent);
+            border-radius: 10px;
+            padding: 12px 20px;
+            font-family: var(--mono);
+            font-size: 13px;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 1000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+        }
+
+        #toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* ── Sections spacing ── */
+        section {
+            margin-bottom: 4rem;
+        }
+
+        /* ── Scrollbar ── */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border2);
+            border-radius: 3px;
+        }
+
+        /* ── Animation ── */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-up {
+            animation: fadeUp 0.5s ease both;
+        }
+
+        .fade-up:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .fade-up:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        /* ── Info callout ── */
+        .callout {
+            display: flex;
+            gap: 12px;
+            padding: 14px 16px;
+            border-radius: var(--radius);
+            border-left: 3px solid;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .callout-note {
+            background: rgba(34, 211, 238, 0.06);
+            border-color: var(--accent2);
+            color: #9ca3af;
+        }
+
+        .callout-warn {
+            background: rgba(245, 158, 11, 0.06);
+            border-color: var(--accent3);
+            color: #9ca3af;
+        }
+
+        .callout-danger {
+            background: rgba(248, 113, 113, 0.06);
+            border-color: var(--accent4);
+            color: #9ca3af;
+        }
+
+        .callout strong {
+            color: var(--text);
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">
+            <div class="logo-dot"></div>
+            SQL CRUD Studio
+        </div>
+        <nav>
+            <a href="#task1" class="active">Task 1</a>
+            <a href="#task2">Task 2</a>
+            <a href="#schema">Schema</a>
+            <a href="#files">Files</a>
+        </nav>
+        <span class="badge">CSE 340</span>
+    </header>
+
+    <main>
+
+        <!-- HERO -->
+        <div class="hero fade-up">
+            <div class="hero-eyebrow">Web Backend Development</div>
+            <h1>Assignment <span>2</span><br />SQL CRUD<br />Operations</h1>
+            <p class="hero-sub">
+                Complete PostgreSQL solution — 6 CRUD queries, database rebuild, schema design,
+                and a full vehicle inventory database for the CSE 340 course.
+            </p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="stat-value">6<span>×</span></div>
+                    <div class="stat-label">SQL Queries</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">3<span>+</span></div>
+                    <div class="stat-label">Tables</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">11<span>+</span></div>
+                    <div class="stat-label">Data Records</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">2<span>×</span></div>
+                    <div class="stat-label">SQL Files</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROGRESS -->
+        <section>
+            <div class="section-header">
+                <span class="section-tag tag-green">Progress</span>
+                <span class="section-title">Assignment Completion</span>
+                <div class="section-divider"></div>
+            </div>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <span class="crud-badge crud-INSERT">Task 1</span>
+                            Write SQL Statements
+                        </div>
+                        <span style="font-family:var(--mono);font-size:12px;color:var(--accent)">6/6</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="progress-wrap" id="p1">
+                            <div class="progress-label"><span>INSERT</span><span style="color:var(--accent)">✓</span>
+                            </div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill" style="width:0;background:var(--accent)" data-to="100">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="progress-wrap">
+                            <div class="progress-label"><span>UPDATE — account_type</span><span
+                                    style="color:var(--accent2)">✓</span></div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill" style="width:0;background:var(--accent2)" data-to="100">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="progress-wrap">
+                            <div class="progress-label"><span>DELETE record</span><span
+                                    style="color:var(--accent4)">✓</span></div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill" style="width:0;background:var(--accent4)" data-to="100">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="progress-wrap">
+                            <div class="progress-label"><span>UPDATE with REPLACE()</span><span
+                                    style="color:var(--accent3)">✓</span></div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill" style="width:0;background:var(--accent3)" data-to="100">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="progress-wrap">
+                            <div class="progress-label"><span>INNER JOIN query</span><span
+                                    style="color:var(--accent5)">✓</span></div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill" style="width:0;background:var(--accent5)" data-to="100">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="progress-wrap" style="margin-bottom:0">
+                            <div class="progress-label"><span>UPDATE image paths</span><span
+                                    style="color:var(--accent)">✓</span></div>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill" style="width:0;background:var(--accent)" data-to="100">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <span class="crud-badge crud-CREATE">Task 2</span>
+                            Destroy &amp; Rebuild
+                        </div>
+                        <span style="font-family:var(--mono);font-size:12px;color:var(--accent)">5/5</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-step">Step 1</div>
+                                <div class="timeline-text">Destroy the database service on Render.com dashboard</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-step">Step 2</div>
+                                <div class="timeline-text">Create a new database (different name, can be similar)</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-step">Step 3</div>
+                                <div class="timeline-text">Delete existing local connection in pgAdmin / SQLTools</div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-step">Step 4</div>
+                                <div class="timeline-text">Create a new connection with the new database credentials
+                                </div>
+                            </div>
+                            <div class="timeline-item" style="margin-bottom:0">
+                                <div class="timeline-step">Step 5</div>
+                                <div class="timeline-text">Run <code
+                                        style="font-family:var(--mono);color:var(--accent3);font-size:12px">database-rebuild.sql</code>
+                                    — rebuilds type, tables, and inserts data</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TASK 1: QUERIES -->
+        <section id="task1">
+            <div class="section-header">
+                <span class="section-tag tag-green">Task 1</span>
+                <span class="section-title">SQL CRUD Statements — assignment2.sql</span>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="card" style="margin-bottom:1.5rem">
+                <div class="query-tabs">
+                    <button class="q-tab crud-insert active" onclick="showQuery(this,'q1')">Q1 — INSERT</button>
+                    <button class="q-tab crud-update" onclick="showQuery(this,'q2')">Q2 — UPDATE type</button>
+                    <button class="q-tab crud-delete" onclick="showQuery(this,'q3')">Q3 — DELETE</button>
+                    <button class="q-tab crud-update" onclick="showQuery(this,'q4')">Q4 — REPLACE()</button>
+                    <button class="q-tab crud-select" onclick="showQuery(this,'q5')">Q5 — INNER JOIN</button>
+                    <button class="q-tab crud-update" onclick="showQuery(this,'q6')">Q6 — Paths</button>
+                </div>
+
+                <!-- Q1 -->
+                <div class="query-panel active" id="q1">
+                    <div style="padding:16px 20px 0">
+                        <p class="query-desc">
+                            <span class="crud-badge crud-INSERT">INSERT</span>&nbsp;
+                            Insert a new account record for Tony Stark. The <code
+                                style="font-family:var(--mono);color:var(--accent3);font-size:12px">account_id</code>
+                            and <code
+                                style="font-family:var(--mono);color:var(--accent3);font-size:12px">account_type</code>
+                            fields handle themselves (SERIAL + DEFAULT).
+                        </p>
+                    </div>
+                    <div class="sql-block"
+                        style="margin:0 0 4px;border-radius:0;border:none;border-top:1px solid var(--border)">
+                        <div class="sql-toolbar">
+                            <div class="sql-toolbar-left">
+                                <div class="traffic-lights">
+                                    <div class="tl tl-red"></div>
+                                    <div class="tl tl-yellow"></div>
+                                    <div class="tl tl-green"></div>
+                                </div>
+                                <span class="sql-filename">assignment2.sql — Query 1</span>
+                            </div>
+                            <button class="btn-copy" onclick="copyCode(this, 'code-q1')">
+                                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" />
+                                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
+                                </svg>
+                                Copy
+                            </button>
+                        </div>
+                        <pre id="code-q1"><span class="cmt">-- Query 1: Insert Tony Stark into the account table</span>
+<span class="cmt">-- account_id (SERIAL) and account_type (DEFAULT 'Client') are auto-handled</span>
+<span class="kw">INSERT INTO</span> <span class="tbl">account</span> (
+  <span class="tbl">account_firstname</span>,
+  <span class="tbl">account_lastname</span>,
+  <span class="tbl">account_email</span>,
+  <span class="tbl">account_password</span>
+)
+<span class="kw">VALUES</span> (
+  <span class="str">'Tony'</span>,
+  <span class="str">'Stark'</span>,
+  <span class="str">'tony@starkent.com'</span>,
+  <span class="str">'Iam1ronMan'</span>
+);</pre>
+                    </div>
+                </div>
+
+                <!-- Q2 -->
+                <div class="query-panel" id="q2">
+                    <div style="padding:16px 20px 0">
+                        <p class="query-desc">
+                            <span class="crud-badge crud-UPDATE">UPDATE</span>&nbsp;
+                            Modify Tony Stark's account type to <strong>'Admin'</strong>. Uses email in the WHERE clause
+                            to target the exact record without accidentally changing others.
+                        </p>
+                    </div>
+                    <div class="sql-block"
+                        style="margin:0 0 4px;border-radius:0;border:none;border-top:1px solid var(--border)">
+                        <div class="sql-toolbar">
+                            <div class="sql-toolbar-left">
+                                <div class="traffic-lights">
+                                    <div class="tl tl-red"></div>
+                                    <div class="tl tl-yellow"></div>
+                                    <div class="tl tl-green"></div>
+                                </div>
+                                <span class="sql-filename">assignment2.sql — Query 2</span>
+                            </div>
+                            <button class="btn-copy" onclick="copyCode(this, 'code-q2')">
+                                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" />
+                                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
+                                </svg>
+                                Copy
+                            </button>
+                        </div>
+                        <pre
+                            id="code-q2"><span class="cmt">-- Query 2: Change Tony Stark's account_type to 'Admin'</span>
+<span class="kw">UPDATE</span> <span class="tbl">account</span>
+<span class="kw">SET</span> <span class="tbl">account_type</span> <span class="op">=</span> <span class="str">'Admin'</span>
+<span class="kw">WHERE</span> <span class="tbl">account_email</span> <span class="op">=</span> <span class="str">'tony@starkent.com'</span>;</pre>
+                    </div>
+                </div>
+
+                <!-- Q3 -->
+                <div class="query-panel" id="q3">
+                    <div style="padding:16px 20px 0">
+                        <p class="query-desc">
+                            <span class="crud-badge crud-DELETE">DELETE</span>&nbsp;
+                            Remove Tony Stark's record permanently. Uses the primary key email to ensure only one row is
+                            affected.
+                        </p>
+                        <div class="callout callout-danger" style="margin-bottom:12px">
+                            <strong>⚠ Danger:</strong> DELETE without WHERE removes ALL rows. Always verify your WHERE
+                            clause.
+                        </div>
+                    </div>
+                    <div class="sql-block"
+                        style="margin:0 0 4px;border-radius:0;border:none;border-top:1px solid var(--border)">
+                        <div class="sql-toolbar">
+                            <div class="sql-toolbar-left">
+                                <div class="traffic-lights">
+                                    <div class="tl tl-red"></div>
+                                    <div class="tl tl-yellow"></div>
+                                    <div class="tl tl-green"></div>
+                                </div>
+                                <span class="sql-filename">assignment2.sql — Query 3</span>
+                            </div>
+                            <button class="btn-copy" onclick="copyCode(this, 'code-q3')">
+                                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" />
+                                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
+                                </svg>
+                                Copy
+                            </button>
+                        </div>
+                        <pre
+                            id="code-q3"><span class="cmt">-- Query 3: Delete the Tony Stark record from the database</span>
+<span class="kw">DELETE FROM</span> <span class="tbl">account</span>
+<span class="kw">WHERE</span> <span class="tbl">account_email</span> <span class="op">=</span> <span class="str">'tony@starkent.com'</span>;</pre>
+                    </div>
+                </div>
+
+                <!-- Q4 -->
+                <div class="query-panel" id="q4">
+                    <div style="padding:16px 20px 0">
+                        <p class="query-desc">
+                            <span class="crud-badge crud-UPDATE">UPDATE</span>&nbsp;
+                            Use PostgreSQL's <code
+                                style="font-family:var(--mono);color:var(--accent3);font-size:12px">REPLACE()</code>
+                            function to swap <strong>"small interiors"</strong> for <strong>"a huge interior"</strong>
+                            in the GM Hummer description — without retyping the full description.
+                        </p>
+                    </div>
+                    <div class="sql-block"
+                        style="margin:0 0 4px;border-radius:0;border:none;border-top:1px solid var(--border)">
+                        <div class="sql-toolbar">
+                            <div class="sql-toolbar-left">
+                                <div class="traffic-lights">
+                                    <div class="tl tl-red"></div>
+                                    <div class="tl tl-yellow"></div>
+                                    <div class="tl tl-green"></div>
+                                </div>
+                                <span class="sql-filename">assignment2.sql — Query 4</span>
+                            </div>
+                            <button class="btn-copy" onclick="copyCode(this, 'code-q4')">
+                                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" />
+                                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
+                                </svg>
+                                Copy
+                            </button>
+                        </div>
+                        <pre
+                            id="code-q4"><span class="cmt">-- Query 4: Update GM Hummer description using REPLACE()</span>
+<span class="cmt">-- DO NOT retype the entire description — use REPLACE()</span>
+<span class="kw">UPDATE</span> <span class="tbl">inventory</span>
+<span class="kw">SET</span> <span class="tbl">inv_description</span> <span class="op">=</span> <span class="fn">REPLACE</span>(
+  <span class="tbl">inv_description</span>,
+  <span class="str">'small interiors'</span>,
+  <span class="str">'a huge interior'</span>
+)
+<span class="kw">WHERE</span> <span class="tbl">inv_make</span>  <span class="op">=</span> <span class="str">'GM'</span>
+  <span class="kw">AND</span> <span class="tbl">inv_model</span> <span class="op">=</span> <span class="str">'Hummer'</span>;</pre>
+                    </div>
+                </div>
+
+                <!-- Q5 -->
+                <div class="query-panel" id="q5">
+                    <div style="padding:16px 20px 0">
+                        <p class="query-desc">
+                            <span class="crud-badge crud-SELECT">SELECT</span>&nbsp;
+                            Use an <strong>INNER JOIN</strong> to pull make, model, and classification name for all
+                            <strong>Sport</strong> vehicles. Joins <code
+                                style="font-family:var(--mono);color:var(--accent3);font-size:12px">inventory</code> to
+                            <code
+                                style="font-family:var(--mono);color:var(--accent3);font-size:12px">classification</code>
+                            on <code
+                                style="font-family:var(--mono);color:var(--accent3);font-size:12px">classification_id</code>.
+                            Returns 2+ records.
+                        </p>
+                    </div>
+                    <div class="sql-block"
+                        style="margin:0 0 4px;border-radius:0;border:none;border-top:1px solid var(--border)">
+                        <div class="sql-toolbar">
+                            <div class="sql-toolbar-left">
+                                <div class="traffic-lights">
+                                    <div class="tl tl-red"></div>
+                                    <div class="tl tl-yellow"></div>
+                                    <div class="tl tl-green"></div>
+                                </div>
+                                <span class="sql-filename">assignment2.sql — Query 5</span>
+                            </div>
+                            <button class="btn-copy" onclick="copyCode(this, 'code-q5')">
+                                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" />
+                                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
+                                </svg>
+                                Copy
+                            </button>
+                        </div>
+                        <pre
+                            id="code-q5"><span class="cmt">-- Query 5: INNER JOIN inventory + classification</span>
+<span class="cmt">-- Returns make, model, and classification name for Sport vehicles</span>
+<span class="kw">SELECT</span>
+  <span class="tbl">inv</span>.<span class="tbl">inv_make</span>,
+  <span class="tbl">inv</span>.<span class="tbl">inv_model</span>,
+  <span class="tbl">cls</span>.<span class="tbl">classification_name</span>
+<span class="kw">FROM</span>   <span class="tbl">inventory</span>       <span class="kw">AS</span> <span class="tbl">inv</span>
+<span class="kw">INNER JOIN</span> <span class="tbl">classification</span> <span class="kw">AS</span> <span class="tbl">cls</span>
+  <span class="kw">ON</span> <span class="tbl">inv</span>.<span class="tbl">classification_id</span> <span class="op">=</span> <span class="tbl">cls</span>.<span class="tbl">classification_id</span>
+<span class="kw">WHERE</span>  <span class="tbl">cls</span>.<span class="tbl">classification_name</span> <span class="op">=</span> <span class="str">'Sport'</span>;</pre>
+                    </div>
+                </div>
+
+                <!-- Q6 -->
+                <div class="query-panel" id="q6">
+                    <div style="padding:16px 20px 0">
+                        <p class="query-desc">
+                            <span class="crud-badge crud-UPDATE">UPDATE</span>&nbsp;
+                            Use <code
+                                style="font-family:var(--mono);color:var(--accent3);font-size:12px">REPLACE()</code> on
+                            both <code
+                                style="font-family:var(--mono);color:var(--accent3);font-size:12px">inv_image</code> and
+                            <code
+                                style="font-family:var(--mono);color:var(--accent3);font-size:12px">inv_thumbnail</code>
+                            in a single query to add <strong>/vehicles</strong> to every image path. After update paths
+                            should resemble <code
+                                style="font-family:var(--mono);color:var(--accent2);font-size:11px">/images/vehicles/car-name.jpg</code>
+                        </p>
+                    </div>
+                    <div class="sql-block"
+                        style="margin:0 0 4px;border-radius:0;border:none;border-top:1px solid var(--border)">
+                        <div class="sql-toolbar">
+                            <div class="sql-toolbar-left">
+                                <div class="traffic-lights">
+                                    <div class="tl tl-red"></div>
+                                    <div class="tl tl-yellow"></div>
+                                    <div class="tl tl-green"></div>
+                                </div>
+                                <span class="sql-filename">assignment2.sql — Query 6</span>
+                            </div>
+                            <button class="btn-copy" onclick="copyCode(this, 'code-q6')">
+                                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"
+                                    viewBox="0 0 24 24">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" />
+                                    <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
+                                </svg>
+                                Copy
+                            </button>
+                        </div>
+                        <pre
+                            id="code-q6"><span class="cmt">-- Query 6: Update ALL inventory image paths using REPLACE()</span>
+<span class="cmt">-- Before: /images/car-name.jpg</span>
+<span class="cmt">-- After:  /images/vehicles/car-name.jpg</span>
+<span class="kw">UPDATE</span> <span class="tbl">inventory</span>
+<span class="kw">SET</span>
+  <span class="tbl">inv_image</span>     <span class="op">=</span> <span class="fn">REPLACE</span>(<span class="tbl">inv_image</span>,     <span class="str">'/images/'</span>, <span class="str">'/images/vehicles/'</span>),
+  <span class="tbl">inv_thumbnail</span> <span class="op">=</span> <span class="fn">REPLACE</span>(<span class="tbl">inv_thumbnail</span>, <span class="str">'/images/'</span>, <span class="str">'/images/vehicles/'</span>);</pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Full file download preview -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <span class="crud-badge crud-SELECT">FILE</span>
+                        database/assignment2.sql — All 6 Queries Combined
+                    </div>
+                    <button class="btn-copy" onclick="copyAll(this)"
+                        style="font-family:var(--mono);font-size:11px;padding:4px 10px;border-radius:5px;border:1px solid var(--border2);background:transparent;color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:5px">
+                        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <rect x="9" y="9" width="13" height="13" rx="2" />
+                            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
+                        </svg>
+                        Copy All
+                    </button>
+                </div>
+                <div class="sql-block" style="border-radius:0;border:none">
+                    <pre
+                        id="code-all"><span class="cmt">-- =============================================================
+-- Assignment 2 — Web Backend Development (CSE 340)
+-- Task One: SQL CRUD Statements | File: assignment2.sql
+-- =============================================================</span>
+
+<span class="cmt">-- Q1: INSERT Tony Stark</span>
+<span class="kw">INSERT INTO</span> <span class="tbl">account</span> (<span class="tbl">account_firstname</span>, <span class="tbl">account_lastname</span>, <span class="tbl">account_email</span>, <span class="tbl">account_password</span>)
+<span class="kw">VALUES</span> (<span class="str">'Tony'</span>, <span class="str">'Stark'</span>, <span class="str">'tony@starkent.com'</span>, <span class="str">'Iam1ronMan'</span>);
+
+<span class="cmt">-- Q2: UPDATE account_type to Admin</span>
+<span class="kw">UPDATE</span> <span class="tbl">account</span> <span class="kw">SET</span> <span class="tbl">account_type</span> <span class="op">=</span> <span class="str">'Admin'</span> <span class="kw">WHERE</span> <span class="tbl">account_email</span> <span class="op">=</span> <span class="str">'tony@starkent.com'</span>;
+
+<span class="cmt">-- Q3: DELETE Tony Stark</span>
+<span class="kw">DELETE FROM</span> <span class="tbl">account</span> <span class="kw">WHERE</span> <span class="tbl">account_email</span> <span class="op">=</span> <span class="str">'tony@starkent.com'</span>;
+
+<span class="cmt">-- Q4: UPDATE GM Hummer description using REPLACE()</span>
+<span class="kw">UPDATE</span> <span class="tbl">inventory</span>
+<span class="kw">SET</span> <span class="tbl">inv_description</span> <span class="op">=</span> <span class="fn">REPLACE</span>(<span class="tbl">inv_description</span>, <span class="str">'small interiors'</span>, <span class="str">'a huge interior'</span>)
+<span class="kw">WHERE</span> <span class="tbl">inv_make</span> <span class="op">=</span> <span class="str">'GM'</span> <span class="kw">AND</span> <span class="tbl">inv_model</span> <span class="op">=</span> <span class="str">'Hummer'</span>;
+
+<span class="cmt">-- Q5: INNER JOIN — Sport vehicles</span>
+<span class="kw">SELECT</span> <span class="tbl">inv</span>.<span class="tbl">inv_make</span>, <span class="tbl">inv</span>.<span class="tbl">inv_model</span>, <span class="tbl">cls</span>.<span class="tbl">classification_name</span>
+<span class="kw">FROM</span> <span class="tbl">inventory</span> <span class="kw">AS</span> <span class="tbl">inv</span>
+<span class="kw">INNER JOIN</span> <span class="tbl">classification</span> <span class="kw">AS</span> <span class="tbl">cls</span> <span class="kw">ON</span> <span class="tbl">inv</span>.<span class="tbl">classification_id</span> <span class="op">=</span> <span class="tbl">cls</span>.<span class="tbl">classification_id</span>
+<span class="kw">WHERE</span> <span class="tbl">cls</span>.<span class="tbl">classification_name</span> <span class="op">=</span> <span class="str">'Sport'</span>;
+
+<span class="cmt">-- Q6: UPDATE all image paths using REPLACE()</span>
+<span class="kw">UPDATE</span> <span class="tbl">inventory</span>
+<span class="kw">SET</span>
+  <span class="tbl">inv_image</span>     <span class="op">=</span> <span class="fn">REPLACE</span>(<span class="tbl">inv_image</span>,     <span class="str">'/images/'</span>, <span class="str">'/images/vehicles/'</span>),
+  <span class="tbl">inv_thumbnail</span> <span class="op">=</span> <span class="fn">REPLACE</span>(<span class="tbl">inv_thumbnail</span>, <span class="str">'/images/'</span>, <span class="str">'/images/vehicles/'</span>);</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- TASK 2: REBUILD -->
+        <section id="task2">
+            <div class="section-header">
+                <span class="section-tag tag-amber">Task 2</span>
+                <span class="section-title">Database Rebuild — database-rebuild.sql</span>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="callout callout-warn">
+                <strong>Important:</strong> The rebuild file is one file you run to recreate everything. It drops tables
+                in the correct order, creates the ENUM type, creates all 3 tables, inserts data, then re-applies queries
+                4 and 6 from Task 1.
+            </div>
+
+            <div class="card" style="margin-bottom:1.5rem">
+                <div class="card-header">
+                    <div class="card-title">
+                        <span class="crud-badge crud-CREATE">REBUILD</span>
+                        database/database-rebuild.sql — Annotated Key Sections
+                    </div>
+                    <button class="btn-copy" onclick="copyCode(this, 'code-rebuild')"
+                        style="font-family:var(--mono);font-size:11px;padding:4px 10px;border-radius:5px;border:1px solid var(--border2);background:transparent;color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:5px">
+                        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"
+                            viewBox="0 0 24 24">
+                            <rect x="9" y="9" width="13" height="13" rx="2" />
+                            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
+                        </svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="sql-block" style="border-radius:0;border:none">
+                    <pre
+                        id="code-rebuild"><span class="cmt">-- Step 1: DROP existing objects safely</span>
+<span class="kw">DROP TABLE IF EXISTS</span> <span class="tbl">inventory</span>       <span class="kw">CASCADE</span>;
+<span class="kw">DROP TABLE IF EXISTS</span> <span class="tbl">classification</span>   <span class="kw">CASCADE</span>;
+<span class="kw">DROP TABLE IF EXISTS</span> <span class="tbl">account</span>         <span class="kw">CASCADE</span>;
+<span class="kw">DROP TYPE  IF EXISTS</span> <span class="tbl">account_type</span>    <span class="kw">CASCADE</span>;
+
+<span class="cmt">-- Step 2: CREATE the ENUM type</span>
+<span class="kw">CREATE TYPE</span> <span class="tbl">account_type</span> <span class="kw">AS ENUM</span> (<span class="str">'Client'</span>, <span class="str">'Employee'</span>, <span class="str">'Admin'</span>);
+
+<span class="cmt">-- Step 3: CREATE classification table</span>
+<span class="kw">CREATE TABLE</span> <span class="tbl">classification</span> (
+  <span class="tbl">classification_id</span>   <span class="kw">SERIAL PRIMARY KEY</span>,
+  <span class="tbl">classification_name</span> <span class="kw">VARCHAR</span>(<span class="num">30</span>) <span class="kw">NOT NULL UNIQUE</span>
+);
+
+<span class="cmt">-- Step 4: CREATE account table</span>
+<span class="kw">CREATE TABLE</span> <span class="tbl">account</span> (
+  <span class="tbl">account_id</span>        <span class="kw">SERIAL PRIMARY KEY</span>,
+  <span class="tbl">account_firstname</span> <span class="kw">VARCHAR</span>(<span class="num">50</span>)  <span class="kw">NOT NULL</span>,
+  <span class="tbl">account_lastname</span>  <span class="kw">VARCHAR</span>(<span class="num">50</span>)  <span class="kw">NOT NULL</span>,
+  <span class="tbl">account_email</span>     <span class="kw">VARCHAR</span>(<span class="num">100</span>) <span class="kw">NOT NULL UNIQUE</span>,
+  <span class="tbl">account_password</span>  <span class="kw">VARCHAR</span>(<span class="num">200</span>) <span class="kw">NOT NULL</span>,
+  <span class="tbl">account_type</span>      <span class="tbl">account_type</span> <span class="kw">NOT NULL DEFAULT</span> <span class="str">'Client'</span>
+);
+
+<span class="cmt">-- Step 5: CREATE inventory table with FK to classification</span>
+<span class="kw">CREATE TABLE</span> <span class="tbl">inventory</span> (
+  <span class="tbl">inv_id</span>            <span class="kw">SERIAL PRIMARY KEY</span>,
+  <span class="tbl">inv_make</span>          <span class="kw">VARCHAR</span>(<span class="num">50</span>)   <span class="kw">NOT NULL</span>,
+  <span class="tbl">inv_model</span>         <span class="kw">VARCHAR</span>(<span class="num">50</span>)   <span class="kw">NOT NULL</span>,
+  <span class="tbl">inv_year</span>          <span class="kw">NUMERIC</span>(<span class="num">4</span>,<span class="num">0</span>)  <span class="kw">NOT NULL</span>,
+  <span class="tbl">inv_description</span>   <span class="kw">TEXT</span>          <span class="kw">NOT NULL</span>,
+  <span class="tbl">inv_image</span>         <span class="kw">VARCHAR</span>(<span class="num">200</span>)  <span class="kw">NOT NULL</span>,
+  <span class="tbl">inv_thumbnail</span>     <span class="kw">VARCHAR</span>(<span class="num">200</span>)  <span class="kw">NOT NULL</span>,
+  <span class="tbl">inv_price</span>         <span class="kw">NUMERIC</span>(<span class="num">9</span>,<span class="num">0</span>)  <span class="kw">NOT NULL</span>,
+  <span class="tbl">inv_miles</span>         <span class="kw">NUMERIC</span>(<span class="num">9</span>,<span class="num">0</span>)  <span class="kw">NOT NULL</span>,
+  <span class="tbl">inv_color</span>         <span class="kw">VARCHAR</span>(<span class="num">50</span>)   <span class="kw">NOT NULL</span>,
+  <span class="tbl">classification_id</span> <span class="kw">INT</span>           <span class="kw">NOT NULL</span>,
+  <span class="kw">CONSTRAINT</span> <span class="tbl">fk_classification</span>
+    <span class="kw">FOREIGN KEY</span> (<span class="tbl">classification_id</span>)
+    <span class="kw">REFERENCES</span> <span class="tbl">classification</span>(<span class="tbl">classification_id</span>)
+    <span class="kw">ON DELETE CASCADE ON UPDATE CASCADE</span>
+);
+
+<span class="cmt">-- Step 6: INSERT sample data (5 classifications, 3 accounts, 11 vehicles)</span>
+<span class="kw">INSERT INTO</span> <span class="tbl">classification</span> (<span class="tbl">classification_name</span>) <span class="kw">VALUES</span>
+  (<span class="str">'Custom'</span>), (<span class="str">'Sport'</span>), (<span class="str">'SUV'</span>), (<span class="str">'Truck'</span>), (<span class="str">'Sedan'</span>);
+
+<span class="cmt">-- Step 7: Re-apply Task 1 transformations</span>
+<span class="kw">UPDATE</span> <span class="tbl">inventory</span>
+<span class="kw">SET</span> <span class="tbl">inv_description</span> <span class="op">=</span> <span class="fn">REPLACE</span>(<span class="tbl">inv_description</span>, <span class="str">'small interiors'</span>, <span class="str">'a huge interior'</span>)
+<span class="kw">WHERE</span> <span class="tbl">inv_make</span> <span class="op">=</span> <span class="str">'GM'</span> <span class="kw">AND</span> <span class="tbl">inv_model</span> <span class="op">=</span> <span class="str">'Hummer'</span>;
+
+<span class="kw">UPDATE</span> <span class="tbl">inventory</span>
+<span class="kw">SET</span>
+  <span class="tbl">inv_image</span>     <span class="op">=</span> <span class="fn">REPLACE</span>(<span class="tbl">inv_image</span>,     <span class="str">'/images/'</span>, <span class="str">'/images/vehicles/'</span>),
+  <span class="tbl">inv_thumbnail</span> <span class="op">=</span> <span class="fn">REPLACE</span>(<span class="tbl">inv_thumbnail</span>, <span class="str">'/images/'</span>, <span class="str">'/images/vehicles/'</span>);</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCHEMA -->
+        <section id="schema">
+            <div class="section-header">
+                <span class="section-tag tag-cyan">Schema</span>
+                <span class="section-title">Database Structure — 3 Tables + 1 ENUM Type</span>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="grid-3" style="margin-bottom:1.5rem">
+                <!-- classification -->
+                <div class="schema-table">
+                    <div class="schema-table-head">
+                        <span class="schema-table-name">classification</span>
+                        <span style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:auto">5
+                            rows</span>
+                    </div>
+                    <div class="schema-cols">
+                        <div class="schema-row">
+                            <span class="col-name pk">classification_id</span>
+                            <span class="col-type">SERIAL</span>
+                            <span class="col-constraint">PRIMARY KEY</span>
+                        </div>
+                        <div class="schema-row">
+                            <span class="col-name">classification_name</span>
+                            <span class="col-type">VARCHAR(30)</span>
+                            <span class="col-constraint">NOT NULL UNIQUE</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- account -->
+                <div class="schema-table">
+                    <div class="schema-table-head">
+                        <span class="schema-table-name">account</span>
+                        <span style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:auto">3+
+                            rows</span>
+                    </div>
+                    <div class="schema-cols">
+                        <div class="schema-row"><span class="col-name pk">account_id</span><span
+                                class="col-type">SERIAL</span><span class="col-constraint">PRIMARY KEY</span></div>
+                        <div class="schema-row"><span class="col-name">account_firstname</span><span
+                                class="col-type">VARCHAR(50)</span><span class="col-constraint">NOT NULL</span></div>
+                        <div class="schema-row"><span class="col-name">account_lastname</span><span
+                                class="col-type">VARCHAR(50)</span><span class="col-constraint">NOT NULL</span></div>
+                        <div class="schema-row"><span class="col-name">account_email</span><span
+                                class="col-type">VARCHAR(100)</span><span class="col-constraint">NOT NULL UNIQUE</span>
+                        </div>
+                        <div class="schema-row"><span class="col-name">account_password</span><span
+                                class="col-type">VARCHAR(200)</span><span class="col-constraint">NOT NULL</span></div>
+                        <div class="schema-row"><span class="col-name">account_type</span><span
+                                class="col-type">account_type</span><span class="col-constraint">DEFAULT 'Client'</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- inventory -->
+                <div class="schema-table">
+                    <div class="schema-table-head">
+                        <span class="schema-table-name">inventory</span>
+                        <span style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:auto">11
+                            rows</span>
+                    </div>
+                    <div class="schema-cols">
+                        <div class="schema-row"><span class="col-name pk">inv_id</span><span
+                                class="col-type">SERIAL</span><span class="col-constraint">PRIMARY KEY</span></div>
+                        <div class="schema-row"><span class="col-name">inv_make</span><span
+                                class="col-type">VARCHAR(50)</span><span class="col-constraint">NOT NULL</span></div>
+                        <div class="schema-row"><span class="col-name">inv_model</span><span
+                                class="col-type">VARCHAR(50)</span><span class="col-constraint">NOT NULL</span></div>
+                        <div class="schema-row"><span class="col-name">inv_year</span><span
+                                class="col-type">NUMERIC(4,0)</span><span class="col-constraint">NOT NULL</span></div>
+                        <div class="schema-row"><span class="col-name">inv_description</span><span
+                                class="col-type">TEXT</span><span class="col-constraint">NOT NULL</span></div>
+                        <div class="schema-row"><span class="col-name">inv_image</span><span
+                                class="col-type">VARCHAR(200)</span><span class="col-constraint">NOT NULL</span></div>
+                        <div class="schema-row"><span class="col-name">inv_thumbnail</span><span
+                                class="col-type">VARCHAR(200)</span><span class="col-constraint">NOT NULL</span></div>
+                        <div class="schema-row"><span class="col-name">inv_price</span><span
+                                class="col-type">NUMERIC(9,0)</span><span class="col-constraint">NOT NULL</span></div>
+                        <div class="schema-row"><span class="col-name">inv_miles</span><span
+                                class="col-type">NUMERIC(9,0)</span><span class="col-constraint">NOT NULL</span></div>
+                        <div class="schema-row"><span class="col-name">inv_color</span><span
+                                class="col-type">VARCHAR(50)</span><span class="col-constraint">NOT NULL</span></div>
+                        <div class="schema-row"><span class="col-name fk">classification_id</span><span
+                                class="col-type">INT</span><span class="col-constraint">FK → classification</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ENUM type -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <span class="crud-badge crud-CREATE">ENUM</span>
+                        account_type — PostgreSQL Custom Type
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div style="display:flex;gap:12px;flex-wrap:wrap">
+                        <div
+                            style="display:flex;align-items:center;gap:8px;background:var(--surface2);padding:10px 16px;border-radius:8px;border:1px solid var(--border)">
+                            <span style="font-family:var(--mono);font-size:13px;color:var(--text)">'Client'</span>
+                            <span style="font-size:11px;color:var(--muted)">Default value</span>
+                        </div>
+                        <div
+                            style="display:flex;align-items:center;gap:8px;background:var(--surface2);padding:10px 16px;border-radius:8px;border:1px solid var(--border)">
+                            <span style="font-family:var(--mono);font-size:13px;color:var(--accent2)">'Employee'</span>
+                        </div>
+                        <div
+                            style="display:flex;align-items:center;gap:8px;background:var(--surface2);padding:10px 16px;border-radius:8px;border:1px solid var(--accent5);background:rgba(167,139,250,0.08)">
+                            <span style="font-family:var(--mono);font-size:13px;color:var(--accent5)">'Admin'</span>
+                            <span style="font-size:11px;color:var(--muted)">Set by Query 2</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FILE STRUCTURE -->
+        <section id="files">
+            <div class="section-header">
+                <span class="section-tag tag-purple">Files</span>
+                <span class="section-title">Project File Structure &amp; Naming</span>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Recommended File Structure</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="file-tree">
+                            <div><span class="ft-dir">📁 sql-crud-studio/</span> &nbsp;<span
+                                    style="font-size:11px;color:var(--muted)">(project root)</span></div>
+                            <div class="ft-indent">
+                                <div><span class="ft-dir">📁 database/</span></div>
+                                <div class="ft-indent">
+                                    <div><span class="ft-sql">📄 assignment2.sql</span> &nbsp;<span
+                                            style="font-size:11px;color:var(--muted)">← Task 1 queries</span></div>
+                                    <div><span class="ft-sql">📄 database-rebuild.sql</span> &nbsp;<span
+                                            style="font-size:11px;color:var(--muted)">← Task 2 rebuild</span></div>
+                                </div>
+                                <div><span class="ft-html">📄 index.html</span> &nbsp;<span
+                                        style="font-size:11px;color:var(--muted)">← this reference file</span></div>
+                                <div><span class="ft-md">📄 README.md</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Possible Project Names</div>
+                    </div>
+                    <div class="card-body">
+                        <div style="display:flex;flex-direction:column;gap:8px">
+                            <div
+                                style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--surface2);border-radius:8px;border:1px solid var(--border)">
+                                <span
+                                    style="font-family:var(--mono);font-size:13px;color:var(--accent)">sql-crud-studio</span>
+                                <span style="font-size:11px;color:var(--muted);margin-left:auto">recommended</span>
+                            </div>
+                            <div
+                                style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--surface2);border-radius:8px;border:1px solid var(--border)">
+                                <span
+                                    style="font-family:var(--mono);font-size:13px;color:var(--text)">cse340-assignment2</span>
+                            </div>
+                            <div
+                                style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--surface2);border-radius:8px;border:1px solid var(--border)">
+                                <span
+                                    style="font-family:var(--mono);font-size:13px;color:var(--text)">vehicle-inventory-db</span>
+                            </div>
+                            <div
+                                style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--surface2);border-radius:8px;border:1px solid var(--border)">
+                                <span
+                                    style="font-family:var(--mono);font-size:13px;color:var(--text)">postgres-crud-workshop</span>
+                            </div>
+                            <div
+                                style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--surface2);border-radius:8px;border:1px solid var(--border)">
+                                <span
+                                    style="font-family:var(--mono);font-size:13px;color:var(--text)">backend-dev-assignment2</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grading checklist -->
+            <div class="card" style="margin-top:1.5rem">
+                <div class="card-header">
+                    <div class="card-title">
+                        <span class="crud-badge crud-SELECT">GRADE</span>
+                        Grading Matrix Checklist
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="grid-2">
+                        <div>
+                            <p
+                                style="font-family:var(--mono);font-size:12px;color:var(--accent);margin-bottom:12px;text-transform:uppercase;letter-spacing:0.06em">
+                                Objective 4 — Task 1 (SQL File)</p>
+                            <ul class="checklist">
+                                <li><span class="check-icon check-done">✓</span>Single file named <code
+                                        style="font-family:var(--mono);font-size:12px;color:var(--accent3)">assignment2.sql</code>
+                                    inside <code
+                                        style="font-family:var(--mono);font-size:12px;color:var(--accent3)">database/</code>
+                                </li>
+                                <li><span class="check-icon check-done">✓</span>Tony Stark INSERT works</li>
+                                <li><span class="check-icon check-done">✓</span>Tony Stark UPDATE (account_type) works
+                                </li>
+                                <li><span class="check-icon check-done">✓</span>Tony Stark DELETE works</li>
+                                <li><span class="check-icon check-done">✓</span>GM Hummer description UPDATE works</li>
+                                <li><span class="check-icon check-done">✓</span>INNER JOIN SELECT returns 2+ Sport rows
+                                </li>
+                                <li><span class="check-icon check-done">✓</span>inv_image &amp; inv_thumbnail UPDATE
+                                    works</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <p
+                                style="font-family:var(--mono);font-size:12px;color:var(--accent2);margin-bottom:12px;text-transform:uppercase;letter-spacing:0.06em">
+                                Objective 6 — Task 2 (Video + Files)</p>
+                            <ul class="checklist">
+                                <li><span class="check-icon check-info">i</span>Video shows database delete &amp;
+                                    restore (under 4 min)</li>
+                                <li><span class="check-icon check-info">i</span>Video narrated in your own voice</li>
+                                <li><span class="check-icon check-done">✓</span>database-rebuild.sql file present &amp;
+                                    works</li>
+                                <li><span class="check-icon check-done">✓</span>Both SQL files in <code
+                                        style="font-family:var(--mono);font-size:12px;color:var(--accent3)">database/</code>
+                                    folder</li>
+                                <li><span class="check-icon check-info">i</span>YouTube URL submitted as unlisted video
+                                </li>
+                                <li><span class="check-icon check-info">i</span>GitHub repository URL submitted</li>
+                                <li><span class="check-icon check-warn">!</span>Production URL note: NOT required for
+                                    Assign. 2</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Toast -->
+    <div id="toast">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <polyline points="20 6 9 17 4 12" />
+        </svg>
+        Copied to clipboard!
+    </div>
+
+    <script>
+        /* ── Query tabs ── */
+        function showQuery(btn, panelId) {
+            document.querySelectorAll('.q-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.query-panel').forEach(p => p.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById(panelId).classList.add('active');
+        }
+
+        /* ── Copy code ── */
+        function copyCode(btn, preId) {
+            const pre = document.getElementById(preId);
+            const text = pre.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const orig = btn.innerHTML;
+                btn.innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Copied!';
+                btn.classList.add('copied');
+                showToast();
+                setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('copied'); }, 2000);
+            });
+        }
+
+        function copyAll(btn) {
+            const allSQL = document.getElementById('code-all').innerText;
+            navigator.clipboard.writeText(allSQL).then(() => {
+                const orig = btn.innerHTML;
+                btn.innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Copied All!';
+                showToast();
+                setTimeout(() => { btn.innerHTML = orig; }, 2000);
+            });
+        }
+
+        function showToast() {
+            const t = document.getElementById('toast');
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2500);
+        }
+
+        /* ── Animate progress bars on load ── */
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                document.querySelectorAll('.progress-bar-fill[data-to]').forEach((bar, i) => {
+                    setTimeout(() => {
+                        bar.style.width = bar.dataset.to + '%';
+                    }, i * 120);
+                });
+            }, 300);
+        });
+
+        /* ── Smooth nav active state ── */
+        const navLinks = document.querySelectorAll('nav a');
+        window.addEventListener('scroll', () => {
+            const sections = ['task1', 'task2', 'schema', 'files'];
+            let current = 'task1';
+            sections.forEach(id => {
+                const el = document.getElementById(id);
+                if (el && window.scrollY >= el.offsetTop - 120) current = id;
+            });
+            navLinks.forEach(a => {
+                a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+            });
+        });
+    </script>
+</body>
+
+</html>
