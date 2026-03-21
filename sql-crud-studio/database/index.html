@@ -50,7 +50,6 @@
             min-height: 100vh;
         }
 
-        /* ── Noise texture overlay ── */
         body::before {
             content: '';
             position: fixed;
@@ -61,7 +60,6 @@
             opacity: 0.4;
         }
 
-        /* ── Header ── */
         header {
             position: sticky;
             top: 0;
@@ -141,7 +139,6 @@
             background: rgba(74, 222, 128, 0.08);
         }
 
-        /* ── Main layout ── */
         main {
             position: relative;
             z-index: 1;
@@ -150,7 +147,6 @@
             padding: 3rem 2rem 6rem;
         }
 
-        /* ── Hero ── */
         .hero {
             margin-bottom: 4rem;
         }
@@ -227,7 +223,6 @@
             letter-spacing: 0.06em;
         }
 
-        /* ── Section titles ── */
         .section-header {
             display: flex;
             align-items: center;
@@ -262,12 +257,6 @@
             border: 1px solid rgba(245, 158, 11, 0.2);
         }
 
-        .tag-red {
-            background: rgba(248, 113, 113, 0.1);
-            color: var(--accent4);
-            border: 1px solid rgba(248, 113, 113, 0.2);
-        }
-
         .tag-purple {
             background: rgba(167, 139, 250, 0.1);
             color: var(--accent5);
@@ -287,7 +276,6 @@
             background: var(--border);
         }
 
-        /* ── Cards ── */
         .card {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -322,7 +310,6 @@
             padding: 20px;
         }
 
-        /* ── Grid layouts ── */
         .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -335,12 +322,6 @@
             gap: 1.5rem;
         }
 
-        .grid-auto {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-
         @media (max-width: 768px) {
 
             .grid-2,
@@ -349,13 +330,11 @@
             }
         }
 
-        /* ── SQL Code blocks ── */
         .sql-block {
             background: #0a0c10;
             border-radius: var(--radius);
             overflow: hidden;
             margin: 0;
-            position: relative;
         }
 
         .sql-toolbar {
@@ -451,50 +430,39 @@
             border-radius: 2px;
         }
 
-        /* SQL syntax highlighting */
         .kw {
             color: #ff7b72;
         }
 
-        /* keywords */
         .fn {
             color: #d2a8ff;
         }
 
-        /* functions */
         .str {
             color: #a5d6ff;
         }
 
-        /* strings */
         .cmt {
             color: #6a737d;
             font-style: italic;
         }
 
-        /* comments */
         .tbl {
             color: #79c0ff;
         }
 
-        /* table/column names */
         .num {
             color: #f0883e;
         }
 
-        /* numbers */
         .op {
             color: #ffa657;
         }
 
-        /* operators */
         .val {
             color: #56d364;
         }
 
-        /* values */
-
-        /* ── Query tabs ── */
         .query-tabs {
             display: flex;
             gap: 4px;
@@ -527,8 +495,6 @@
             border-color: rgba(74, 222, 128, 0.3);
         }
 
-        .q-tab.crud-insert {}
-
         .q-tab.crud-update.active {
             background: rgba(34, 211, 238, 0.1);
             color: var(--accent2);
@@ -555,7 +521,6 @@
             display: block;
         }
 
-        /* ── CRUD badge ── */
         .crud-badge {
             font-family: var(--mono);
             font-size: 10px;
@@ -590,75 +555,6 @@
             color: var(--accent3);
         }
 
-        /* ── Query description cards ── */
-        .query-card {
-            border: 1px solid var(--border);
-            border-radius: var(--radius);
-            overflow: hidden;
-            margin-bottom: 16px;
-            transition: border-color 0.2s;
-        }
-
-        .query-card:hover {
-            border-color: var(--border2);
-        }
-
-        .query-card-head {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 16px;
-            background: var(--surface2);
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .query-card-head:hover {
-            background: var(--surface3);
-        }
-
-        .query-meta {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .query-num {
-            font-family: var(--mono);
-            font-size: 11px;
-            width: 22px;
-            height: 22px;
-            border-radius: 4px;
-            background: var(--surface3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--muted);
-        }
-
-        .query-card-body {
-            padding: 16px;
-            border-top: 1px solid var(--border);
-            background: #0a0c10;
-        }
-
-        .chevron {
-            width: 16px;
-            height: 16px;
-            color: var(--muted);
-            transition: transform 0.2s;
-            flex-shrink: 0;
-        }
-
-        .query-card.open .chevron {
-            transform: rotate(180deg);
-        }
-
-        .query-card-body pre {
-            padding: 0;
-            font-size: 13px;
-        }
-
         .query-desc {
             font-size: 13px;
             color: var(--muted);
@@ -666,7 +562,6 @@
             line-height: 1.6;
         }
 
-        /* ── Schema / ERD ── */
         .schema-table {
             background: var(--surface2);
             border: 1px solid var(--border);
@@ -734,7 +629,6 @@
             color: var(--accent5);
         }
 
-        /* ── Checklist ── */
         .checklist {
             list-style: none;
             display: flex;
@@ -777,7 +671,6 @@
             color: var(--accent3);
         }
 
-        /* ── File tree ── */
         .file-tree {
             font-family: var(--mono);
             font-size: 13px;
@@ -806,7 +699,6 @@
             margin-left: 8px;
         }
 
-        /* ── Timeline ── */
         .timeline {
             position: relative;
             padding-left: 24px;
@@ -854,7 +746,6 @@
             line-height: 1.5;
         }
 
-        /* ── Progress bar ── */
         .progress-wrap {
             margin-bottom: 1.5rem;
         }
@@ -879,73 +770,6 @@
             transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* ── Buttons ── */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-family: var(--mono);
-            font-size: 13px;
-            padding: 8px 16px;
-            border-radius: 8px;
-            border: 1px solid;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-decoration: none;
-            font-weight: 700;
-        }
-
-        .btn-primary {
-            background: var(--accent);
-            color: #0d0f14;
-            border-color: var(--accent);
-        }
-
-        .btn-primary:hover {
-            background: #86efac;
-        }
-
-        .btn-ghost {
-            background: transparent;
-            color: var(--muted);
-            border-color: var(--border2);
-        }
-
-        .btn-ghost:hover {
-            color: var(--text);
-            background: var(--surface2);
-        }
-
-        /* ── Tabs (section) ── */
-        .tabs-nav {
-            display: flex;
-            gap: 2px;
-            margin-bottom: 1.5rem;
-            background: var(--surface2);
-            border-radius: 10px;
-            padding: 4px;
-            width: fit-content;
-        }
-
-        .tab-btn {
-            font-family: var(--mono);
-            font-size: 12px;
-            padding: 7px 16px;
-            border-radius: 7px;
-            border: none;
-            background: transparent;
-            color: var(--muted);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .tab-btn.active {
-            background: var(--surface);
-            color: var(--text);
-            border: 1px solid var(--border2);
-        }
-
-        /* ── Toast notification ── */
         #toast {
             position: fixed;
             bottom: 2rem;
@@ -972,52 +796,10 @@
             opacity: 1;
         }
 
-        /* ── Sections spacing ── */
         section {
             margin-bottom: 4rem;
         }
 
-        /* ── Scrollbar ── */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--bg);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--border2);
-            border-radius: 3px;
-        }
-
-        /* ── Animation ── */
-        @keyframes fadeUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .fade-up {
-            animation: fadeUp 0.5s ease both;
-        }
-
-        .fade-up:nth-child(2) {
-            animation-delay: 0.1s;
-        }
-
-        .fade-up:nth-child(3) {
-            animation-delay: 0.2s;
-        }
-
-        /* ── Info callout ── */
         .callout {
             display: flex;
             gap: 12px;
@@ -1050,6 +832,36 @@
         .callout strong {
             color: var(--text);
         }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border2);
+            border-radius: 3px;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-up {
+            animation: fadeUp 0.5s ease both;
+        }
     </style>
 </head>
 
@@ -1071,17 +883,14 @@
 
     <main>
 
-        <!-- HERO -->
         <div class="hero fade-up">
             <div class="hero-eyebrow">Web Backend Development</div>
             <h1>Assignment <span>2</span><br />SQL CRUD<br />Operations</h1>
-            <p class="hero-sub">
-                Complete PostgreSQL solution — 6 CRUD queries, database rebuild, schema design,
-                and a full vehicle inventory database for the CSE 340 course.
-            </p>
+            <p class="hero-sub">Complete PostgreSQL solution — 6 CRUD queries, database rebuild, schema design, and a
+                full vehicle inventory database for the CSE 340 course.</p>
             <div class="hero-stats">
                 <div class="stat">
-                    <div class="stat-value">6<span>×</span></div>
+                    <div class="stat-value">6<span>x</span></div>
                     <div class="stat-label">SQL Queries</div>
                 </div>
                 <div class="stat">
@@ -1093,7 +902,7 @@
                     <div class="stat-label">Data Records</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-value">2<span>×</span></div>
+                    <div class="stat-value">2<span>x</span></div>
                     <div class="stat-label">SQL Files</div>
                 </div>
             </div>
@@ -1109,15 +918,13 @@
             <div class="grid-2">
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title">
-                            <span class="crud-badge crud-INSERT">Task 1</span>
-                            Write SQL Statements
+                        <div class="card-title"><span class="crud-badge crud-INSERT">Task 1</span> Write SQL Statements
                         </div>
                         <span style="font-family:var(--mono);font-size:12px;color:var(--accent)">6/6</span>
                     </div>
                     <div class="card-body">
-                        <div class="progress-wrap" id="p1">
-                            <div class="progress-label"><span>INSERT</span><span style="color:var(--accent)">✓</span>
+                        <div class="progress-wrap">
+                            <div class="progress-label"><span>INSERT</span><span style="color:var(--accent)">done</span>
                             </div>
                             <div class="progress-bar-bg">
                                 <div class="progress-bar-fill" style="width:0;background:var(--accent)" data-to="100">
@@ -1125,8 +932,8 @@
                             </div>
                         </div>
                         <div class="progress-wrap">
-                            <div class="progress-label"><span>UPDATE — account_type</span><span
-                                    style="color:var(--accent2)">✓</span></div>
+                            <div class="progress-label"><span>UPDATE account_type</span><span
+                                    style="color:var(--accent2)">done</span></div>
                             <div class="progress-bar-bg">
                                 <div class="progress-bar-fill" style="width:0;background:var(--accent2)" data-to="100">
                                 </div>
@@ -1134,7 +941,7 @@
                         </div>
                         <div class="progress-wrap">
                             <div class="progress-label"><span>DELETE record</span><span
-                                    style="color:var(--accent4)">✓</span></div>
+                                    style="color:var(--accent4)">done</span></div>
                             <div class="progress-bar-bg">
                                 <div class="progress-bar-fill" style="width:0;background:var(--accent4)" data-to="100">
                                 </div>
@@ -1142,7 +949,7 @@
                         </div>
                         <div class="progress-wrap">
                             <div class="progress-label"><span>UPDATE with REPLACE()</span><span
-                                    style="color:var(--accent3)">✓</span></div>
+                                    style="color:var(--accent3)">done</span></div>
                             <div class="progress-bar-bg">
                                 <div class="progress-bar-fill" style="width:0;background:var(--accent3)" data-to="100">
                                 </div>
@@ -1150,7 +957,7 @@
                         </div>
                         <div class="progress-wrap">
                             <div class="progress-label"><span>INNER JOIN query</span><span
-                                    style="color:var(--accent5)">✓</span></div>
+                                    style="color:var(--accent5)">done</span></div>
                             <div class="progress-bar-bg">
                                 <div class="progress-bar-fill" style="width:0;background:var(--accent5)" data-to="100">
                                 </div>
@@ -1158,7 +965,7 @@
                         </div>
                         <div class="progress-wrap" style="margin-bottom:0">
                             <div class="progress-label"><span>UPDATE image paths</span><span
-                                    style="color:var(--accent)">✓</span></div>
+                                    style="color:var(--accent)">done</span></div>
                             <div class="progress-bar-bg">
                                 <div class="progress-bar-fill" style="width:0;background:var(--accent)" data-to="100">
                                 </div>
@@ -1166,12 +973,9 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title">
-                            <span class="crud-badge crud-CREATE">Task 2</span>
-                            Destroy &amp; Rebuild
+                        <div class="card-title"><span class="crud-badge crud-CREATE">Task 2</span> Destroy &amp; Rebuild
                         </div>
                         <span style="font-family:var(--mono);font-size:12px;color:var(--accent)">5/5</span>
                     </div>
@@ -1206,7 +1010,7 @@
             </div>
         </section>
 
-        <!-- TASK 1: QUERIES -->
+        <!-- TASK 1 -->
         <section id="task1">
             <div class="section-header">
                 <span class="section-tag tag-green">Task 1</span>
@@ -1227,34 +1031,28 @@
                 <!-- Q1 -->
                 <div class="query-panel active" id="q1">
                     <div style="padding:16px 20px 0">
-                        <p class="query-desc">
-                            <span class="crud-badge crud-INSERT">INSERT</span>&nbsp;
-                            Insert a new account record for Tony Stark. The <code
+                        <p class="query-desc"><span class="crud-badge crud-INSERT">INSERT</span>&nbsp; Insert a new
+                            account record for Tony Stark. The <code
                                 style="font-family:var(--mono);color:var(--accent3);font-size:12px">account_id</code>
                             and <code
                                 style="font-family:var(--mono);color:var(--accent3);font-size:12px">account_type</code>
-                            fields handle themselves (SERIAL + DEFAULT).
-                        </p>
+                            fields handle themselves (SERIAL + DEFAULT).</p>
                     </div>
                     <div class="sql-block"
-                        style="margin:0 0 4px;border-radius:0;border:none;border-top:1px solid var(--border)">
+                        style="margin:0;border-radius:0;border:none;border-top:1px solid var(--border)">
                         <div class="sql-toolbar">
                             <div class="sql-toolbar-left">
                                 <div class="traffic-lights">
                                     <div class="tl tl-red"></div>
                                     <div class="tl tl-yellow"></div>
                                     <div class="tl tl-green"></div>
-                                </div>
-                                <span class="sql-filename">assignment2.sql — Query 1</span>
+                                </div><span class="sql-filename">assignment2.sql — Query 1</span>
                             </div>
-                            <button class="btn-copy" onclick="copyCode(this, 'code-q1')">
-                                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"
-                                    viewBox="0 0 24 24">
+                            <button class="btn-copy" onclick="copyCode(this,'code-q1')"><svg width="12" height="12"
+                                    fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <rect x="9" y="9" width="13" height="13" rx="2" />
                                     <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
-                                </svg>
-                                Copy
-                            </button>
+                                </svg> Copy</button>
                         </div>
                         <pre id="code-q1"><span class="cmt">-- Query 1: Insert Tony Stark into the account table</span>
 <span class="cmt">-- account_id (SERIAL) and account_type (DEFAULT 'Client') are auto-handled</span>
@@ -1276,31 +1074,25 @@
                 <!-- Q2 -->
                 <div class="query-panel" id="q2">
                     <div style="padding:16px 20px 0">
-                        <p class="query-desc">
-                            <span class="crud-badge crud-UPDATE">UPDATE</span>&nbsp;
-                            Modify Tony Stark's account type to <strong>'Admin'</strong>. Uses email in the WHERE clause
-                            to target the exact record without accidentally changing others.
-                        </p>
+                        <p class="query-desc"><span class="crud-badge crud-UPDATE">UPDATE</span>&nbsp; Modify Tony
+                            Stark's account type to <strong>'Admin'</strong>. Uses email in the WHERE clause to target
+                            the exact record.</p>
                     </div>
                     <div class="sql-block"
-                        style="margin:0 0 4px;border-radius:0;border:none;border-top:1px solid var(--border)">
+                        style="margin:0;border-radius:0;border:none;border-top:1px solid var(--border)">
                         <div class="sql-toolbar">
                             <div class="sql-toolbar-left">
                                 <div class="traffic-lights">
                                     <div class="tl tl-red"></div>
                                     <div class="tl tl-yellow"></div>
                                     <div class="tl tl-green"></div>
-                                </div>
-                                <span class="sql-filename">assignment2.sql — Query 2</span>
+                                </div><span class="sql-filename">assignment2.sql — Query 2</span>
                             </div>
-                            <button class="btn-copy" onclick="copyCode(this, 'code-q2')">
-                                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"
-                                    viewBox="0 0 24 24">
+                            <button class="btn-copy" onclick="copyCode(this,'code-q2')"><svg width="12" height="12"
+                                    fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <rect x="9" y="9" width="13" height="13" rx="2" />
                                     <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
-                                </svg>
-                                Copy
-                            </button>
+                                </svg> Copy</button>
                         </div>
                         <pre
                             id="code-q2"><span class="cmt">-- Query 2: Change Tony Stark's account_type to 'Admin'</span>
@@ -1313,35 +1105,26 @@
                 <!-- Q3 -->
                 <div class="query-panel" id="q3">
                     <div style="padding:16px 20px 0">
-                        <p class="query-desc">
-                            <span class="crud-badge crud-DELETE">DELETE</span>&nbsp;
-                            Remove Tony Stark's record permanently. Uses the primary key email to ensure only one row is
-                            affected.
-                        </p>
-                        <div class="callout callout-danger" style="margin-bottom:12px">
-                            <strong>⚠ Danger:</strong> DELETE without WHERE removes ALL rows. Always verify your WHERE
-                            clause.
-                        </div>
+                        <p class="query-desc"><span class="crud-badge crud-DELETE">DELETE</span>&nbsp; Remove Tony
+                            Stark's record permanently.</p>
+                        <div class="callout callout-danger"><strong>Danger:</strong> DELETE without WHERE removes ALL
+                            rows. Always verify your WHERE clause.</div>
                     </div>
                     <div class="sql-block"
-                        style="margin:0 0 4px;border-radius:0;border:none;border-top:1px solid var(--border)">
+                        style="margin:0;border-radius:0;border:none;border-top:1px solid var(--border)">
                         <div class="sql-toolbar">
                             <div class="sql-toolbar-left">
                                 <div class="traffic-lights">
                                     <div class="tl tl-red"></div>
                                     <div class="tl tl-yellow"></div>
                                     <div class="tl tl-green"></div>
-                                </div>
-                                <span class="sql-filename">assignment2.sql — Query 3</span>
+                                </div><span class="sql-filename">assignment2.sql — Query 3</span>
                             </div>
-                            <button class="btn-copy" onclick="copyCode(this, 'code-q3')">
-                                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"
-                                    viewBox="0 0 24 24">
+                            <button class="btn-copy" onclick="copyCode(this,'code-q3')"><svg width="12" height="12"
+                                    fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <rect x="9" y="9" width="13" height="13" rx="2" />
                                     <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
-                                </svg>
-                                Copy
-                            </button>
+                                </svg> Copy</button>
                         </div>
                         <pre
                             id="code-q3"><span class="cmt">-- Query 3: Delete the Tony Stark record from the database</span>
@@ -1353,44 +1136,36 @@
                 <!-- Q4 -->
                 <div class="query-panel" id="q4">
                     <div style="padding:16px 20px 0">
-                        <p class="query-desc">
-                            <span class="crud-badge crud-UPDATE">UPDATE</span>&nbsp;
-                            Use PostgreSQL's <code
-                                style="font-family:var(--mono);color:var(--accent3);font-size:12px">REPLACE()</code>
-                            function to swap <strong>"small interiors"</strong> for <strong>"a huge interior"</strong>
-                            in the GM Hummer description — without retyping the full description.
-                        </p>
+                        <p class="query-desc"><span class="crud-badge crud-UPDATE">UPDATE</span>&nbsp; Use PostgreSQL's
+                            <code style="font-family:var(--mono);color:var(--accent3);font-size:12px">REPLACE()</code>
+                            to swap <strong>"small interiors"</strong> for <strong>"a huge interior"</strong> in the GM
+                            Hummer description — without retyping the full description.</p>
                     </div>
                     <div class="sql-block"
-                        style="margin:0 0 4px;border-radius:0;border:none;border-top:1px solid var(--border)">
+                        style="margin:0;border-radius:0;border:none;border-top:1px solid var(--border)">
                         <div class="sql-toolbar">
                             <div class="sql-toolbar-left">
                                 <div class="traffic-lights">
                                     <div class="tl tl-red"></div>
                                     <div class="tl tl-yellow"></div>
                                     <div class="tl tl-green"></div>
-                                </div>
-                                <span class="sql-filename">assignment2.sql — Query 4</span>
+                                </div><span class="sql-filename">assignment2.sql — Query 4</span>
                             </div>
-                            <button class="btn-copy" onclick="copyCode(this, 'code-q4')">
-                                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"
-                                    viewBox="0 0 24 24">
+                            <button class="btn-copy" onclick="copyCode(this,'code-q4')"><svg width="12" height="12"
+                                    fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <rect x="9" y="9" width="13" height="13" rx="2" />
                                     <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
-                                </svg>
-                                Copy
-                            </button>
+                                </svg> Copy</button>
                         </div>
                         <pre
                             id="code-q4"><span class="cmt">-- Query 4: Update GM Hummer description using REPLACE()</span>
-<span class="cmt">-- DO NOT retype the entire description — use REPLACE()</span>
 <span class="kw">UPDATE</span> <span class="tbl">inventory</span>
 <span class="kw">SET</span> <span class="tbl">inv_description</span> <span class="op">=</span> <span class="fn">REPLACE</span>(
   <span class="tbl">inv_description</span>,
   <span class="str">'small interiors'</span>,
   <span class="str">'a huge interior'</span>
 )
-<span class="kw">WHERE</span> <span class="tbl">inv_make</span>  <span class="op">=</span> <span class="str">'GM'</span>
+<span class="kw">WHERE</span> <span class="tbl">inv_make</span> <span class="op">=</span> <span class="str">'GM'</span>
   <span class="kw">AND</span> <span class="tbl">inv_model</span> <span class="op">=</span> <span class="str">'Hummer'</span>;</pre>
                     </div>
                 </div>
@@ -1398,41 +1173,28 @@
                 <!-- Q5 -->
                 <div class="query-panel" id="q5">
                     <div style="padding:16px 20px 0">
-                        <p class="query-desc">
-                            <span class="crud-badge crud-SELECT">SELECT</span>&nbsp;
-                            Use an <strong>INNER JOIN</strong> to pull make, model, and classification name for all
-                            <strong>Sport</strong> vehicles. Joins <code
-                                style="font-family:var(--mono);color:var(--accent3);font-size:12px">inventory</code> to
-                            <code
-                                style="font-family:var(--mono);color:var(--accent3);font-size:12px">classification</code>
-                            on <code
-                                style="font-family:var(--mono);color:var(--accent3);font-size:12px">classification_id</code>.
-                            Returns 2+ records.
-                        </p>
+                        <p class="query-desc"><span class="crud-badge crud-SELECT">SELECT</span>&nbsp; INNER JOIN to
+                            pull make, model, and classification name for all <strong>Sport</strong> vehicles. Returns
+                            2+ records.</p>
                     </div>
                     <div class="sql-block"
-                        style="margin:0 0 4px;border-radius:0;border:none;border-top:1px solid var(--border)">
+                        style="margin:0;border-radius:0;border:none;border-top:1px solid var(--border)">
                         <div class="sql-toolbar">
                             <div class="sql-toolbar-left">
                                 <div class="traffic-lights">
                                     <div class="tl tl-red"></div>
                                     <div class="tl tl-yellow"></div>
                                     <div class="tl tl-green"></div>
-                                </div>
-                                <span class="sql-filename">assignment2.sql — Query 5</span>
+                                </div><span class="sql-filename">assignment2.sql — Query 5</span>
                             </div>
-                            <button class="btn-copy" onclick="copyCode(this, 'code-q5')">
-                                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"
-                                    viewBox="0 0 24 24">
+                            <button class="btn-copy" onclick="copyCode(this,'code-q5')"><svg width="12" height="12"
+                                    fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <rect x="9" y="9" width="13" height="13" rx="2" />
                                     <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
-                                </svg>
-                                Copy
-                            </button>
+                                </svg> Copy</button>
                         </div>
                         <pre
                             id="code-q5"><span class="cmt">-- Query 5: INNER JOIN inventory + classification</span>
-<span class="cmt">-- Returns make, model, and classification name for Sport vehicles</span>
 <span class="kw">SELECT</span>
   <span class="tbl">inv</span>.<span class="tbl">inv_make</span>,
   <span class="tbl">inv</span>.<span class="tbl">inv_model</span>,
@@ -1447,43 +1209,34 @@
                 <!-- Q6 -->
                 <div class="query-panel" id="q6">
                     <div style="padding:16px 20px 0">
-                        <p class="query-desc">
-                            <span class="crud-badge crud-UPDATE">UPDATE</span>&nbsp;
-                            Use <code
+                        <p class="query-desc"><span class="crud-badge crud-UPDATE">UPDATE</span>&nbsp; Use <code
                                 style="font-family:var(--mono);color:var(--accent3);font-size:12px">REPLACE()</code> on
                             both <code
                                 style="font-family:var(--mono);color:var(--accent3);font-size:12px">inv_image</code> and
                             <code
                                 style="font-family:var(--mono);color:var(--accent3);font-size:12px">inv_thumbnail</code>
-                            in a single query to add <strong>/vehicles</strong> to every image path. After update paths
-                            should resemble <code
+                            in a single query. After update paths resemble <code
                                 style="font-family:var(--mono);color:var(--accent2);font-size:11px">/images/vehicles/car-name.jpg</code>
                         </p>
                     </div>
                     <div class="sql-block"
-                        style="margin:0 0 4px;border-radius:0;border:none;border-top:1px solid var(--border)">
+                        style="margin:0;border-radius:0;border:none;border-top:1px solid var(--border)">
                         <div class="sql-toolbar">
                             <div class="sql-toolbar-left">
                                 <div class="traffic-lights">
                                     <div class="tl tl-red"></div>
                                     <div class="tl tl-yellow"></div>
                                     <div class="tl tl-green"></div>
-                                </div>
-                                <span class="sql-filename">assignment2.sql — Query 6</span>
+                                </div><span class="sql-filename">assignment2.sql — Query 6</span>
                             </div>
-                            <button class="btn-copy" onclick="copyCode(this, 'code-q6')">
-                                <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"
-                                    viewBox="0 0 24 24">
+                            <button class="btn-copy" onclick="copyCode(this,'code-q6')"><svg width="12" height="12"
+                                    fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                                     <rect x="9" y="9" width="13" height="13" rx="2" />
                                     <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
-                                </svg>
-                                Copy
-                            </button>
+                                </svg> Copy</button>
                         </div>
                         <pre
                             id="code-q6"><span class="cmt">-- Query 6: Update ALL inventory image paths using REPLACE()</span>
-<span class="cmt">-- Before: /images/car-name.jpg</span>
-<span class="cmt">-- After:  /images/vehicles/car-name.jpg</span>
 <span class="kw">UPDATE</span> <span class="tbl">inventory</span>
 <span class="kw">SET</span>
   <span class="tbl">inv_image</span>     <span class="op">=</span> <span class="fn">REPLACE</span>(<span class="tbl">inv_image</span>,     <span class="str">'/images/'</span>, <span class="str">'/images/vehicles/'</span>),
@@ -1492,29 +1245,21 @@
                 </div>
             </div>
 
-            <!-- Full file download preview -->
+            <!-- All queries combined -->
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">
-                        <span class="crud-badge crud-SELECT">FILE</span>
-                        database/assignment2.sql — All 6 Queries Combined
-                    </div>
-                    <button class="btn-copy" onclick="copyAll(this)"
-                        style="font-family:var(--mono);font-size:11px;padding:4px 10px;border-radius:5px;border:1px solid var(--border2);background:transparent;color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:5px">
-                        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"
-                            viewBox="0 0 24 24">
+                    <div class="card-title"><span class="crud-badge crud-SELECT">FILE</span> database/assignment2.sql —
+                        All 6 Queries Combined</div>
+                    <button class="btn-copy" onclick="copyCode(this,'code-all')"><svg width="12" height="12" fill="none"
+                            stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <rect x="9" y="9" width="13" height="13" rx="2" />
                             <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
-                        </svg>
-                        Copy All
-                    </button>
+                        </svg> Copy All</button>
                 </div>
                 <div class="sql-block" style="border-radius:0;border:none">
                     <pre
-                        id="code-all"><span class="cmt">-- =============================================================
--- Assignment 2 — Web Backend Development (CSE 340)
--- Task One: SQL CRUD Statements | File: assignment2.sql
--- =============================================================</span>
+                        id="code-all"><span class="cmt">-- Assignment 2 - Web Backend Development (CSE 340)
+-- Task One: SQL CRUD Statements | File: assignment2.sql</span>
 
 <span class="cmt">-- Q1: INSERT Tony Stark</span>
 <span class="kw">INSERT INTO</span> <span class="tbl">account</span> (<span class="tbl">account_firstname</span>, <span class="tbl">account_lastname</span>, <span class="tbl">account_email</span>, <span class="tbl">account_password</span>)
@@ -1531,7 +1276,7 @@
 <span class="kw">SET</span> <span class="tbl">inv_description</span> <span class="op">=</span> <span class="fn">REPLACE</span>(<span class="tbl">inv_description</span>, <span class="str">'small interiors'</span>, <span class="str">'a huge interior'</span>)
 <span class="kw">WHERE</span> <span class="tbl">inv_make</span> <span class="op">=</span> <span class="str">'GM'</span> <span class="kw">AND</span> <span class="tbl">inv_model</span> <span class="op">=</span> <span class="str">'Hummer'</span>;
 
-<span class="cmt">-- Q5: INNER JOIN — Sport vehicles</span>
+<span class="cmt">-- Q5: INNER JOIN - Sport vehicles</span>
 <span class="kw">SELECT</span> <span class="tbl">inv</span>.<span class="tbl">inv_make</span>, <span class="tbl">inv</span>.<span class="tbl">inv_model</span>, <span class="tbl">cls</span>.<span class="tbl">classification_name</span>
 <span class="kw">FROM</span> <span class="tbl">inventory</span> <span class="kw">AS</span> <span class="tbl">inv</span>
 <span class="kw">INNER JOIN</span> <span class="tbl">classification</span> <span class="kw">AS</span> <span class="tbl">cls</span> <span class="kw">ON</span> <span class="tbl">inv</span>.<span class="tbl">classification_id</span> <span class="op">=</span> <span class="tbl">cls</span>.<span class="tbl">classification_id</span>
@@ -1546,43 +1291,32 @@
             </div>
         </section>
 
-        <!-- TASK 2: REBUILD -->
+        <!-- TASK 2 -->
         <section id="task2">
             <div class="section-header">
                 <span class="section-tag tag-amber">Task 2</span>
                 <span class="section-title">Database Rebuild — database-rebuild.sql</span>
                 <div class="section-divider"></div>
             </div>
-
-            <div class="callout callout-warn">
-                <strong>Important:</strong> The rebuild file is one file you run to recreate everything. It drops tables
-                in the correct order, creates the ENUM type, creates all 3 tables, inserts data, then re-applies queries
-                4 and 6 from Task 1.
-            </div>
-
-            <div class="card" style="margin-bottom:1.5rem">
+            <div class="callout callout-warn"><strong>Important:</strong> The rebuild file drops tables in correct
+                order, creates the ENUM type, creates all 3 tables, inserts data, then re-applies queries 4 and 6 from
+                Task 1 automatically.</div>
+            <div class="card">
                 <div class="card-header">
-                    <div class="card-title">
-                        <span class="crud-badge crud-CREATE">REBUILD</span>
-                        database/database-rebuild.sql — Annotated Key Sections
-                    </div>
-                    <button class="btn-copy" onclick="copyCode(this, 'code-rebuild')"
-                        style="font-family:var(--mono);font-size:11px;padding:4px 10px;border-radius:5px;border:1px solid var(--border2);background:transparent;color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:5px">
-                        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"
-                            viewBox="0 0 24 24">
+                    <div class="card-title"><span class="crud-badge crud-CREATE">REBUILD</span>
+                        database/database-rebuild.sql — Key Sections</div>
+                    <button class="btn-copy" onclick="copyCode(this,'code-rebuild')"><svg width="12" height="12"
+                            fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <rect x="9" y="9" width="13" height="13" rx="2" />
                             <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
-                        </svg>
-                        Copy
-                    </button>
+                        </svg> Copy</button>
                 </div>
                 <div class="sql-block" style="border-radius:0;border:none">
-                    <pre
-                        id="code-rebuild"><span class="cmt">-- Step 1: DROP existing objects safely</span>
-<span class="kw">DROP TABLE IF EXISTS</span> <span class="tbl">inventory</span>       <span class="kw">CASCADE</span>;
-<span class="kw">DROP TABLE IF EXISTS</span> <span class="tbl">classification</span>   <span class="kw">CASCADE</span>;
-<span class="kw">DROP TABLE IF EXISTS</span> <span class="tbl">account</span>         <span class="kw">CASCADE</span>;
-<span class="kw">DROP TYPE  IF EXISTS</span> <span class="tbl">account_type</span>    <span class="kw">CASCADE</span>;
+                    <pre id="code-rebuild"><span class="cmt">-- Step 1: DROP existing objects safely</span>
+<span class="kw">DROP TABLE IF EXISTS</span> <span class="tbl">inventory</span>     <span class="kw">CASCADE</span>;
+<span class="kw">DROP TABLE IF EXISTS</span> <span class="tbl">classification</span> <span class="kw">CASCADE</span>;
+<span class="kw">DROP TABLE IF EXISTS</span> <span class="tbl">account</span>       <span class="kw">CASCADE</span>;
+<span class="kw">DROP TYPE  IF EXISTS</span> <span class="tbl">account_type</span>  <span class="kw">CASCADE</span>;
 
 <span class="cmt">-- Step 2: CREATE the ENUM type</span>
 <span class="kw">CREATE TYPE</span> <span class="tbl">account_type</span> <span class="kw">AS ENUM</span> (<span class="str">'Client'</span>, <span class="str">'Employee'</span>, <span class="str">'Admin'</span>);
@@ -1603,38 +1337,24 @@
   <span class="tbl">account_type</span>      <span class="tbl">account_type</span> <span class="kw">NOT NULL DEFAULT</span> <span class="str">'Client'</span>
 );
 
-<span class="cmt">-- Step 5: CREATE inventory table with FK to classification</span>
+<span class="cmt">-- Step 5: CREATE inventory table with FK</span>
 <span class="kw">CREATE TABLE</span> <span class="tbl">inventory</span> (
   <span class="tbl">inv_id</span>            <span class="kw">SERIAL PRIMARY KEY</span>,
-  <span class="tbl">inv_make</span>          <span class="kw">VARCHAR</span>(<span class="num">50</span>)   <span class="kw">NOT NULL</span>,
-  <span class="tbl">inv_model</span>         <span class="kw">VARCHAR</span>(<span class="num">50</span>)   <span class="kw">NOT NULL</span>,
-  <span class="tbl">inv_year</span>          <span class="kw">NUMERIC</span>(<span class="num">4</span>,<span class="num">0</span>)  <span class="kw">NOT NULL</span>,
-  <span class="tbl">inv_description</span>   <span class="kw">TEXT</span>          <span class="kw">NOT NULL</span>,
-  <span class="tbl">inv_image</span>         <span class="kw">VARCHAR</span>(<span class="num">200</span>)  <span class="kw">NOT NULL</span>,
-  <span class="tbl">inv_thumbnail</span>     <span class="kw">VARCHAR</span>(<span class="num">200</span>)  <span class="kw">NOT NULL</span>,
-  <span class="tbl">inv_price</span>         <span class="kw">NUMERIC</span>(<span class="num">9</span>,<span class="num">0</span>)  <span class="kw">NOT NULL</span>,
-  <span class="tbl">inv_miles</span>         <span class="kw">NUMERIC</span>(<span class="num">9</span>,<span class="num">0</span>)  <span class="kw">NOT NULL</span>,
-  <span class="tbl">inv_color</span>         <span class="kw">VARCHAR</span>(<span class="num">50</span>)   <span class="kw">NOT NULL</span>,
-  <span class="tbl">classification_id</span> <span class="kw">INT</span>           <span class="kw">NOT NULL</span>,
+  <span class="tbl">inv_make</span>          <span class="kw">VARCHAR</span>(<span class="num">50</span>)  <span class="kw">NOT NULL</span>,
+  <span class="tbl">inv_model</span>         <span class="kw">VARCHAR</span>(<span class="num">50</span>)  <span class="kw">NOT NULL</span>,
+  <span class="tbl">inv_year</span>          <span class="kw">NUMERIC</span>(<span class="num">4</span>,<span class="num">0</span>) <span class="kw">NOT NULL</span>,
+  <span class="tbl">inv_description</span>   <span class="kw">TEXT</span>         <span class="kw">NOT NULL</span>,
+  <span class="tbl">inv_image</span>         <span class="kw">VARCHAR</span>(<span class="num">200</span>) <span class="kw">NOT NULL</span>,
+  <span class="tbl">inv_thumbnail</span>     <span class="kw">VARCHAR</span>(<span class="num">200</span>) <span class="kw">NOT NULL</span>,
+  <span class="tbl">inv_price</span>         <span class="kw">NUMERIC</span>(<span class="num">9</span>,<span class="num">0</span>) <span class="kw">NOT NULL</span>,
+  <span class="tbl">inv_miles</span>         <span class="kw">NUMERIC</span>(<span class="num">9</span>,<span class="num">0</span>) <span class="kw">NOT NULL</span>,
+  <span class="tbl">inv_color</span>         <span class="kw">VARCHAR</span>(<span class="num">50</span>)  <span class="kw">NOT NULL</span>,
+  <span class="tbl">classification_id</span> <span class="kw">INT</span>          <span class="kw">NOT NULL</span>,
   <span class="kw">CONSTRAINT</span> <span class="tbl">fk_classification</span>
     <span class="kw">FOREIGN KEY</span> (<span class="tbl">classification_id</span>)
     <span class="kw">REFERENCES</span> <span class="tbl">classification</span>(<span class="tbl">classification_id</span>)
     <span class="kw">ON DELETE CASCADE ON UPDATE CASCADE</span>
-);
-
-<span class="cmt">-- Step 6: INSERT sample data (5 classifications, 3 accounts, 11 vehicles)</span>
-<span class="kw">INSERT INTO</span> <span class="tbl">classification</span> (<span class="tbl">classification_name</span>) <span class="kw">VALUES</span>
-  (<span class="str">'Custom'</span>), (<span class="str">'Sport'</span>), (<span class="str">'SUV'</span>), (<span class="str">'Truck'</span>), (<span class="str">'Sedan'</span>);
-
-<span class="cmt">-- Step 7: Re-apply Task 1 transformations</span>
-<span class="kw">UPDATE</span> <span class="tbl">inventory</span>
-<span class="kw">SET</span> <span class="tbl">inv_description</span> <span class="op">=</span> <span class="fn">REPLACE</span>(<span class="tbl">inv_description</span>, <span class="str">'small interiors'</span>, <span class="str">'a huge interior'</span>)
-<span class="kw">WHERE</span> <span class="tbl">inv_make</span> <span class="op">=</span> <span class="str">'GM'</span> <span class="kw">AND</span> <span class="tbl">inv_model</span> <span class="op">=</span> <span class="str">'Hummer'</span>;
-
-<span class="kw">UPDATE</span> <span class="tbl">inventory</span>
-<span class="kw">SET</span>
-  <span class="tbl">inv_image</span>     <span class="op">=</span> <span class="fn">REPLACE</span>(<span class="tbl">inv_image</span>,     <span class="str">'/images/'</span>, <span class="str">'/images/vehicles/'</span>),
-  <span class="tbl">inv_thumbnail</span> <span class="op">=</span> <span class="fn">REPLACE</span>(<span class="tbl">inv_thumbnail</span>, <span class="str">'/images/'</span>, <span class="str">'/images/vehicles/'</span>);</pre>
+);</pre>
                 </div>
             </div>
         </section>
@@ -1646,36 +1366,23 @@
                 <span class="section-title">Database Structure — 3 Tables + 1 ENUM Type</span>
                 <div class="section-divider"></div>
             </div>
-
             <div class="grid-3" style="margin-bottom:1.5rem">
-                <!-- classification -->
                 <div class="schema-table">
-                    <div class="schema-table-head">
-                        <span class="schema-table-name">classification</span>
-                        <span style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:auto">5
-                            rows</span>
-                    </div>
+                    <div class="schema-table-head"><span class="schema-table-name">classification</span><span
+                            style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:auto">5
+                            rows</span></div>
                     <div class="schema-cols">
-                        <div class="schema-row">
-                            <span class="col-name pk">classification_id</span>
-                            <span class="col-type">SERIAL</span>
-                            <span class="col-constraint">PRIMARY KEY</span>
-                        </div>
-                        <div class="schema-row">
-                            <span class="col-name">classification_name</span>
-                            <span class="col-type">VARCHAR(30)</span>
-                            <span class="col-constraint">NOT NULL UNIQUE</span>
+                        <div class="schema-row"><span class="col-name pk">classification_id</span><span
+                                class="col-type">SERIAL</span><span class="col-constraint">PRIMARY KEY</span></div>
+                        <div class="schema-row"><span class="col-name">classification_name</span><span
+                                class="col-type">VARCHAR(30)</span><span class="col-constraint">NOT NULL UNIQUE</span>
                         </div>
                     </div>
                 </div>
-
-                <!-- account -->
                 <div class="schema-table">
-                    <div class="schema-table-head">
-                        <span class="schema-table-name">account</span>
-                        <span style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:auto">3+
-                            rows</span>
-                    </div>
+                    <div class="schema-table-head"><span class="schema-table-name">account</span><span
+                            style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:auto">3+
+                            rows</span></div>
                     <div class="schema-cols">
                         <div class="schema-row"><span class="col-name pk">account_id</span><span
                                 class="col-type">SERIAL</span><span class="col-constraint">PRIMARY KEY</span></div>
@@ -1693,14 +1400,10 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- inventory -->
                 <div class="schema-table">
-                    <div class="schema-table-head">
-                        <span class="schema-table-name">inventory</span>
-                        <span style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:auto">11
-                            rows</span>
-                    </div>
+                    <div class="schema-table-head"><span class="schema-table-name">inventory</span><span
+                            style="font-family:var(--mono);font-size:10px;color:var(--muted);margin-left:auto">11
+                            rows</span></div>
                     <div class="schema-cols">
                         <div class="schema-row"><span class="col-name pk">inv_id</span><span
                                 class="col-type">SERIAL</span><span class="col-constraint">PRIMARY KEY</span></div>
@@ -1727,44 +1430,38 @@
                     </div>
                 </div>
             </div>
-
-            <!-- ENUM type -->
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">
-                        <span class="crud-badge crud-CREATE">ENUM</span>
-                        account_type — PostgreSQL Custom Type
-                    </div>
+                    <div class="card-title"><span class="crud-badge crud-CREATE">ENUM</span> account_type — PostgreSQL
+                        Custom Type</div>
                 </div>
                 <div class="card-body">
                     <div style="display:flex;gap:12px;flex-wrap:wrap">
                         <div
                             style="display:flex;align-items:center;gap:8px;background:var(--surface2);padding:10px 16px;border-radius:8px;border:1px solid var(--border)">
-                            <span style="font-family:var(--mono);font-size:13px;color:var(--text)">'Client'</span>
-                            <span style="font-size:11px;color:var(--muted)">Default value</span>
-                        </div>
+                            <span style="font-family:var(--mono);font-size:13px;color:var(--text)">'Client'</span><span
+                                style="font-size:11px;color:var(--muted)">Default value</span></div>
                         <div
                             style="display:flex;align-items:center;gap:8px;background:var(--surface2);padding:10px 16px;border-radius:8px;border:1px solid var(--border)">
                             <span style="font-family:var(--mono);font-size:13px;color:var(--accent2)">'Employee'</span>
                         </div>
                         <div
-                            style="display:flex;align-items:center;gap:8px;background:var(--surface2);padding:10px 16px;border-radius:8px;border:1px solid var(--accent5);background:rgba(167,139,250,0.08)">
-                            <span style="font-family:var(--mono);font-size:13px;color:var(--accent5)">'Admin'</span>
-                            <span style="font-size:11px;color:var(--muted)">Set by Query 2</span>
-                        </div>
+                            style="display:flex;align-items:center;gap:8px;padding:10px 16px;border-radius:8px;border:1px solid var(--accent5);background:rgba(167,139,250,0.08)">
+                            <span
+                                style="font-family:var(--mono);font-size:13px;color:var(--accent5)">'Admin'</span><span
+                                style="font-size:11px;color:var(--muted)">Set by Query 2</span></div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- FILE STRUCTURE -->
+        <!-- FILES -->
         <section id="files">
             <div class="section-header">
                 <span class="section-tag tag-purple">Files</span>
                 <span class="section-title">Project File Structure &amp; Naming</span>
                 <div class="section-divider"></div>
             </div>
-
             <div class="grid-2">
                 <div class="card">
                     <div class="card-header">
@@ -1772,24 +1469,23 @@
                     </div>
                     <div class="card-body">
                         <div class="file-tree">
-                            <div><span class="ft-dir">📁 sql-crud-studio/</span> &nbsp;<span
+                            <div><span class="ft-dir">sql-crud-studio/</span> &nbsp;<span
                                     style="font-size:11px;color:var(--muted)">(project root)</span></div>
                             <div class="ft-indent">
-                                <div><span class="ft-dir">📁 database/</span></div>
+                                <div><span class="ft-dir">database/</span></div>
                                 <div class="ft-indent">
-                                    <div><span class="ft-sql">📄 assignment2.sql</span> &nbsp;<span
-                                            style="font-size:11px;color:var(--muted)">← Task 1 queries</span></div>
-                                    <div><span class="ft-sql">📄 database-rebuild.sql</span> &nbsp;<span
-                                            style="font-size:11px;color:var(--muted)">← Task 2 rebuild</span></div>
+                                    <div><span class="ft-sql">assignment2.sql</span> &nbsp;<span
+                                            style="font-size:11px;color:var(--muted)">Task 1 queries</span></div>
+                                    <div><span class="ft-sql">database-rebuild.sql</span> &nbsp;<span
+                                            style="font-size:11px;color:var(--muted)">Task 2 rebuild</span></div>
                                 </div>
-                                <div><span class="ft-html">📄 index.html</span> &nbsp;<span
-                                        style="font-size:11px;color:var(--muted)">← this reference file</span></div>
-                                <div><span class="ft-md">📄 README.md</span></div>
+                                <div><span class="ft-html">index.html</span> &nbsp;<span
+                                        style="font-size:11px;color:var(--muted)">reference dashboard</span></div>
+                                <div><span class="ft-md">README.md</span></div>
                             </div>
                         </div>
                     </div>
                 </div>
-
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">Possible Project Names</div>
@@ -1799,9 +1495,8 @@
                             <div
                                 style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--surface2);border-radius:8px;border:1px solid var(--border)">
                                 <span
-                                    style="font-family:var(--mono);font-size:13px;color:var(--accent)">sql-crud-studio</span>
-                                <span style="font-size:11px;color:var(--muted);margin-left:auto">recommended</span>
-                            </div>
+                                    style="font-family:var(--mono);font-size:13px;color:var(--accent)">sql-crud-studio</span><span
+                                    style="font-size:11px;color:var(--muted);margin-left:auto">recommended</span></div>
                             <div
                                 style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--surface2);border-radius:8px;border:1px solid var(--border)">
                                 <span
@@ -1817,22 +1512,14 @@
                                 <span
                                     style="font-family:var(--mono);font-size:13px;color:var(--text)">postgres-crud-workshop</span>
                             </div>
-                            <div
-                                style="display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--surface2);border-radius:8px;border:1px solid var(--border)">
-                                <span
-                                    style="font-family:var(--mono);font-size:13px;color:var(--text)">backend-dev-assignment2</span>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Grading checklist -->
             <div class="card" style="margin-top:1.5rem">
                 <div class="card-header">
-                    <div class="card-title">
-                        <span class="crud-badge crud-SELECT">GRADE</span>
-                        Grading Matrix Checklist
+                    <div class="card-title"><span class="crud-badge crud-SELECT">GRADE</span> Grading Matrix Checklist
                     </div>
                 </div>
                 <div class="card-body">
@@ -1842,19 +1529,16 @@
                                 style="font-family:var(--mono);font-size:12px;color:var(--accent);margin-bottom:12px;text-transform:uppercase;letter-spacing:0.06em">
                                 Objective 4 — Task 1 (SQL File)</p>
                             <ul class="checklist">
-                                <li><span class="check-icon check-done">✓</span>Single file named <code
-                                        style="font-family:var(--mono);font-size:12px;color:var(--accent3)">assignment2.sql</code>
-                                    inside <code
-                                        style="font-family:var(--mono);font-size:12px;color:var(--accent3)">database/</code>
+                                <li><span class="check-icon check-done">v</span>Single file named assignment2.sql inside
+                                    database/</li>
+                                <li><span class="check-icon check-done">v</span>Tony Stark INSERT works</li>
+                                <li><span class="check-icon check-done">v</span>Tony Stark UPDATE (account_type) works
                                 </li>
-                                <li><span class="check-icon check-done">✓</span>Tony Stark INSERT works</li>
-                                <li><span class="check-icon check-done">✓</span>Tony Stark UPDATE (account_type) works
+                                <li><span class="check-icon check-done">v</span>Tony Stark DELETE works</li>
+                                <li><span class="check-icon check-done">v</span>GM Hummer description UPDATE works</li>
+                                <li><span class="check-icon check-done">v</span>INNER JOIN SELECT returns 2+ Sport rows
                                 </li>
-                                <li><span class="check-icon check-done">✓</span>Tony Stark DELETE works</li>
-                                <li><span class="check-icon check-done">✓</span>GM Hummer description UPDATE works</li>
-                                <li><span class="check-icon check-done">✓</span>INNER JOIN SELECT returns 2+ Sport rows
-                                </li>
-                                <li><span class="check-icon check-done">✓</span>inv_image &amp; inv_thumbnail UPDATE
+                                <li><span class="check-icon check-done">v</span>inv_image &amp; inv_thumbnail UPDATE
                                     works</li>
                             </ul>
                         </div>
@@ -1866,16 +1550,14 @@
                                 <li><span class="check-icon check-info">i</span>Video shows database delete &amp;
                                     restore (under 4 min)</li>
                                 <li><span class="check-icon check-info">i</span>Video narrated in your own voice</li>
-                                <li><span class="check-icon check-done">✓</span>database-rebuild.sql file present &amp;
+                                <li><span class="check-icon check-done">v</span>database-rebuild.sql file present &amp;
                                     works</li>
-                                <li><span class="check-icon check-done">✓</span>Both SQL files in <code
-                                        style="font-family:var(--mono);font-size:12px;color:var(--accent3)">database/</code>
-                                    folder</li>
+                                <li><span class="check-icon check-done">v</span>Both SQL files in database/ folder</li>
                                 <li><span class="check-icon check-info">i</span>YouTube URL submitted as unlisted video
                                 </li>
                                 <li><span class="check-icon check-info">i</span>GitHub repository URL submitted</li>
-                                <li><span class="check-icon check-warn">!</span>Production URL note: NOT required for
-                                    Assign. 2</li>
+                                <li><span class="check-icon check-warn">!</span>Production URL not required for
+                                    Assignment 2</li>
                             </ul>
                         </div>
                     </div>
@@ -1885,7 +1567,6 @@
 
     </main>
 
-    <!-- Toast -->
     <div id="toast">
         <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
             <polyline points="20 6 9 17 4 12" />
@@ -1894,64 +1575,48 @@
     </div>
 
     <script>
-        /* ── Query tabs ── */
         function showQuery(btn, panelId) {
-            document.querySelectorAll('.q-tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.query-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.q-tab').forEach(function (t) { t.classList.remove('active'); });
+            document.querySelectorAll('.query-panel').forEach(function (p) { p.classList.remove('active'); });
             btn.classList.add('active');
             document.getElementById(panelId).classList.add('active');
         }
 
-        /* ── Copy code ── */
         function copyCode(btn, preId) {
-            const pre = document.getElementById(preId);
-            const text = pre.innerText;
-            navigator.clipboard.writeText(text).then(() => {
-                const orig = btn.innerHTML;
+            var pre = document.getElementById(preId);
+            var text = pre.innerText;
+            navigator.clipboard.writeText(text).then(function () {
+                var orig = btn.innerHTML;
                 btn.innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Copied!';
                 btn.classList.add('copied');
                 showToast();
-                setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('copied'); }, 2000);
-            });
-        }
-
-        function copyAll(btn) {
-            const allSQL = document.getElementById('code-all').innerText;
-            navigator.clipboard.writeText(allSQL).then(() => {
-                const orig = btn.innerHTML;
-                btn.innerHTML = '<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg> Copied All!';
-                showToast();
-                setTimeout(() => { btn.innerHTML = orig; }, 2000);
+                setTimeout(function () { btn.innerHTML = orig; btn.classList.remove('copied'); }, 2000);
             });
         }
 
         function showToast() {
-            const t = document.getElementById('toast');
+            var t = document.getElementById('toast');
             t.classList.add('show');
-            setTimeout(() => t.classList.remove('show'), 2500);
+            setTimeout(function () { t.classList.remove('show'); }, 2500);
         }
 
-        /* ── Animate progress bars on load ── */
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                document.querySelectorAll('.progress-bar-fill[data-to]').forEach((bar, i) => {
-                    setTimeout(() => {
-                        bar.style.width = bar.dataset.to + '%';
-                    }, i * 120);
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(function () {
+                document.querySelectorAll('.progress-bar-fill[data-to]').forEach(function (bar, i) {
+                    setTimeout(function () { bar.style.width = bar.getAttribute('data-to') + '%'; }, i * 120);
                 });
             }, 300);
         });
 
-        /* ── Smooth nav active state ── */
-        const navLinks = document.querySelectorAll('nav a');
-        window.addEventListener('scroll', () => {
-            const sections = ['task1', 'task2', 'schema', 'files'];
-            let current = 'task1';
-            sections.forEach(id => {
-                const el = document.getElementById(id);
-                if (el && window.scrollY >= el.offsetTop - 120) current = id;
+        var navLinks = document.querySelectorAll('nav a');
+        window.addEventListener('scroll', function () {
+            var sections = ['task1', 'task2', 'schema', 'files'];
+            var current = 'task1';
+            sections.forEach(function (id) {
+                var el = document.getElementById(id);
+                if (el && window.scrollY >= el.offsetTop - 120) { current = id; }
             });
-            navLinks.forEach(a => {
+            navLinks.forEach(function (a) {
                 a.classList.toggle('active', a.getAttribute('href') === '#' + current);
             });
         });
