@@ -1,13 +1,13 @@
--- =============================================================
--- Assignment 2 - Web Backend Development (CSE 340)
--- Task Two: Database Rebuild File
--- Creates the PostgreSQL type, all three tables, and inserts data
--- Run this file to completely rebuild the database from scratch
--- =============================================================
--- -------------------------------------------------------
--- DROP existing tables (safe rebuild order)
--- -------------------------------------------------------
-DROP TABLE IF EXISTS inventory CASCADE;
+SET -- =============================================================
+    -- Assignment 2 - Web Backend Development (CSE 340)
+    -- Task Two: Database Rebuild File
+    -- Creates the PostgreSQL type, all three tables, and inserts data
+    -- Run this file to completely rebuild the database from scratch
+    -- =============================================================
+    -- -------------------------------------------------------
+    -- DROP existing tables (safe rebuild order)
+    -- -------------------------------------------------------
+    DROP TABLE IF EXISTS inventory CASCADE;
 DROP TABLE IF EXISTS classification CASCADE;
 DROP TABLE IF EXISTS account CASCADE;
 DROP TYPE IF EXISTS account_type CASCADE;
@@ -125,7 +125,7 @@ VALUES -- Custom (id=1)
         'Delorean',
         'DMC-12',
         1981,
-        'Back to the Future edition — flux capacitor included. Stainless steel body, gull-wing doors.',
+        'Back to the Future edition - flux capacitor included. Stainless steel body, gull-wing doors.',
         '/images/vehicles/delorean.jpg',
         '/images/vehicles/tn-delorean.jpg',
         45000,
