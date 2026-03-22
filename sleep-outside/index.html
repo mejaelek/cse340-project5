@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sleep Outside – Premium Camping & Hiking Gear</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --forest: #1a3a2a;
+            --moss: #3d6b4f;
+            --sage: #7aab8a;
+            --cream: #f5f0e8;
+            --sand: #e8dfc8;
+            --bark: #6b4f3a;
+            --stone: #8c8880;
+            --warning: #c85a1e;
+            --white: #ffffff;
+            --text-dark: #1a1a16;
+            --text-mid: #4a4a40;
+            --text-light: #8c8c80;
+            --card-border: rgba(26, 58, 42, 0.12);
+            --radius: 10px;
+            --transition: 0.2s ease;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+
+        /* ── Header ── */
+        header {
+            background: var(--forest);
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.4rem;
+            color: var(--cream);
+            letter-spacing: 0.5px;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--sage);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        nav a {
+            color: var(--sand);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 0.4rem 0.75rem;
+            border-radius: 6px;
+            opacity: 0.85;
+            transition: all var(--transition);
+        }
+
+        nav a:hover {
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .cart-btn {
+            background: var(--moss);
+            color: var(--cream);
+            border: none;
+            padding: 0.45rem 1rem;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            margin-left: 0.75rem;
+            transition: background var(--transition);
+        }
+
+        .cart-btn:hover {
+            background: var(--sage);
+        }
+
+        /* ── Hero ── */
+        .hero {
+            background: var(--forest);
+            padding: 5rem 2rem 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 60% 40%, rgba(61, 107, 79, 0.5) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-eyebrow {
+            font-size: 0.78rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--sage);
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: clamp(2.4rem, 6vw, 4rem);
+            color: var(--cream);
+            line-height: 1.1;
+            margin-bottom: 1.25rem;
+            max-width: 680px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--sage);
+        }
+
+        .hero p {
+            color: rgba(245, 240, 232, 0.7);
+            font-size: 1.05rem;
+            max-width: 480px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.6;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: var(--sage);
+            color: var(--forest);
+            border: none;
+            padding: 0.85rem 2rem;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all var(--transition);
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            background: var(--cream);
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--cream);
+            border: 1.5px solid rgba(255, 255, 255, 0.3);
+            padding: 0.85rem 2rem;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all var(--transition);
+            display: inline-block;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--sage);
+            color: var(--sage);
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3.5rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-num {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2rem;
+            color: var(--cream);
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.78rem;
+            color: var(--stone);
+            margin-top: 0.25rem;
+            letter-spacing: 0.5px;
+        }
+
+        /* ── Category Cards ── */
+        .section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .section-header h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.9rem;
+            color: var(--forest);
+        }
+
+        .section-header a {
+            font-size: 0.85rem;
+            color: var(--moss);
+            text-decoration: none;
+            font-weight: 500;
+            border-bottom: 1px solid var(--moss);
+            padding-bottom: 1px;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .cat-card {
+            background: var(--white);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 1.5rem 1rem;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-dark);
+            transition: all var(--transition);
+            cursor: pointer;
+        }
+
+        .cat-card:hover {
+            border-color: var(--moss);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(26, 58, 42, 0.08);
+        }
+
+        .cat-icon {
+            font-size: 2.8rem;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        .cat-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .cat-count {
+            font-size: 0.78rem;
+            color: var(--text-light);
+        }
+
+        /* ── Feature Cards (Search & Compare) ── */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .feature-card {
+            border-radius: 14px;
+            padding: 2rem;
+            text-decoration: none;
+            color: inherit;
+            transition: transform var(--transition), box-shadow var(--transition);
+            display: block;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(26, 58, 42, 0.12);
+        }
+
+        .feature-card.dark {
+            background: var(--forest);
+            color: var(--cream);
+        }
+
+        .feature-card.light {
+            background: var(--white);
+            border: 1px solid var(--card-border);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .feature-card h3 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card.dark h3 {
+            color: var(--cream);
+        }
+
+        .feature-card.light h3 {
+            color: var(--forest);
+        }
+
+        .feature-card p {
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .feature-card.dark p {
+            color: rgba(245, 240, 232, 0.7);
+        }
+
+        .feature-card.light p {
+            color: var(--text-mid);
+        }
+
+        .feature-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            margin-top: 1.25rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .feature-card.dark .feature-link {
+            color: var(--sage);
+        }
+
+        .feature-card.light .feature-link {
+            color: var(--moss);
+        }
+
+        /* ── Featured Products ── */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            border: 1px solid var(--card-border);
+            overflow: hidden;
+            transition: transform var(--transition), box-shadow var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(26, 58, 42, 0.1);
+        }
+
+        .card-img {
+            width: 100%;
+            aspect-ratio: 4/3;
+            background: var(--cream);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            position: relative;
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 0.6rem;
+            left: 0.6rem;
+            background: var(--warning);
+            color: var(--white);
+            font-size: 0.68rem;
+            font-weight: 600;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card-body {
+            padding: 0.9rem 1rem 0.75rem;
+            flex: 1;
+        }
+
+        .card-cat {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--moss);
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            margin-bottom: 0.3rem;
+        }
+
+        .card-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+            line-height: 1.4;
+            margin-bottom: 0.35rem;
+        }
+
+        .stars {
+            color: #e8a030;
+            font-size: 0.78rem;
+        }
+
+        .rating-count {
+            font-size: 0.72rem;
+            color: var(--text-light);
+            margin-left: 0.3rem;
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.65rem 1rem;
+            border-top: 1px solid var(--card-border);
+            background: var(--cream);
+        }
+
+        .card-price {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--forest);
+        }
+
+        .card-price .was {
+            font-size: 0.78rem;
+            font-weight: 400;
+            color: var(--text-light);
+            text-decoration: line-through;
+            margin-right: 0.35rem;
+        }
+
+        .add-btn {
+            background: var(--forest);
+            color: var(--cream);
+            border: none;
+            padding: 0.4rem 0.9rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            transition: background var(--transition);
+        }
+
+        .add-btn:hover {
+            background: var(--moss);
+        }
+
+        .add-btn.added {
+            background: var(--sage);
+        }
+
+        /* ── Banner ── */
+        .banner {
+            background: var(--sand);
+            border-top: 1px solid rgba(107, 79, 58, 0.15);
+            border-bottom: 1px solid rgba(107, 79, 58, 0.15);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .banner h2 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.8rem;
+            color: var(--forest);
+            margin-bottom: 0.5rem;
+        }
+
+        .banner p {
+            color: var(--text-mid);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .email-form {
+            display: flex;
+            gap: 0.5rem;
+            max-width: 400px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .email-form input {
+            flex: 1;
+            min-width: 200px;
+            padding: 0.75rem 1rem;
+            border: 1.5px solid var(--card-border);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-family: 'DM Sans', sans-serif;
+            outline: none;
+            background: var(--white);
+        }
+
+        .email-form input:focus {
+            border-color: var(--moss);
+        }
+
+        .email-form button {
+            background: var(--forest);
+            color: var(--cream);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+        }
+
+        /* ── Footer ── */
+        footer {
+            background: var(--forest);
+            color: rgba(245, 240, 232, 0.6);
+            padding: 2.5rem 2rem;
+            text-align: center;
+        }
+
+        footer .logo {
+            color: var(--cream);
+            font-size: 1.2rem;
+            display: inline-block;
+            margin-bottom: 0.75rem;
+        }
+
+        footer p {
+            font-size: 0.82rem;
+        }
+
+        footer nav {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        footer nav a {
+            color: rgba(245, 240, 232, 0.5);
+            text-decoration: none;
+            font-size: 0.82rem;
+            transition: color var(--transition);
+        }
+
+        footer nav a:hover {
+            color: var(--sage);
+        }
+
+        /* ── Divider ── */
+        .divider-section {
+            height: 1px;
+            background: var(--card-border);
+            margin: 0 2rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <a class="logo" href="index.html">Sleep<span>Outside</span></a>
+        <nav>
+            <a href="#">Tents</a>
+            <a href="#">Sleeping Bags</a>
+            <a href="#">Backpacks</a>
+            <a href="#">Accessories</a>
+            <a href="pages/product-search.html">Search</a>
+            <a href="pages/product-comparison.html">Compare</a>
+        </nav>
+        <button class="cart-btn" id="cart-btn">🛒 Cart (0)</button>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <p class="hero-eyebrow">New Season Collection</p>
+        <h1>Gear built for the <em>wild</em>, not the shelf</h1>
+        <p>Premium camping and hiking equipment for every trail, summit, and basecamp adventure.</p>
+        <div class="hero-btns">
+            <a href="pages/product-search.html" class="btn-primary">Shop All Gear</a>
+            <a href="pages/product-comparison.html" class="btn-outline">Compare Products</a>
+        </div>
+        <div class="hero-stats">
+            <div class="stat">
+                <div class="stat-num">200+</div>
+                <div class="stat-label">Products</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">4.8★</div>
+                <div class="stat-label">Avg. Rating</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">Free</div>
+                <div class="stat-label">Shipping $75+</div>
+            </div>
+            <div class="stat">
+                <div class="stat-num">Lifetime</div>
+                <div class="stat-label">Warranty</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <div class="section">
+        <div class="section-header">
+            <h2>Shop by Category</h2>
+            <a href="pages/product-search.html">View all →</a>
+        </div>
+        <div class="category-grid">
+            <a class="cat-card" href="pages/product-search.html">
+                <span class="cat-icon">⛺</span>
+                <div class="cat-name">Tents</div>
+                <div class="cat-count">5 products</div>
+            </a>
+            <a class="cat-card" href="pages/product-search.html">
+                <span class="cat-icon">🛌</span>
+                <div class="cat-name">Sleeping Bags</div>
+                <div class="cat-count">5 products</div>
+            </a>
+            <a class="cat-card" href="pages/product-search.html">
+                <span class="cat-icon">🎒</span>
+                <div class="cat-name">Backpacks</div>
+                <div class="cat-count">5 products</div>
+            </a>
+            <a class="cat-card" href="pages/product-search.html">
+                <span class="cat-icon">🔦</span>
+                <div class="cat-name">Accessories</div>
+                <div class="cat-count">9 products</div>
+            </a>
+            <a class="cat-card" href="pages/product-search.html">
+                <span class="cat-icon">🏷️</span>
+                <div class="cat-name">Sale</div>
+                <div class="cat-count">4 items on sale</div>
+            </a>
+        </div>
+    </div>
+
+    <div class="divider-section"></div>
+
+    <!-- Tools Feature Block -->
+    <div class="section">
+        <div class="section-header">
+            <h2>Find the Right Gear</h2>
+        </div>
+        <div class="feature-grid">
+            <a class="feature-card dark" href="pages/product-search.html">
+                <span class="feature-icon">🔍</span>
+                <h3>Search & Filter</h3>
+                <p>Browse all 24 products with live search, category filters, price range, and smart sorting — find
+                    exactly what you need in seconds.</p>
+                <span class="feature-link">Start searching →</span>
+            </a>
+            <a class="feature-card light" href="pages/product-comparison.html">
+                <span class="feature-icon">⚖️</span>
+                <h3>Compare Products</h3>
+                <p>Select 2–4 products side-by-side and compare specs like weight, waterproofing, warranty, and rating
+                    to make the best choice.</p>
+                <span class="feature-link">Compare now →</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="divider-section"></div>
+
+    <!-- Featured Products -->
+    <div class="section">
+        <div class="section-header">
+            <h2>Best Sellers</h2>
+            <a href="pages/product-search.html">See all products →</a>
+        </div>
+        <div class="product-grid" id="featured-grid"></div>
+    </div>
+
+    <!-- Newsletter Banner -->
+    <div class="banner">
+        <h2>Get trail-ready deals</h2>
+        <p>Sign up for early access to sales, new arrivals, and gear guides.</p>
+        <div class="email-form">
+            <input type="email" placeholder="your@email.com" />
+            <button onclick="this.textContent='✓ Signed up!'; this.style.background='#7aab8a'">Sign Up</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <a class="logo" href="index.html">Sleep<span style="color:var(--sage)">Outside</span></a>
+        <p>Premium camping gear for every adventure.</p>
+        <nav>
+            <a href="pages/product-search.html">Shop</a>
+            <a href="pages/product-comparison.html">Compare</a>
+            <a href="#">About</a>
+            <a href="#">Shipping</a>
+            <a href="#">Returns</a>
+            <a href="#">Contact</a>
+        </nav>
+    </footer>
+
+    <script>
+        const featured = [
+            { name: 'Summit Ridge 2-Person Tent', category: 'tent', price: 319, rating: 4.9, reviews: 204, emoji: '⛺', badge: 'BEST SELLER' },
+            { name: 'Water Filter Straw', category: 'accessory', price: 31, was: 39, rating: 4.9, reviews: 1204, emoji: '🚰', badge: 'SALE' },
+            { name: 'Ultralight Quilt 35°F', category: 'sleeping-bag', price: 189, rating: 4.8, reviews: 267, emoji: '🛏️', badge: 'NEW' },
+            { name: 'UltraRace 20L Vest', category: 'backpack', price: 149, rating: 4.8, reviews: 311, emoji: '🎽', badge: null },
+            { name: 'Headlamp 350 Lumen', category: 'accessory', price: 49, rating: 4.8, reviews: 673, emoji: '🔦', badge: null },
+            { name: 'Basecamp 4-Person Tent', category: 'tent', price: 249, rating: 4.8, reviews: 312, emoji: '⛺', badge: null },
+            { name: 'Mummy 20°F Sleeping Bag', category: 'sleeping-bag', price: 129, rating: 4.7, reviews: 541, emoji: '🛌', badge: null },
+            { name: 'Ridgeline 65L Pack', category: 'backpack', price: 189, rating: 4.7, reviews: 389, emoji: '🎒', badge: null },
+        ];
+
+        let cartCount = 0;
+
+        function starsHtml(r) {
+            const f = Math.round(r);
+            return '★'.repeat(f) + '☆'.repeat(5 - f);
+        }
+
+        document.getElementById('featured-grid').innerHTML = featured.map((p, i) => `
+  <div class="product-card">
+    <div class="card-img">
+      ${p.emoji}
+      ${p.badge ? `<span class="card-badge">${p.badge}</span>` : ''}
+    </div>
+    <div class="card-body">
+      <div class="card-cat">${p.category.replace('-', ' ')}</div>
+      <div class="card-name">${p.name}</div>
+      <div>
+        <span class="stars">${starsHtml(p.rating)}</span>
+        <span class="rating-count">${p.rating} (${p.reviews.toLocaleString()})</span>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="card-price">
+        ${p.was ? `<span class="was">$${p.was}</span>` : ''}$${p.price}
+      </div>
+      <button class="add-btn" id="btn-${i}" onclick="addToCart(${i}, '${p.name}')">Add to Cart</button>
+    </div>
+  </div>
+`).join('');
+
+        function addToCart(i, name) {
+            cartCount++;
+            const btn = document.getElementById('btn-' + i);
+            btn.textContent = '✓ Added';
+            btn.classList.add('added');
+            document.getElementById('cart-btn').textContent = `🛒 Cart (${cartCount})`;
+            setTimeout(() => { btn.textContent = 'Add to Cart'; btn.classList.remove('added'); }, 1500);
+        }
+    </script>
+</body>
+
+</html>

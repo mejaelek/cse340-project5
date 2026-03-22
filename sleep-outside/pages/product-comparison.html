@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sleep Outside – Compare Products</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --forest: #1a3a2a;
+            --moss: #3d6b4f;
+            --sage: #7aab8a;
+            --cream: #f5f0e8;
+            --sand: #e8dfc8;
+            --bark: #6b4f3a;
+            --stone: #8c8880;
+            --warning: #c85a1e;
+            --white: #ffffff;
+            --text-dark: #1a1a16;
+            --text-mid: #4a4a40;
+            --text-light: #8c8c80;
+            --card-border: rgba(26, 58, 42, 0.12);
+            --radius: 10px;
+            --transition: 0.2s ease;
+            --best: #2d7a50;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+
+        header {
+            background: var(--forest);
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .logo {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.4rem;
+            color: var(--cream);
+        }
+
+        .logo span {
+            color: var(--sage);
+        }
+
+        .page {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2.5rem 1.5rem;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-header h1 {
+            font-family: 'DM Serif Display', serif;
+            font-size: 2rem;
+            color: var(--forest);
+            margin-bottom: 0.4rem;
+        }
+
+        .page-header p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        .tab-row {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 0.45rem 1.1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1.5px solid var(--card-border);
+            background: transparent;
+            color: var(--text-mid);
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            transition: all var(--transition);
+        }
+
+        .tab:hover {
+            border-color: var(--moss);
+            color: var(--moss);
+        }
+
+        .tab.active {
+            background: var(--forest);
+            color: var(--cream);
+            border-color: var(--forest);
+        }
+
+        .picker-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 0.85rem;
+            margin-bottom: 2rem;
+        }
+
+        .picker-card {
+            background: var(--white);
+            border: 1.5px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 0.9rem;
+            cursor: pointer;
+            transition: all var(--transition);
+            text-align: center;
+            position: relative;
+        }
+
+        .picker-card:hover {
+            border-color: var(--moss);
+        }
+
+        .picker-card.selected {
+            border-color: var(--forest);
+            background: #f0f7f2;
+        }
+
+        .picker-card .emoji {
+            font-size: 2rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .picker-card .p-name {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            line-height: 1.3;
+        }
+
+        .picker-card .p-price {
+            font-size: 0.85rem;
+            color: var(--moss);
+            font-weight: 600;
+            margin-top: 0.3rem;
+        }
+
+        .picker-card .checkmark {
+            display: none;
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: var(--forest);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            font-size: 0.65rem;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .picker-card.selected .checkmark {
+            display: flex;
+        }
+
+        .compare-action {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .selected-info {
+            font-size: 0.9rem;
+            color: var(--text-mid);
+        }
+
+        .selected-info strong {
+            color: var(--forest);
+        }
+
+        .btn-compare {
+            background: var(--forest);
+            color: var(--cream);
+            border: none;
+            padding: 0.7rem 1.8rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            transition: background var(--transition);
+        }
+
+        .btn-compare:hover {
+            background: var(--moss);
+        }
+
+        .btn-compare:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .btn-clear {
+            background: transparent;
+            color: var(--text-light);
+            border: 1.5px solid var(--card-border);
+            padding: 0.7rem 1.2rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+        }
+
+        .compare-table-wrap {
+            display: none;
+            margin-top: 1rem;
+        }
+
+        .compare-table-wrap.visible {
+            display: block;
+        }
+
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--white);
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--card-border);
+        }
+
+        .compare-table th,
+        .compare-table td {
+            padding: 1rem 1.1rem;
+            text-align: left;
+            font-size: 0.87rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .compare-table thead th:first-child {
+            background: var(--cream);
+            color: var(--text-light);
+            font-weight: 500;
+            font-size: 0.78rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            width: 160px;
+        }
+
+        .compare-table thead th:not(:first-child) {
+            background: var(--forest);
+            color: var(--cream);
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .compare-table thead th.winner-col {
+            background: var(--best);
+        }
+
+        .compare-table tbody tr:nth-child(even) td {
+            background: #fafaf7;
+        }
+
+        .compare-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .compare-table td:first-child {
+            font-weight: 500;
+            color: var(--text-mid);
+            background: var(--cream);
+            font-size: 0.82rem;
+        }
+
+        .compare-table td:not(:first-child) {
+            text-align: center;
+            color: var(--text-dark);
+        }
+
+        .best-value {
+            background: #f0f9f4 !important;
+            color: var(--best);
+            font-weight: 600;
+        }
+
+        .pill {
+            display: inline-block;
+            padding: 0.2rem 0.65rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .pill-yes {
+            background: #e6f4ec;
+            color: #2d7a50;
+        }
+
+        .pill-no {
+            background: #f5ebe6;
+            color: var(--warning);
+        }
+
+        .stars {
+            color: #e8a030;
+        }
+
+        .winner-banner {
+            display: none;
+            margin-top: 1.5rem;
+            background: linear-gradient(135deg, var(--forest) 0%, var(--moss) 100%);
+            color: var(--cream);
+            border-radius: var(--radius);
+            padding: 1.2rem 1.5rem;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .winner-banner.visible {
+            display: flex;
+        }
+
+        .winner-banner .trophy {
+            font-size: 2rem;
+        }
+
+        .winner-banner h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.15rem;
+        }
+
+        .winner-banner p {
+            font-size: 0.85rem;
+            color: var(--sage);
+        }
+
+        .winner-banner .add-winner {
+            margin-left: auto;
+            background: var(--cream);
+            color: var(--forest);
+            border: none;
+            padding: 0.55rem 1.2rem;
+            border-radius: 7px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">Sleep<span>Outside</span></div>
+        <span style="color:var(--sand);font-size:0.9rem;font-weight:500;">Product Comparison Tool</span>
+    </header>
+
+    <div class="page">
+        <div class="page-header">
+            <h1>Compare Products</h1>
+            <p>Select 2–4 products to compare side-by-side. Pick a category to get started.</p>
+        </div>
+
+        <div class="tab-row" id="tabs">
+            <button class="tab active" data-cat="tent">Tents</button>
+            <button class="tab" data-cat="sleeping-bag">Sleeping Bags</button>
+            <button class="tab" data-cat="backpack">Backpacks</button>
+            <button class="tab" data-cat="accessory">Accessories</button>
+        </div>
+
+        <div class="picker-grid" id="picker-grid"></div>
+
+        <div class="compare-action">
+            <div class="selected-info" id="selected-info">Select <strong>2–4 products</strong> to compare</div>
+            <div style="display:flex;gap:0.6rem;">
+                <button class="btn-clear" onclick="clearSelection()">Clear</button>
+                <button class="btn-compare" id="btn-compare" disabled onclick="showComparison()">Compare
+                    Selected</button>
+            </div>
+        </div>
+
+        <div class="compare-table-wrap" id="compare-table-wrap">
+            <div style="overflow-x:auto;">
+                <table class="compare-table" id="compare-table"></table>
+            </div>
+            <div class="winner-banner" id="winner-banner">
+                <div class="trophy">🏆</div>
+                <div>
+                    <h3 id="winner-title">Best Overall Pick</h3>
+                    <p id="winner-reason"></p>
+                </div>
+                <button class="add-winner" onclick="alert('Added to cart!')">Add to Cart →</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const catalog = {
+            tent: [
+                { id: 't1', name: 'Basecamp 4-Person Tent', emoji: '⛺', price: 249, weight: '8.5 lbs', seasons: '3-season', waterproof: '3000mm', capacity: '4 person', setup: '15 min', warranty: 'Lifetime', rating: 4.8, vestibule: true, footprint: true },
+                { id: 't2', name: 'Alpine Solo Bivy', emoji: '🏕️', price: 179, weight: '2.2 lbs', seasons: '3-season', waterproof: '2000mm', capacity: '1 person', setup: '3 min', warranty: '3 years', rating: 4.6, vestibule: false, footprint: false },
+                { id: 't3', name: 'Summit Ridge 2-Person', emoji: '⛺', price: 319, weight: '5.1 lbs', seasons: '4-season', waterproof: '5000mm', capacity: '2 person', setup: '10 min', warranty: 'Lifetime', rating: 4.9, vestibule: true, footprint: true },
+                { id: 't4', name: 'Trail Trekker Backpacking', emoji: '🏕️', price: 189, weight: '3.8 lbs', seasons: '3-season', waterproof: '2500mm', capacity: '2 person', setup: '8 min', warranty: '2 years', rating: 4.5, vestibule: true, footprint: false },
+                { id: 't5', name: 'StormShield Family', emoji: '⛺', price: 399, weight: '14 lbs', seasons: '3-season', waterproof: '3000mm', capacity: '6 person', setup: '25 min', warranty: '5 years', rating: 4.7, vestibule: true, footprint: true },
+            ],
+            'sleeping-bag': [
+                { id: 's1', name: 'Mummy 20°F Bag', emoji: '🛌', price: 129, weight: '2.8 lbs', fill: 'Down 600', rating_temp: '20°F', seasons: '3-season', warranty: 'Lifetime', rating: 4.7, hood: true, draftcollar: true, zipper: 'Left/Right', material: 'Ripstop nylon' },
+                { id: 's2', name: 'Ultralight Quilt 35°F', emoji: '🛏️', price: 189, weight: '1.3 lbs', fill: 'Down 850', rating_temp: '35°F', seasons: '3-season', warranty: 'Lifetime', rating: 4.8, hood: false, draftcollar: false, zipper: 'Side snap', material: '20D nylon' },
+                { id: 's3', name: 'Basecamp 0°F Bag', emoji: '🛌', price: 249, weight: '4.1 lbs', fill: 'Synthetic', rating_temp: '0°F', seasons: '4-season', warranty: '5 years', rating: 4.9, hood: true, draftcollar: true, zipper: 'Left', material: 'Polyester' },
+                { id: 's4', name: 'Kids Dino 30°F', emoji: '🦕', price: 59, weight: '2.0 lbs', fill: 'Synthetic', rating_temp: '30°F', seasons: '3-season', warranty: '2 years', rating: 4.6, hood: true, draftcollar: false, zipper: 'Left', material: 'Polyester' },
+                { id: 's5', name: 'Couples Double 30°F', emoji: '🛏️', price: 219, weight: '5.2 lbs', fill: 'Down 700', rating_temp: '30°F', seasons: '3-season', warranty: '3 years', rating: 4.5, hood: false, draftcollar: true, zipper: 'Zip-together', material: 'Ripstop nylon' },
+            ],
+            backpack: [
+                { id: 'b1', name: 'Ridgeline 65L Pack', emoji: '🎒', price: 189, weight: '4.5 lbs', capacity: '65L', frameType: 'Internal', hipBelt: true, raincover: true, warranty: 'Lifetime', rating: 4.7, hydration: true, laptop: false, material: '210D nylon' },
+                { id: 'b2', name: 'Summit 45L Daypack', emoji: '🎒', price: 129, weight: '2.8 lbs', capacity: '45L', frameType: 'Internal', hipBelt: true, raincover: true, warranty: 'Lifetime', rating: 4.6, hydration: true, laptop: true, material: '420D polyester' },
+                { id: 'b3', name: 'UltraRace 20L Vest', emoji: '🎽', price: 149, weight: '0.9 lbs', capacity: '20L', frameType: 'Frameless', hipBelt: false, raincover: false, warranty: '2 years', rating: 4.8, hydration: true, laptop: false, material: '100D ripstop' },
+                { id: 'b4', name: 'Family Hauler 80L', emoji: '🎒', price: 259, weight: '6.2 lbs', capacity: '80L', frameType: 'External', hipBelt: true, raincover: true, warranty: '5 years', rating: 4.5, hydration: true, laptop: false, material: '600D polyester' },
+                { id: 'b5', name: 'Kids Adventure 18L', emoji: '🎒', price: 69, weight: '1.1 lbs', capacity: '18L', frameType: 'Frameless', hipBelt: false, raincover: true, warranty: '2 years', rating: 4.7, hydration: false, laptop: false, material: '300D polyester' },
+            ],
+            accessory: [
+                { id: 'a1', name: 'Titanium Spork Set', emoji: '🍴', price: 19, weight: '0.6 oz', material: 'Grade-1 Titanium', warranty: 'Lifetime', rating: 4.5, quantity: '2-pack', dishwasherSafe: true },
+                { id: 'a2', name: 'Water Filter Straw', emoji: '🚰', price: 39, weight: '2 oz', material: 'Hollow fiber', warranty: 'Lifetime', rating: 4.9, quantity: 'Single', dishwasherSafe: false },
+                { id: 'a3', name: 'Headlamp 350 Lumen', emoji: '🔦', price: 49, weight: '3.2 oz', material: 'ABS plastic', warranty: '3 years', rating: 4.8, quantity: 'Single', dishwasherSafe: false },
+                { id: 'a4', name: 'Camp Stove Backpacking', emoji: '🔥', price: 69, weight: '2.9 oz', material: 'Stainless/Alum', warranty: '2 years', rating: 4.7, quantity: 'Single', dishwasherSafe: false },
+                { id: 'a5', name: 'Bear Canister 700', emoji: '🐻', price: 79, weight: '2.8 lbs', material: 'Polycarbonate', warranty: 'Lifetime', rating: 4.8, quantity: 'Single', dishwasherSafe: true },
+            ],
+        };
+
+        const rowDefs = {
+            tent: [
+                { key: 'price', label: 'Price', fmt: v => `$${v}`, best: 'min' },
+                { key: 'weight', label: 'Weight', best: 'none' },
+                { key: 'seasons', label: 'Season Rating', best: 'none' },
+                { key: 'waterproof', label: 'Waterproofing', best: 'none' },
+                { key: 'capacity', label: 'Capacity', best: 'none' },
+                { key: 'setup', label: 'Setup Time', best: 'none' },
+                { key: 'vestibule', label: 'Vestibule', fmt: v => v ? '<span class="pill pill-yes">Yes</span>' : '<span class="pill pill-no">No</span>', best: 'bool' },
+                { key: 'footprint', label: 'Footprint Incl.', fmt: v => v ? '<span class="pill pill-yes">Yes</span>' : '<span class="pill pill-no">No</span>', best: 'bool' },
+                { key: 'warranty', label: 'Warranty', best: 'none' },
+                { key: 'rating', label: 'Rating', fmt: v => `<span class="stars">★</span> ${v}`, best: 'max' },
+            ],
+            'sleeping-bag': [
+                { key: 'price', label: 'Price', fmt: v => `$${v}`, best: 'min' },
+                { key: 'weight', label: 'Weight', best: 'none' },
+                { key: 'fill', label: 'Fill Type', best: 'none' },
+                { key: 'rating_temp', label: 'Temp Rating', best: 'none' },
+                { key: 'seasons', label: 'Season Rating', best: 'none' },
+                { key: 'hood', label: 'Insulated Hood', fmt: v => v ? '<span class="pill pill-yes">Yes</span>' : '<span class="pill pill-no">No</span>', best: 'bool' },
+                { key: 'draftcollar', label: 'Draft Collar', fmt: v => v ? '<span class="pill pill-yes">Yes</span>' : '<span class="pill pill-no">No</span>', best: 'bool' },
+                { key: 'zipper', label: 'Zipper Type', best: 'none' },
+                { key: 'warranty', label: 'Warranty', best: 'none' },
+                { key: 'rating', label: 'Rating', fmt: v => `<span class="stars">★</span> ${v}`, best: 'max' },
+            ],
+            backpack: [
+                { key: 'price', label: 'Price', fmt: v => `$${v}`, best: 'min' },
+                { key: 'weight', label: 'Weight', best: 'none' },
+                { key: 'capacity', label: 'Capacity', best: 'none' },
+                { key: 'frameType', label: 'Frame Type', best: 'none' },
+                { key: 'hipBelt', label: 'Hip Belt', fmt: v => v ? '<span class="pill pill-yes">Yes</span>' : '<span class="pill pill-no">No</span>', best: 'bool' },
+                { key: 'raincover', label: 'Rain Cover Incl.', fmt: v => v ? '<span class="pill pill-yes">Yes</span>' : '<span class="pill pill-no">No</span>', best: 'bool' },
+                { key: 'hydration', label: 'Hydration Compat.', fmt: v => v ? '<span class="pill pill-yes">Yes</span>' : '<span class="pill pill-no">No</span>', best: 'bool' },
+                { key: 'laptop', label: 'Laptop Sleeve', fmt: v => v ? '<span class="pill pill-yes">Yes</span>' : '<span class="pill pill-no">No</span>', best: 'bool' },
+                { key: 'warranty', label: 'Warranty', best: 'none' },
+                { key: 'rating', label: 'Rating', fmt: v => `<span class="stars">★</span> ${v}`, best: 'max' },
+            ],
+            accessory: [
+                { key: 'price', label: 'Price', fmt: v => `$${v}`, best: 'min' },
+                { key: 'weight', label: 'Weight', best: 'none' },
+                { key: 'material', label: 'Material', best: 'none' },
+                { key: 'quantity', label: 'Quantity', best: 'none' },
+                { key: 'dishwasherSafe', label: 'Dishwasher Safe', fmt: v => v ? '<span class="pill pill-yes">Yes</span>' : '<span class="pill pill-no">No</span>', best: 'none' },
+                { key: 'warranty', label: 'Warranty', best: 'none' },
+                { key: 'rating', label: 'Rating', fmt: v => `<span class="stars">★</span> ${v}`, best: 'max' },
+            ],
+        };
+
+        let activeCategory = 'tent';
+        let selected = new Set();
+
+        function renderPicker() {
+            selected.clear();
+            updateCompareBtn();
+            document.getElementById('picker-grid').innerHTML = catalog[activeCategory].map(p => `
+    <div class="picker-card" data-id="${p.id}" onclick="toggleSelect('${p.id}')">
+      <div class="checkmark">✓</div>
+      <div class="emoji">${p.emoji}</div>
+      <div class="p-name">${p.name}</div>
+      <div class="p-price">$${p.price}</div>
+    </div>
+  `).join('');
+        }
+
+        function toggleSelect(id) {
+            const card = document.querySelector(`.picker-card[data-id="${id}"]`);
+            if (selected.has(id)) { selected.delete(id); card.classList.remove('selected'); }
+            else { if (selected.size >= 4) { alert('You can compare up to 4 products at a time.'); return; } selected.add(id); card.classList.add('selected'); }
+            updateCompareBtn();
+        }
+
+        function updateCompareBtn() {
+            const btn = document.getElementById('btn-compare');
+            const info = document.getElementById('selected-info');
+            const n = selected.size;
+            btn.disabled = n < 2;
+            if (n === 0) info.innerHTML = `Select <strong>2–4 products</strong> to compare`;
+            else if (n === 1) info.innerHTML = `<strong>1 selected</strong> — pick at least one more`;
+            else info.innerHTML = `<strong>${n} selected</strong> — ready to compare!`;
+        }
+
+        function clearSelection() {
+            selected.clear();
+            document.querySelectorAll('.picker-card').forEach(c => c.classList.remove('selected'));
+            updateCompareBtn();
+            document.getElementById('compare-table-wrap').classList.remove('visible');
+            document.getElementById('winner-banner').classList.remove('visible');
+        }
+
+        function showComparison() {
+            const items = catalog[activeCategory].filter(p => selected.has(p.id));
+            const rows = rowDefs[activeCategory];
+            const winnerIdx = items.reduce((bi, p, i) => p.rating > items[bi].rating ? i : bi, 0);
+
+            let html = '<thead><tr><th>Specification</th>';
+            items.forEach((p, i) => { html += `<th class="${i === winnerIdx ? 'winner-col' : ''}">${p.emoji} ${p.name}${i === winnerIdx ? ' 🏆' : ''}</th>`; });
+            html += '</tr></thead><tbody>';
+
+            rows.forEach(row => {
+                const vals = items.map(p => p[row.key]);
+                let bestIdx = -1;
+                if (row.best === 'min') { const mn = Math.min(...vals.filter(v => typeof v === 'number')); bestIdx = vals.indexOf(mn); }
+                else if (row.best === 'max') { const mx = Math.max(...vals.filter(v => typeof v === 'number')); bestIdx = vals.indexOf(mx); }
+                else if (row.best === 'bool') { const tc = vals.filter(Boolean).length; if (tc > 0 && tc < vals.length) bestIdx = vals.indexOf(true); }
+                html += `<tr><td>${row.label}</td>`;
+                vals.forEach((v, i) => { const display = row.fmt ? row.fmt(v) : (v === true ? '✓' : v === false ? '✗' : v); html += `<td class="${bestIdx === i ? 'best-value' : ''}">${display}</td>`; });
+                html += '</tr>';
+            });
+
+            html += '</tbody>';
+            document.getElementById('compare-table').innerHTML = html;
+            document.getElementById('compare-table-wrap').classList.add('visible');
+            const winner = items[winnerIdx];
+            document.getElementById('winner-title').textContent = `Best Pick: ${winner.name}`;
+            document.getElementById('winner-reason').textContent = `Highest rated at ★ ${winner.rating} — best combination of features for your ${activeCategory.replace('-', ' ')} needs.`;
+            document.getElementById('winner-banner').classList.add('visible');
+            document.getElementById('compare-table-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        document.querySelectorAll('#tabs .tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                activeCategory = tab.dataset.cat;
+                document.querySelectorAll('#tabs .tab').forEach(t => t.classList.toggle('active', t === tab));
+                document.getElementById('compare-table-wrap').classList.remove('visible');
+                document.getElementById('winner-banner').classList.remove('visible');
+                renderPicker();
+            });
+        });
+
+        renderPicker();
+    </script>
+</body>
+
+</html>

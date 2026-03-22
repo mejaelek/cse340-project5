@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sleep Outside – Product Search & Filter</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap"
+        rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --forest: #1a3a2a;
+            --moss: #3d6b4f;
+            --sage: #7aab8a;
+            --cream: #f5f0e8;
+            --sand: #e8dfc8;
+            --bark: #6b4f3a;
+            --stone: #8c8880;
+            --warning: #c85a1e;
+            --white: #ffffff;
+            --text-dark: #1a1a16;
+            --text-mid: #4a4a40;
+            --text-light: #8c8c80;
+            --card-border: rgba(26, 58, 42, 0.12);
+            --radius: 10px;
+            --transition: 0.2s ease;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            min-height: 100vh;
+        }
+
+        header {
+            background: var(--forest);
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: 'DM Serif Display', serif;
+            font-size: 1.4rem;
+            color: var(--cream);
+            letter-spacing: 0.5px;
+        }
+
+        .logo span {
+            color: var(--sage);
+        }
+
+        nav a {
+            color: var(--sand);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-left: 1.5rem;
+            opacity: 0.85;
+            transition: opacity var(--transition);
+        }
+
+        nav a:hover {
+            opacity: 1;
+        }
+
+        .cart-btn {
+            background: var(--moss);
+            color: var(--cream);
+            border: none;
+            padding: 0.45rem 1rem;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            margin-left: 1.5rem;
+        }
+
+        .search-hero {
+            background: linear-gradient(135deg, var(--forest) 0%, var(--moss) 100%);
+            padding: 3rem 2rem 2.5rem;
+            text-align: center;
+        }
+
+        .search-hero h1 {
+            font-family: 'DM Serif Display', serif;
+            color: var(--cream);
+            font-size: clamp(1.6rem, 4vw, 2.4rem);
+            margin-bottom: 0.5rem;
+        }
+
+        .search-hero p {
+            color: var(--sage);
+            font-size: 0.95rem;
+            margin-bottom: 1.8rem;
+        }
+
+        .search-bar-wrap {
+            max-width: 560px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        #search-input {
+            width: 100%;
+            padding: 0.9rem 1rem 0.9rem 3rem;
+            border: 2px solid transparent;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-family: 'DM Sans', sans-serif;
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--text-dark);
+            outline: none;
+            transition: border-color var(--transition);
+        }
+
+        #search-input:focus {
+            border-color: var(--sage);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--stone);
+            pointer-events: none;
+        }
+
+        .clear-btn {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--stone);
+            cursor: pointer;
+            font-size: 1.1rem;
+            line-height: 1;
+            display: none;
+        }
+
+        .clear-btn.visible {
+            display: block;
+        }
+
+        .filter-bar {
+            background: var(--white);
+            border-bottom: 1px solid var(--card-border);
+            padding: 0.85rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            position: sticky;
+            top: 64px;
+            z-index: 90;
+        }
+
+        .filter-label {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--text-light);
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+
+        .filter-chips {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .chip {
+            padding: 0.35rem 0.9rem;
+            border-radius: 50px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            border: 1.5px solid var(--card-border);
+            background: transparent;
+            color: var(--text-mid);
+            cursor: pointer;
+            transition: all var(--transition);
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .chip:hover {
+            border-color: var(--moss);
+            color: var(--moss);
+        }
+
+        .chip.active {
+            background: var(--forest);
+            color: var(--cream);
+            border-color: var(--forest);
+        }
+
+        .divider {
+            width: 1px;
+            height: 24px;
+            background: var(--card-border);
+        }
+
+        .sort-select {
+            margin-left: auto;
+            padding: 0.35rem 0.75rem;
+            border: 1.5px solid var(--card-border);
+            border-radius: 8px;
+            font-size: 0.82rem;
+            font-family: 'DM Sans', sans-serif;
+            color: var(--text-mid);
+            background: transparent;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .results-count {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            white-space: nowrap;
+        }
+
+        .price-range-wrap {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.82rem;
+            color: var(--text-mid);
+        }
+
+        .price-range-wrap input[type=range] {
+            width: 100px;
+            accent-color: var(--moss);
+        }
+
+        .catalog {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-light);
+            grid-column: 1 / -1;
+        }
+
+        .no-results h3 {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text-mid);
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            border: 1px solid var(--card-border);
+            overflow: hidden;
+            transition: transform var(--transition), box-shadow var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(26, 58, 42, 0.1);
+        }
+
+        .card-img {
+            width: 100%;
+            aspect-ratio: 4/3;
+            background: var(--cream);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            position: relative;
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 0.75rem;
+            left: 0.75rem;
+            background: var(--warning);
+            color: var(--white);
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.2rem 0.55rem;
+            border-radius: 4px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .card-body {
+            padding: 1rem 1rem 0.75rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-cat {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--moss);
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            margin-bottom: 0.35rem;
+        }
+
+        .card-name {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            line-height: 1.4;
+            margin-bottom: 0.4rem;
+            flex: 1;
+        }
+
+        .card-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .stars {
+            color: #e8a030;
+            font-size: 0.8rem;
+        }
+
+        .rating-count {
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1rem;
+            border-top: 1px solid var(--card-border);
+            background: var(--cream);
+        }
+
+        .card-price {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--forest);
+        }
+
+        .card-price .original {
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: var(--text-light);
+            text-decoration: line-through;
+            margin-right: 0.4rem;
+        }
+
+        .add-to-cart {
+            background: var(--forest);
+            color: var(--cream);
+            border: none;
+            padding: 0.45rem 1rem;
+            border-radius: 6px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            transition: background var(--transition);
+        }
+
+        .add-to-cart:hover {
+            background: var(--moss);
+        }
+
+        .add-to-cart.added {
+            background: var(--sage);
+        }
+
+        .active-filters {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            padding: 0.5rem 2rem;
+            background: var(--cream);
+            border-bottom: 1px solid var(--card-border);
+            display: none;
+        }
+
+        .active-filters.visible {
+            display: flex;
+        }
+
+        .filter-tag {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: var(--sand);
+            color: var(--bark);
+            font-size: 0.78rem;
+            font-weight: 500;
+            padding: 0.25rem 0.65rem;
+            border-radius: 50px;
+        }
+
+        .filter-tag button {
+            background: none;
+            border: none;
+            color: var(--bark);
+            cursor: pointer;
+            font-size: 0.9rem;
+            line-height: 1;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">Sleep<span>Outside</span></div>
+        <nav>
+            <a href="#">Tents</a>
+            <a href="#">Sleeping Bags</a>
+            <a href="#">Backpacks</a>
+            <a href="#">Sale</a>
+        </nav>
+        <button class="cart-btn">🛒 Cart (0)</button>
+    </header>
+
+    <div class="search-hero">
+        <h1>Find Your Perfect Gear</h1>
+        <p>Search over 200 camping &amp; hiking products</p>
+        <div class="search-bar-wrap">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2" stroke-linecap="round">
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.35-4.35" />
+            </svg>
+            <input type="text" id="search-input" placeholder="Search tents, sleeping bags, backpacks…"
+                autocomplete="off" />
+            <button class="clear-btn" id="clear-btn" title="Clear search">✕</button>
+        </div>
+    </div>
+
+    <div class="filter-bar">
+        <span class="filter-label">Category</span>
+        <div class="filter-chips" id="cat-chips">
+            <button class="chip active" data-cat="all">All</button>
+            <button class="chip" data-cat="tent">Tents</button>
+            <button class="chip" data-cat="sleeping-bag">Sleeping Bags</button>
+            <button class="chip" data-cat="backpack">Backpacks</button>
+            <button class="chip" data-cat="accessory">Accessories</button>
+        </div>
+        <div class="divider"></div>
+        <span class="filter-label">Max Price</span>
+        <div class="price-range-wrap">
+            <span>$0</span>
+            <input type="range" id="price-range" min="0" max="800" value="800" step="10" />
+            <span id="price-label">$800+</span>
+        </div>
+        <div class="divider"></div>
+        <span class="results-count" id="results-count">24 products</span>
+        <select class="sort-select" id="sort-select">
+            <option value="featured">Featured</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="rating">Top Rated</option>
+            <option value="name">Name A–Z</option>
+        </select>
+    </div>
+
+    <div class="active-filters" id="active-filters"></div>
+
+    <div class="catalog">
+        <div class="product-grid" id="product-grid"></div>
+    </div>
+
+    <script>
+        const products = [
+            { id: 1, name: 'Basecamp 4-Person Tent', category: 'tent', price: 249, rating: 4.8, reviews: 312, emoji: '⛺', badge: null, desc: 'Season 3, freestanding dome' },
+            { id: 2, name: 'Alpine Solo Bivy', category: 'tent', price: 179, rating: 4.6, reviews: 128, emoji: '🏕️', badge: 'NEW', desc: 'Ultralight 1-person shelter' },
+            { id: 3, name: 'Summit Ridge 2-Person Tent', category: 'tent', price: 319, rating: 4.9, reviews: 204, emoji: '⛺', badge: 'BEST SELLER', desc: '4-season, waterproof 3000mm' },
+            { id: 4, name: 'Trail Trekker Backpacking Tent', category: 'tent', price: 189, rating: 4.5, reviews: 96, emoji: '🏕️', badge: null, desc: 'Lightweight, quick pitch' },
+            { id: 5, name: 'StormShield Family Tent', category: 'tent', price: 399, rating: 4.7, reviews: 178, emoji: '⛺', badge: null, desc: '6-person, divider wall included' },
+            { id: 6, name: 'Mummy 20°F Sleeping Bag', category: 'sleeping-bag', price: 129, rating: 4.7, reviews: 541, emoji: '🛌', badge: null, desc: 'Down fill, 3-season' },
+            { id: 7, name: 'Ultralight Quilt 35°F', category: 'sleeping-bag', price: 189, rating: 4.8, reviews: 267, emoji: '🛏️', badge: 'NEW', desc: '850-fill power down' },
+            { id: 8, name: 'Basecamp 0°F Bag', category: 'sleeping-bag', price: 249, rating: 4.9, reviews: 183, emoji: '🛌', badge: null, desc: 'Extreme cold, synthetic insulation' },
+            { id: 9, name: 'Kids Dino Sleeping Bag', category: 'sleeping-bag', price: 59, rating: 4.6, reviews: 412, emoji: '🦕', badge: 'SALE', desc: '30°F rating, washable' },
+            { id: 10, name: 'Couples Double Bag 30°F', category: 'sleeping-bag', price: 219, rating: 4.5, reviews: 98, emoji: '🛏️', badge: null, desc: 'Zip-together system, 2 persons' },
+            { id: 11, name: 'Ridgeline 65L Pack', category: 'backpack', price: 189, rating: 4.7, reviews: 389, emoji: '🎒', badge: null, desc: 'Internal frame, rain cover incl.' },
+            { id: 12, name: 'Summit 45L Daypack', category: 'backpack', price: 129, rating: 4.6, reviews: 224, emoji: '🎒', badge: 'BEST SELLER', desc: 'Hydration compatible, padded back' },
+            { id: 13, name: 'UltraRace 20L Vest', category: 'backpack', price: 149, rating: 4.8, reviews: 311, emoji: '🎽', badge: null, desc: 'Trail running, 2 soft flasks incl.' },
+            { id: 14, name: 'Family Hauler 80L', category: 'backpack', price: 259, rating: 4.5, reviews: 76, emoji: '🎒', badge: null, desc: 'Expedition, waist-belt pockets' },
+            { id: 15, name: 'Kids Adventure 18L', category: 'backpack', price: 69, rating: 4.7, reviews: 198, emoji: '🎒', badge: null, desc: 'Ergonomic, rain cover' },
+            { id: 16, name: 'Titanium Spork Set', category: 'accessory', price: 19, rating: 4.5, reviews: 832, emoji: '🍴', badge: null, desc: '2-pack, lightweight utensils' },
+            { id: 17, name: 'Water Filter Straw', category: 'accessory', price: 39, rating: 4.9, reviews: 1204, emoji: '🚰', badge: 'SALE', desc: 'Filters up to 100,000 gallons' },
+            { id: 18, name: 'Headlamp 350 Lumen', category: 'accessory', price: 49, rating: 4.8, reviews: 673, emoji: '🔦', badge: null, desc: 'Rechargeable, IPX7 rated' },
+            { id: 19, name: 'Trekking Pole Pair', category: 'accessory', price: 89, rating: 4.6, reviews: 345, emoji: '🪄', badge: null, desc: 'Collapsible, cork grip' },
+            { id: 20, name: 'Camp Stove Backpacking', category: 'accessory', price: 69, rating: 4.7, reviews: 521, emoji: '🔥', badge: null, desc: 'Wind-resistant, boils in 3 min' },
+            { id: 21, name: 'Bear Canister 700', category: 'accessory', price: 79, rating: 4.8, reviews: 218, emoji: '🐻', badge: null, desc: 'BV500 compatible, opaque' },
+            { id: 22, name: 'Emergency Bivouac Sack', category: 'accessory', price: 29, rating: 4.6, reviews: 443, emoji: '🆘', badge: null, desc: 'Mylar, 2-person, reusable' },
+            { id: 23, name: 'Summit 6-Person Tent', category: 'tent', price: 529, rating: 4.6, reviews: 57, emoji: '⛺', badge: null, desc: '4-season, vestibule both sides' },
+            { id: 24, name: 'Compression Sack XL', category: 'accessory', price: 25, rating: 4.4, reviews: 289, emoji: '🧳', badge: 'SALE', desc: 'Fits sleeping bag down to 7L' },
+        ];
+
+        let activeCategory = 'all';
+        let maxPrice = 800;
+        let searchQuery = '';
+        let sortBy = 'featured';
+        let cartCount = 0;
+
+        function stars(rating) {
+            const full = Math.round(rating);
+            return '★'.repeat(full) + '☆'.repeat(5 - full);
+        }
+
+        function renderProducts() {
+            let filtered = products.filter(p => {
+                const matchCat = activeCategory === 'all' || p.category === activeCategory;
+                const matchPrice = p.price <= maxPrice;
+                const q = searchQuery.toLowerCase();
+                const matchSearch = !q || p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q);
+                return matchCat && matchPrice && matchSearch;
+            });
+
+            if (sortBy === 'price-asc') filtered.sort((a, b) => a.price - b.price);
+            else if (sortBy === 'price-desc') filtered.sort((a, b) => b.price - a.price);
+            else if (sortBy === 'rating') filtered.sort((a, b) => b.rating - a.rating);
+            else if (sortBy === 'name') filtered.sort((a, b) => a.name.localeCompare(b.name));
+
+            const grid = document.getElementById('product-grid');
+            document.getElementById('results-count').textContent = `${filtered.length} product${filtered.length !== 1 ? 's' : ''}`;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div class="no-results">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <h3>No products found</h3>
+      <p>Try adjusting your search or filters</p>
+    </div>`;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(p => {
+                const hasSale = p.badge === 'SALE';
+                const displayPrice = hasSale ? Math.round(p.price * 0.8) : p.price;
+                return `
+    <div class="product-card">
+      <div class="card-img">
+        ${p.emoji}
+        ${p.badge ? `<span class="card-badge">${p.badge}</span>` : ''}
+      </div>
+      <div class="card-body">
+        <div class="card-cat">${p.category.replace('-', ' ')}</div>
+        <div class="card-name">${p.name}</div>
+        <div class="card-rating">
+          <span class="stars">${stars(p.rating)}</span>
+          <span class="rating-count">${p.rating} (${p.reviews.toLocaleString()})</span>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="card-price">
+          ${hasSale ? `<span class="original">$${p.price}</span>` : ''}$${displayPrice}
+        </div>
+        <button class="add-to-cart" onclick="addToCart(this, '${p.name}')">Add to Cart</button>
+      </div>
+    </div>`;
+            }).join('');
+        }
+
+        function addToCart(btn, name) {
+            cartCount++;
+            btn.textContent = '✓ Added';
+            btn.classList.add('added');
+            document.querySelector('.cart-btn').textContent = `🛒 Cart (${cartCount})`;
+            setTimeout(() => { btn.textContent = 'Add to Cart'; btn.classList.remove('added'); }, 1500);
+        }
+
+        function updateActiveFilters() {
+            const af = document.getElementById('active-filters');
+            const tags = [];
+            if (activeCategory !== 'all') tags.push(`<span class="filter-tag">${activeCategory.replace('-', ' ')} <button onclick="clearCategory()">✕</button></span>`);
+            if (maxPrice < 800) tags.push(`<span class="filter-tag">Under $${maxPrice} <button onclick="clearPrice()">✕</button></span>`);
+            if (searchQuery) tags.push(`<span class="filter-tag">"${searchQuery}" <button onclick="clearSearch()">✕</button></span>`);
+            af.innerHTML = tags.join('');
+            af.classList.toggle('visible', tags.length > 0);
+        }
+
+        function clearCategory() { activeCategory = 'all'; document.querySelectorAll('#cat-chips .chip').forEach(c => c.classList.toggle('active', c.dataset.cat === 'all')); updateActiveFilters(); renderProducts(); }
+        function clearPrice() { maxPrice = 800; document.getElementById('price-range').value = 800; document.getElementById('price-label').textContent = '$800+'; updateActiveFilters(); renderProducts(); }
+        function clearSearch() { searchQuery = ''; document.getElementById('search-input').value = ''; document.getElementById('clear-btn').classList.remove('visible'); updateActiveFilters(); renderProducts(); }
+
+        document.querySelectorAll('#cat-chips .chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                activeCategory = chip.dataset.cat;
+                document.querySelectorAll('#cat-chips .chip').forEach(c => c.classList.toggle('active', c === chip));
+                updateActiveFilters();
+                renderProducts();
+            });
+        });
+
+        const searchInput = document.getElementById('search-input');
+        const clearBtn = document.getElementById('clear-btn');
+        searchInput.addEventListener('input', () => {
+            searchQuery = searchInput.value.trim();
+            clearBtn.classList.toggle('visible', searchQuery.length > 0);
+            updateActiveFilters();
+            renderProducts();
+        });
+        clearBtn.addEventListener('click', clearSearch);
+
+        document.getElementById('price-range').addEventListener('input', function () {
+            maxPrice = parseInt(this.value);
+            document.getElementById('price-label').textContent = maxPrice >= 800 ? '$800+' : `$${maxPrice}`;
+            updateActiveFilters();
+            renderProducts();
+        });
+
+        document.getElementById('sort-select').addEventListener('change', function () {
+            sortBy = this.value;
+            renderProducts();
+        });
+
+        renderProducts();
+    </script>
+</body>
+
+</html>
