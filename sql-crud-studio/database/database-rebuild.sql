@@ -193,7 +193,7 @@ VALUES -- Custom (id=1)
         48000,
         15000,
         'Blue',
-        3
+        3m
     ),
     -- Truck (id=4)
     (
