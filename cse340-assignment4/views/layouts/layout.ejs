@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+        <%= title %> | CSE Motors
+    </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,600;1,9..40,300&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="/css/styles.css" />
+</head>
+
+<body>
+    <!-- ═══════════════════════════ HEADER ════════════════════════════ -->
+    <header id="top-header">
+        <div class="header-inner">
+            <div class="site-brand">
+                <a href="/" class="brand-link">
+                    <span class="brand-icon">⬡</span>
+                    <span class="brand-name">CSE<em>Motors</em></span>
+                </a>
+            </div>
+            <div class="header-actions">
+                <a href="/account/login" class="btn-ghost">My Account</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ═══════════════════════════ NAV ═══════════════════════════════ -->
+    <nav id="site-nav" aria-label="Vehicle categories">
+        <div class="nav-inner">
+            <%- nav %>
+        </div>
+    </nav>
+
+    <!-- ═══════════════════════════ MAIN ══════════════════════════════ -->
+    <main id="main-content">
+        <%- messages() %>
+            <%- body %>
+    </main>
+
+    <!-- ═══════════════════════════ FOOTER ═══════════════════════════ -->
+    <footer id="site-footer">
+        <div class="footer-inner">
+            <p class="footer-brand">CSE<em>Motors</em></p>
+            <p class="footer-copy">&copy; <%= new Date().getFullYear() %> CSE Motors. Built for CSE 340.</p>
+            <nav class="footer-nav" aria-label="Footer navigation">
+                <a href="/">Home</a>
+                <a href="/account/login">Login</a>
+                <a href="/account/register">Register</a>
+            </nav>
+        </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+</body>
+
+</html>

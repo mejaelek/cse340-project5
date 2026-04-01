@@ -1,0 +1,318 @@
+<!-- views/inventory/add-inventory.ejs — Task 3 -->
+<div class="page-header page-header--narrow">
+    <div class="container">
+        <div class="page-header-inner">
+            <div class="page-header-text">
+                <p class="page-eyebrow"><a href="/inv/" class="breadcrumb-link">← Management</a></p>
+                <h1>Add Vehicle</h1>
+                <p class="page-sub">Enter all vehicle details to add a new item to the inventory database.</p>
+            </div>
+            <div class="page-header-icon" aria-hidden="true">🚗</div>
+        </div>
+    </div>
+</div>
+
+<div class="container form-container form-container--wide">
+
+    <!-- Server-side validation errors -->
+    <% if (locals.errors && errors.length> 0) { %>
+        <div class="error-banner" role="alert" aria-live="polite">
+            <div class="error-banner-icon">⚠</div>
+            <div class="error-banner-body">
+                <strong>Please fix the following errors:</strong>
+                <ul class="error-list">
+                    <% errors.forEach(function(error) { %>
+                        <li>
+                            <%= error.msg %>
+                        </li>
+                        <% }) %>
+                </ul>
+            </div>
+        </div>
+        <% } %>
+
+            <!-- Flash notice -->
+            <% if (locals.messages) { %>
+                <div class="flash-zone"><%- messages() %></div>
+                <% } %>
+
+                    <!-- ── Form ── -->
+                    <div class="form-card">
+                        <form id="inventoryForm" action="/inv/add-inventory" method="post" novalidate>
+                            <div class="form-rules-box">
+                                <p class="form-rules-title">📋 Form Requirements</p>
+                                <ul class="form-rules-list two-col">
+                                    <li>All fields are required</li>
+                                    <li>Year: 4-digit number (e.g. 2019)</li>
+                                    <li>Price: numbers only, decimals allowed (e.g. 24500 or 24500.99)</li>
+                                    <li>Miles: whole numbers only, no commas (e.g. 35000)</li>
+                                    <li>Color: letters only (e.g. Red)</li>
+                                    <li>Image paths must end in .jpg, .png, .gif, or .webp</li>
+                                </ul>
+                            </div>
+
+                            <!-- ── Row 1: Classification ─────────────────────── -->
+                            <div class="form-section-title">Vehicle Classification</div>
+                            <div class="form-group">
+                                <label for="classificationList" class="form-label">
+                                    Classification <span class="required-star">*</span>
+                                </label>
+                                <%- classificationList %>
+                                    <span class="input-hint">Select the category this vehicle belongs to.</span>
+                                    <span class="input-feedback" aria-live="polite" id="classIdFeedback"></span>
+                            </div>
+
+                            <!-- ── Row 2: Make & Model ────────────────────────── -->
+                            <div class="form-section-title">Vehicle Identity</div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="inv_make" class="form-label">Make <span
+                                            class="required-star">*</span></label>
+                                    <input type="text" id="inv_make" name="inv_make" class="form-input"
+                                        value="<%= locals.inv_make || '' %>" placeholder="e.g. Ford" required
+                                        minlength="2" maxlength="50" title="Vehicle manufacturer (e.g. Ford, Toyota)" />
+                                    <span class="input-feedback" aria-live="polite" id="makeFeedback"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inv_model" class="form-label">Model <span
+                                            class="required-star">*</span></label>
+                                    <input type="text" id="inv_model" name="inv_model" class="form-input"
+                                        value="<%= locals.inv_model || '' %>" placeholder="e.g. F-150" required
+                                        minlength="1" maxlength="50" title="Vehicle model name" />
+                                    <span class="input-feedback" aria-live="polite" id="modelFeedback"></span>
+                                </div>
+                            </div>
+
+                            <!-- ── Row 3: Year & Color ────────────────────────── -->
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="inv_year" class="form-label">Year <span
+                                            class="required-star">*</span></label>
+                                    <input type="number" id="inv_year" name="inv_year" class="form-input"
+                                        value="<%= locals.inv_year || '' %>" placeholder="e.g. 2021" required min="1900"
+                                        max="9999" pattern="[0-9]{4}" title="4-digit year between 1900 and 9999" />
+                                    <span class="input-hint">4-digit year (1900–9999)</span>
+                                    <span class="input-feedback" aria-live="polite" id="yearFeedback"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inv_color" class="form-label">Color <span
+                                            class="required-star">*</span></label>
+                                    <input type="text" id="inv_color" name="inv_color" class="form-input"
+                                        value="<%= locals.inv_color || '' %>" placeholder="e.g. Silver" required
+                                        pattern="^[A-Za-z]+$" maxlength="30"
+                                        title="Color in letters only (e.g. Red, Silver)" />
+                                    <span class="input-hint">Letters only (e.g. Red, Silver)</span>
+                                    <span class="input-feedback" aria-live="polite" id="colorFeedback"></span>
+                                </div>
+                            </div>
+
+                            <!-- ── Row 4: Price & Miles ───────────────────────── -->
+                            <div class="form-section-title">Pricing & Mileage</div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="inv_price" class="form-label">Price ($) <span
+                                            class="required-star">*</span></label>
+                                    <input type="number" id="inv_price" name="inv_price" class="form-input"
+                                        value="<%= locals.inv_price || '' %>" placeholder="e.g. 24500.00" required
+                                        min="0" step="0.01" title="Price in dollars (e.g. 24500 or 24500.99)" />
+                                    <span class="input-hint">Decimal OK (e.g. 24500 or 24500.99)</span>
+                                    <span class="input-feedback" aria-live="polite" id="priceFeedback"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inv_miles" class="form-label">Mileage <span
+                                            class="required-star">*</span></label>
+                                    <input type="number" id="inv_miles" name="inv_miles" class="form-input"
+                                        value="<%= locals.inv_miles || '' %>" placeholder="e.g. 35000" required min="0"
+                                        step="1" pattern="[0-9]+"
+                                        title="Whole number only — no commas or spaces (e.g. 35000)" />
+                                    <span class="input-hint">Whole number, no commas (e.g. 35000)</span>
+                                    <span class="input-feedback" aria-live="polite" id="milesFeedback"></span>
+                                </div>
+                            </div>
+
+                            <!-- ── Row 5: Description ─────────────────────────── -->
+                            <div class="form-section-title">Description</div>
+                            <div class="form-group">
+                                <label for="inv_description" class="form-label">
+                                    Description <span class="required-star">*</span>
+                                </label>
+                                <textarea id="inv_description" name="inv_description" class="form-input form-textarea"
+                                    placeholder="Describe the vehicle — condition, features, history (min. 10 characters)"
+                                    required minlength="10" rows="4"
+                                    title="At least 10 characters describing the vehicle"><%= locals.inv_description || '' %></textarea>
+                                <span class="input-hint">Minimum 10 characters.</span>
+                                <span class="input-feedback" aria-live="polite" id="descFeedback"></span>
+                            </div>
+
+                            <!-- ── Row 6: Images ──────────────────────────────── -->
+                            <div class="form-section-title">Images</div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="inv_image" class="form-label">Full Image Path <span
+                                            class="required-star">*</span></label>
+                                    <input type="text" id="inv_image" name="inv_image" class="form-input"
+                                        value="<%= locals.inv_image || '/images/vehicles/no-image.png' %>"
+                                        placeholder="/images/vehicles/no-image.png" required
+                                        pattern=".*\.(jpg|jpeg|png|gif|webp)$"
+                                        title="Path must end in .jpg, .jpeg, .png, .gif, or .webp" />
+                                    <span class="input-hint">Must end in .jpg, .png, .gif, or .webp</span>
+                                    <span class="input-feedback" aria-live="polite" id="imageFeedback"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inv_thumbnail" class="form-label">Thumbnail Path <span
+                                            class="required-star">*</span></label>
+                                    <input type="text" id="inv_thumbnail" name="inv_thumbnail" class="form-input"
+                                        value="<%= locals.inv_thumbnail || '/images/vehicles/no-image-tn.png' %>"
+                                        placeholder="/images/vehicles/no-image-tn.png" required
+                                        pattern=".*\.(jpg|jpeg|png|gif|webp)$"
+                                        title="Path must end in .jpg, .jpeg, .png, .gif, or .webp" />
+                                    <span class="input-hint">Must end in .jpg, .png, .gif, or .webp</span>
+                                    <span class="input-feedback" aria-live="polite" id="thumbFeedback"></span>
+                                </div>
+                            </div>
+
+                            <!-- ── Submit ─────────────────────────────────────── -->
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary btn-full">Add Vehicle to Inventory</button>
+                                <a href="/inv/" class="btn btn-ghost btn-full">Cancel</a>
+                            </div>
+                        </form>
+                    </div>
+</div>
+
+<script>
+    /* ═══════════════════════════════════════════════════════
+       Client-side validation for the Add Inventory form
+       ═══════════════════════════════════════════════════════ */
+    (function () {
+        "use strict";
+
+        const form = document.getElementById("inventoryForm");
+
+        /* Mapping: inputId → { feedbackId, test, msg } */
+        const rules = [
+            {
+                id: "classificationList",
+                feedbackId: "classIdFeedback",
+                test: (v) => v !== "",
+                msg: "Please select a classification.",
+            },
+            {
+                id: "inv_make",
+                feedbackId: "makeFeedback",
+                test: (v) => v.trim().length >= 2,
+                msg: "Make must be at least 2 characters.",
+            },
+            {
+                id: "inv_model",
+                feedbackId: "modelFeedback",
+                test: (v) => v.trim().length >= 1,
+                msg: "Model is required.",
+            },
+            {
+                id: "inv_year",
+                feedbackId: "yearFeedback",
+                test: (v) => /^\d{4}$/.test(v.trim()) && +v >= 1900 && +v <= 9999,
+                msg: "Year must be a 4-digit number between 1900 and 9999.",
+            },
+            {
+                id: "inv_color",
+                feedbackId: "colorFeedback",
+                test: (v) => /^[A-Za-z]+$/.test(v.trim()),
+                msg: "Color must contain letters only (e.g. Red, Silver).",
+            },
+            {
+                id: "inv_price",
+                feedbackId: "priceFeedback",
+                test: (v) => v.trim() !== "" && !isNaN(+v) && +v >= 0,
+                msg: "Price must be a positive number.",
+            },
+            {
+                id: "inv_miles",
+                feedbackId: "milesFeedback",
+                test: (v) => /^\d+$/.test(v.trim()),
+                msg: "Mileage must be a whole number with no commas or spaces.",
+            },
+            {
+                id: "inv_description",
+                feedbackId: "descFeedback",
+                test: (v) => v.trim().length >= 10,
+                msg: "Description must be at least 10 characters.",
+            },
+            {
+                id: "inv_image",
+                feedbackId: "imageFeedback",
+                test: (v) => /\.(jpg|jpeg|png|gif|webp)$/i.test(v.trim()),
+                msg: "Image path must end in .jpg, .png, .gif, or .webp.",
+            },
+            {
+                id: "inv_thumbnail",
+                feedbackId: "thumbFeedback",
+                test: (v) => /\.(jpg|jpeg|png|gif|webp)$/i.test(v.trim()),
+                msg: "Thumbnail path must end in .jpg, .png, .gif, or .webp.",
+            },
+        ];
+
+        function showFeedback(el, fbEl, isValid) {
+            if (!el.value.trim() && el.tagName !== "SELECT") {
+                el.classList.remove("input-valid", "input-invalid");
+                fbEl.textContent = "";
+                return;
+            }
+            if (isValid) {
+                el.classList.add("input-valid");
+                el.classList.remove("input-invalid");
+                fbEl.textContent = "✓";
+                fbEl.className = "input-feedback feedback-ok";
+            } else {
+                el.classList.add("input-invalid");
+                el.classList.remove("input-valid");
+                fbEl.className = "input-feedback feedback-error";
+            }
+        }
+
+        /* Attach live validation to each input */
+        rules.forEach(({ id, feedbackId, test, msg }) => {
+            const el = document.getElementById(id);
+            const fb = document.getElementById(feedbackId);
+            if (!el || !fb) return;
+
+            const run = () => {
+                const ok = test(el.value);
+                showFeedback(el, fb, ok);
+                if (!ok && el.value !== "") fb.textContent = "⚠ " + msg;
+            };
+
+            el.addEventListener("input", run);
+            el.addEventListener("change", run);
+            el.addEventListener("blur", run);
+        });
+
+        /* Block submission if any field fails */
+        form.addEventListener("submit", function (e) {
+            let allValid = true;
+            let firstInvalid = null;
+
+            rules.forEach(({ id, feedbackId, test, msg }) => {
+                const el = document.getElementById(id);
+                const fb = document.getElementById(feedbackId);
+                if (!el || !fb) return;
+
+                const ok = test(el.value);
+                showFeedback(el, fb, ok);
+                if (!ok) {
+                    fb.textContent = "⚠ " + msg;
+                    fb.className = "input-feedback feedback-error";
+                    if (!firstInvalid) firstInvalid = el;
+                    allValid = false;
+                }
+            });
+
+            if (!allValid) {
+                e.preventDefault();
+                firstInvalid.focus();
+                firstInvalid.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+        });
+    })();
+</script>

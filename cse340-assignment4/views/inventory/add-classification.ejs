@@ -1,0 +1,119 @@
+<!-- views/inventory/add-classification.ejs — Task 2 -->
+<div class="page-header page-header--narrow">
+    <div class="container">
+        <div class="page-header-inner">
+            <div class="page-header-text">
+                <p class="page-eyebrow"><a href="/inv/" class="breadcrumb-link">← Management</a></p>
+                <h1>Add Classification</h1>
+                <p class="page-sub">Create a new vehicle category that will appear in navigation and inventory forms.
+                </p>
+            </div>
+            <div class="page-header-icon" aria-hidden="true">🗂</div>
+        </div>
+    </div>
+</div>
+
+<div class="container form-container">
+
+    <!-- Server-side validation errors -->
+    <% if (locals.errors && errors.length> 0) { %>
+        <div class="error-banner" role="alert" aria-live="polite">
+            <div class="error-banner-icon">⚠</div>
+            <div class="error-banner-body">
+                <strong>Please fix the following:</strong>
+                <ul class="error-list">
+                    <% errors.forEach(function(error) { %>
+                        <li>
+                            <%= error.msg %>
+                        </li>
+                        <% }) %>
+                </ul>
+            </div>
+        </div>
+        <% } %>
+
+            <!-- Flash notice -->
+            <% if (locals.messages) { %>
+                <div class="flash-zone"><%- messages() %></div>
+                <% } %>
+
+                    <!-- ── Form ── -->
+                    <div class="form-card">
+                        <form id="classificationForm" action="/inv/add-classification" method="post" novalidate>
+                            <div class="form-rules-box">
+                                <p class="form-rules-title">📋 Classification Name Rules</p>
+                                <ul class="form-rules-list">
+                                    <li>Must be at least 1 character long</li>
+                                    <li><strong>No spaces</strong> allowed</li>
+                                    <li><strong>No special characters</strong> (!, @, #, $, etc.)</li>
+                                    <li>Letters and numbers only (e.g. <code>Sedan</code>, <code>SUV</code>,
+                                        <code>Type4x4</code>)</li>
+                                </ul>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="classification_name" class="form-label">
+                                    Classification Name <span class="required-star">*</span>
+                                </label>
+                                <input type="text" id="classification_name" name="classification_name"
+                                    class="form-input" value="<%= locals.classification_name || '' %>"
+                                    placeholder="e.g. Sedan, SUV, Truck" required pattern="^[A-Za-z0-9]+$" minlength="1"
+                                    maxlength="50" title="Letters and numbers only — no spaces or special characters"
+                                    aria-describedby="classification_name_hint" autocomplete="off" />
+                                <span id="classification_name_hint" class="input-hint">
+                                    Letters &amp; numbers only. No spaces or special characters.
+                                </span>
+                                <span class="input-feedback" aria-live="polite" id="classNameFeedback"></span>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary btn-full">
+                                    Add Classification
+                                </button>
+                                <a href="/inv/" class="btn btn-ghost btn-full">Cancel</a>
+                            </div>
+                        </form>
+                    </div>
+</div>
+
+<script>
+    /* ── Client-side Validation ── */
+    (function () {
+        const form = document.getElementById("classificationForm");
+        const input = document.getElementById("classification_name");
+        const feedback = document.getElementById("classNameFeedback");
+        const pattern = /^[A-Za-z0-9]+$/;
+
+        function validate() {
+            const val = input.value.trim();
+            if (!val) {
+                input.classList.remove("input-valid", "input-invalid");
+                feedback.textContent = "";
+                return false;
+            }
+            if (!pattern.test(val)) {
+                input.classList.add("input-invalid");
+                input.classList.remove("input-valid");
+                feedback.textContent = "⚠ No spaces or special characters allowed.";
+                feedback.className = "input-feedback feedback-error";
+                return false;
+            }
+            input.classList.add("input-valid");
+            input.classList.remove("input-invalid");
+            feedback.textContent = "✓ Looks good!";
+            feedback.className = "input-feedback feedback-ok";
+            return true;
+        }
+
+        input.addEventListener("input", validate);
+
+        form.addEventListener("submit", function (e) {
+            if (!validate()) {
+                e.preventDefault();
+                input.focus();
+                feedback.textContent = "⚠ Please enter a valid classification name (letters and numbers only).";
+                feedback.className = "input-feedback feedback-error";
+            }
+        });
+    })();
+</script>

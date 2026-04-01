@@ -1,0 +1,55 @@
+<!-- views/inventory/management.ejs — Vehicle Management View -->
+<div class="page-header">
+    <div class="container">
+        <div class="page-header-inner">
+            <div class="page-header-text">
+                <p class="page-eyebrow">Admin Panel</p>
+                <h1>Vehicle Management</h1>
+                <p class="page-sub">Use the options below to manage classifications and inventory.</p>
+            </div>
+            <div class="page-header-icon" aria-hidden="true">⚙</div>
+        </div>
+    </div>
+</div>
+
+<div class="container management-container">
+
+    <!-- Flash Messages -->
+    <% if (locals.messages) { %>
+        <div class="flash-zone"><%- messages() %></div>
+        <% } %>
+
+            <!-- Management Cards -->
+            <div class="mgmt-grid">
+
+                <div class="mgmt-card">
+                    <div class="mgmt-card-icon">🗂</div>
+                    <div class="mgmt-card-body">
+                        <h2>Classifications</h2>
+                        <p>Add a new vehicle category/classification to the system. Classifications appear in the
+                            navigation bar and inventory drop-down lists.</p>
+                        <a href="/inv/add-classification" class="btn btn-primary mgmt-btn">
+                            + Add Classification
+                        </a>
+                    </div>
+                </div>
+
+                <div class="mgmt-card">
+                    <div class="mgmt-card-icon">🚗</div>
+                    <div class="mgmt-card-body">
+                        <h2>Inventory</h2>
+                        <p>Add a new vehicle to the inventory. All details including make, model, year, price, mileage,
+                            and images will be stored in the database.</p>
+                        <a href="/inv/add-inventory" class="btn btn-secondary mgmt-btn">
+                            + Add Vehicle
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <p class="mgmt-hint">
+                <strong>Tip:</strong> This management area is accessible via
+                <code>/inv/</code> in the URL. It will not appear in public navigation.
+            </p>
+</div>

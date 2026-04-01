@@ -1,0 +1,15 @@
+<!-- views/inventory/detail.ejs -->
+<div class="page-header page-header--narrow">
+    <div class="container">
+        <h1>
+            <%= title %>
+        </h1>
+    </div>
+</div>
+
+<div class="container">
+    <% if (locals.messages) { %>
+        <div class="flash-zone"><%- messages() %></div>
+        <% } %>
+            <%- detail %>
+</div>

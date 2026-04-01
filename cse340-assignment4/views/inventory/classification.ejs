@@ -1,0 +1,17 @@
+<!-- views/inventory/classification.ejs -->
+<div class="page-header">
+    <div class="container">
+        <h1>
+            <%= title %>
+        </h1>
+    </div>
+</div>
+
+<div class="container">
+    <% if (locals.messages) { %>
+        <div class="flash-zone"><%- messages() %></div>
+        <% } %>
+            <div class="inv-grid-wrapper">
+                <%- grid %>
+            </div>
+</div>
