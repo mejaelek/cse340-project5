@@ -1,0 +1,12 @@
+<%# views/inventory/detail.ejs %>
+    <div class="detail-wrapper">
+        <h1>
+            <%= title %>
+        </h1>
+
+        <% if (messages && messages()) { %>
+            <div class="flash-messages"><%- messages() %></div>
+            <% } %>
+
+                <%- detail %>
+    </div>

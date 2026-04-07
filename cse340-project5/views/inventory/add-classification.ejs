@@ -1,0 +1,45 @@
+<%# views/inventory/add-classification.ejs %>
+    <div class="form-wrapper">
+        <h1>
+            <%= title %>
+        </h1>
+
+        <% if (messages && messages()) { %>
+            <div class="flash-messages"><%- messages() %></div>
+            <% } %>
+
+                <% if (errors) { %>
+                    <div class="error-box">
+                        <ul>
+                            <% errors.array().forEach(error=> { %>
+                                <li>
+                                    <%= error.msg %>
+                                </li>
+                                <% }) %>
+                        </ul>
+                    </div>
+                    <% } %>
+
+                        <form action="/inv/add-classification" method="post" novalidate>
+                            <div class="form-group">
+                                <label for="classification_name">
+                                    Classification Name <span class="required">*</span>
+                                    <span class="field-hint">Letters and numbers only — no spaces or special
+                                        characters</span>
+                                </label>
+                                <input type="text" id="classification_name" name="classification_name"
+                                    value="<%= locals.classification_name ? classification_name : '' %>"
+                                    pattern="^[a-zA-Z0-9]+$"
+                                    title="Classification name must contain only letters and numbers." required
+                                    aria-required="true" />
+                            </div>
+
+                            <div class="form-actions">
+                                <input type="submit" value="Add Classification" class="btn-submit" />
+                            </div>
+                        </form>
+
+                        <div class="back-link">
+                            <a href="/inv/" title="Return to management">&larr; Back to Management</a>
+                        </div>
+    </div>

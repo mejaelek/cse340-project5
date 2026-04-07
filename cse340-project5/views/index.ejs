@@ -1,0 +1,28 @@
+<%# views/index.ejs - Home page %>
+    <div id="hero">
+        <h1>Find Your Dream Vehicle</h1>
+        <p class="hero-sub">Quality pre-owned vehicles at unbeatable prices.</p>
+        <a href="#main-nav" class="btn-primary">Browse Inventory</a>
+    </div>
+
+    <% if (messages && messages()) { %>
+        <div class="flash-messages"><%- messages() %></div>
+        <% } %>
+
+            <section id="home-features">
+                <div class="feature-card">
+                    <span class="feature-icon">&#128663;</span>
+                    <h2>Wide Selection</h2>
+                    <p>Hundreds of vehicles across all classifications, updated weekly.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">&#128176;</span>
+                    <h2>Best Prices</h2>
+                    <p>We work hard to ensure you get the most competitive price.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">&#128274;</span>
+                    <h2>Secure Process</h2>
+                    <p>Your account and information are always protected.</p>
+                </div>
+            </section>

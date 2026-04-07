@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+        <%= title %> | CSE Motors
+    </title>
+    <link rel="stylesheet" href="/css/styles.css" />
+</head>
+
+<body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <header id="top-header">
+        <%- include('../partials/header') %>
+    </header>
+
+    <nav id="main-nav">
+        <%- include('../partials/navigation') %>
+    </nav>
+
+    <main id="main-content">
+        <%- body %>
+    </main>
+
+    <footer>
+        <%- include('../partials/footer') %>
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,12 @@
+<%# views/inventory/classification.ejs %>
+    <div class="classification-wrapper">
+        <h1>
+            <%= title %>
+        </h1>
+
+        <% if (messages && messages()) { %>
+            <div class="flash-messages"><%- messages() %></div>
+            <% } %>
+
+                <%- grid %>
+    </div>

@@ -1,0 +1,68 @@
+<%# views/account/management.ejs TASK 3: Account Management View - All account types: greeted by first name in h2 -
+    Employee/Admin only: h3 "Inventory Management" + link shown - Client: inventory section NOT rendered at all (not in
+    DOM) - All types: update account link present %>
+    <div class="account-management-wrapper">
+
+        <% if (messages && messages()) { %>
+            <div class="flash-messages"><%- messages() %></div>
+            <% } %>
+
+                <% if (errors) { %>
+                    <div class="error-box">
+                        <ul>
+                            <% errors.array().forEach(error=> { %>
+                                <li>
+                                    <%= error.msg %>
+                                </li>
+                                <% }) %>
+                        </ul>
+                    </div>
+                    <% } %>
+
+                        <h1>
+                            <%= title %>
+                        </h1>
+
+                        <%# Greeting: shown for ALL account types %>
+                            <h2>Welcome <%= accountData.account_firstname %>
+                            </h2>
+
+                            <%# Account info card %>
+                                <div class="account-info-card">
+                                    <p><strong>Name:</strong>
+                                        <%= accountData.account_firstname %>
+                                            <%= accountData.account_lastname %>
+                                    </p>
+                                    <p><strong>Email:</strong>
+                                        <%= accountData.account_email %>
+                                    </p>
+                                    <p><strong>Account Type:</strong> <span
+                                            class="account-type-badge <%= accountData.account_type.toLowerCase() %>">
+                                            <%= accountData.account_type %>
+                                        </span></p>
+                                </div>
+
+                                <%# Update Account link - present for ALL account types %>
+                                    <div class="account-actions">
+                                        <a href="/account/update/<%= accountData.account_id %>" class="btn-action"
+                                            title="Update your account information">
+                                            &#9998; Update Account Information
+                                        </a>
+                                    </div>
+
+                                    <%# TASK 3: Inventory Management section Only rendered if account_type is "Employee"
+                                        OR "Admin" For "Client" this entire block is NOT present in the DOM at all %>
+                                        <% if (accountData.account_type==="Employee" ||
+                                            accountData.account_type==="Admin" ) { %>
+                                            <div class="inventory-management-section">
+                                                <h3>Inventory Management</h3>
+                                                <p>
+                                                    <a href="/inv/" class="btn-action btn-action--inv"
+                                                        title="Access Inventory Management">
+                                                        &#128663; Manage Inventory
+                                                    </a>
+                                                </p>
+                                            </div>
+                                            <% } %>
+
+    </div>

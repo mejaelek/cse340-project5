@@ -1,0 +1,37 @@
+<%# views/inventory/delete-confirm.ejs %>
+    <div class="form-wrapper">
+        <h1>
+            <%= title %>
+        </h1>
+
+        <% if (messages && messages()) { %>
+            <div class="flash-messages"><%- messages() %></div>
+            <% } %>
+
+                <div class="delete-warning">
+                    <p>&#9888; You are about to permanently delete the following vehicle. This action <strong>cannot be
+                            undone</strong>.</p>
+                </div>
+
+                <div class="vehicle-summary-card">
+                    <p><strong>Vehicle:</strong>
+                        <%= inv_year %>
+                            <%= inv_make %>
+                                <%= inv_model %>
+                    </p>
+                    <p><strong>Price:</strong> $<%= new Intl.NumberFormat('en-US').format(inv_price) %>
+                    </p>
+                </div>
+
+                <form action="/inv/delete/" method="post">
+                    <input type="hidden" name="inv_id" value="<%= inv_id %>" />
+                    <div class="form-actions form-actions--danger">
+                        <input type="submit" value="Confirm Delete" class="btn-submit btn-submit--danger" />
+                        <a href="/inv/" class="btn-cancel">Cancel</a>
+                    </div>
+                </form>
+
+                <div class="back-link">
+                    <a href="/inv/" title="Return to management">&larr; Back to Management</a>
+                </div>
+    </div>

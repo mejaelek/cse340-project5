@@ -1,0 +1,128 @@
+<%# views/account/update.ejs TASK 4: Account Update View - Two separate forms: 1) Account Update (firstname, lastname,
+    email) — sticky on error 2) Change Password — separate form, no display of current password %>
+    <div class="update-wrapper">
+
+        <h1>
+            <%= title %>
+        </h1>
+
+        <% if (messages && messages()) { %>
+            <div class="flash-messages"><%- messages() %></div>
+            <% } %>
+
+                <% if (errors) { %>
+                    <div class="error-box">
+                        <ul>
+                            <% errors.array().forEach(error=> { %>
+                                <li>
+                                    <%= error.msg %>
+                                </li>
+                                <% }) %>
+                        </ul>
+                    </div>
+                    <% } %>
+
+                        <%#=============================================FORM 1: Account Update (name +
+                            email)=============================================%>
+                            <section class="update-section" aria-labelledby="acct-update-heading">
+                                <h2 id="acct-update-heading">Update Account Information</h2>
+
+                                <form id="accountUpdateForm" action="/account/update" method="post" novalidate>
+
+                                    <div class="form-group">
+                                        <label for="account_firstname">First Name <span
+                                                class="required">*</span></label>
+                                        <input type="text" id="account_firstname" name="account_firstname"
+                                            value="<%= locals.account_firstname ? account_firstname : '' %>"
+                                            autocomplete="given-name" required aria-required="true" />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="account_lastname">Last Name <span class="required">*</span></label>
+                                        <input type="text" id="account_lastname" name="account_lastname"
+                                            value="<%= locals.account_lastname ? account_lastname : '' %>"
+                                            autocomplete="family-name" required aria-required="true" />
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="account_email">Email Address <span class="required">*</span></label>
+                                        <input type="email" id="account_email" name="account_email"
+                                            value="<%= locals.account_email ? account_email : '' %>"
+                                            autocomplete="email" required aria-required="true" />
+                                    </div>
+
+                                    <%# Hidden field for account_id %>
+                                        <input type="hidden" name="account_id" value="<%= account_id %>" />
+
+                                        <div class="form-actions">
+                                            <input type="submit" value="Update Account" class="btn-submit" />
+                                        </div>
+                                </form>
+                            </section>
+
+                            <hr class="section-divider" />
+
+                            <%#=============================================FORM 2: Change Password (completely
+                                separate)=============================================%>
+                                <section class="update-section" aria-labelledby="pwd-change-heading">
+                                    <h2 id="pwd-change-heading">Change Password</h2>
+
+                                    <p class="pwd-notice">
+                                        <strong>Note:</strong> Only complete this form if you wish to change your
+                                        password.
+                                        Entering a new password below will immediately replace your current password.
+                                        Your password must meet the following requirements:
+                                        <strong>minimum 12 characters</strong>, including at least
+                                        <strong>1 uppercase letter</strong>, <strong>1 lowercase letter</strong>,
+                                        <strong>1 number</strong>, and <strong>1 special character</strong>
+                                        (e.g., <code>!@#$%^&amp;*</code>).
+                                    </p>
+
+                                    <form id="passwordChangeForm" action="/account/update-password" method="post"
+                                        novalidate>
+
+                                        <div class="form-group">
+                                            <label for="account_password">
+                                                New Password <span class="required">*</span>
+                                                <span class="field-hint">Min 12 characters, 1 uppercase, 1 number, 1
+                                                    special character</span>
+                                            </label>
+                                            <div class="password-wrapper">
+                                                <input type="password" id="account_password" name="account_password"
+                                                    autocomplete="new-password" required aria-required="true"
+                                                    pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
+                                                    title="Minimum 12 characters, including 1 uppercase letter, 1 number, and 1 special character." />
+                                                <button type="button" class="toggle-password" aria-label="Show password"
+                                                    onclick="togglePwd('account_password', this)">&#128065;</button>
+                                            </div>
+                                        </div>
+
+                                        <%# Hidden field for account_id %>
+                                            <input type="hidden" name="account_id" value="<%= account_id %>" />
+
+                                            <div class="form-actions">
+                                                <input type="submit" value="Change Password"
+                                                    class="btn-submit btn-submit--secondary" />
+                                            </div>
+                                    </form>
+                                </section>
+
+                                <div class="back-link">
+                                    <a href="/account/" title="Return to account management">&larr; Back to Account
+                                        Management</a>
+                                </div>
+
+    </div>
+
+    <script>
+        function togglePwd(id, btn) {
+            const input = document.getElementById(id)
+            if (input.type === 'password') {
+                input.type = 'text'
+                btn.setAttribute('aria-label', 'Hide password')
+            } else {
+                input.type = 'password'
+                btn.setAttribute('aria-label', 'Show password')
+            }
+        }
+    </script>

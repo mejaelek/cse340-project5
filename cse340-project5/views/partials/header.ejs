@@ -1,0 +1,22 @@
+<%# TASK 1: Header partial - Shows "My Account" when NOT logged in - Shows "Welcome [Name]" link + "Logout" when logged
+    in - Hidden means NOT rendered in DOM at all %>
+    <div id="top-header-inner">
+        <div class="site-logo">
+            <span class="logo-icon">&#9670;</span>
+            <a href="/" title="Return home">CSE Motors</a>
+        </div>
+
+        <div id="tools">
+            <% if (locals.loggedin) { %>
+                <%# Logged in: show Welcome link and Logout %>
+                    <a href="/account/" title="Go to your account management" id="welcome-link"
+                        class="nav-account-link">Welcome <%= locals.accountData.account_firstname %></a>
+                    <a href="/account/logout" title="Click to log out" id="logout-link"
+                        class="nav-account-link logout-btn">Logout</a>
+                    <% } else { %>
+                        <%# Not logged in: show My Account %>
+                            <a href="/account/login" title="Click to log in" id="my-account-link"
+                                class="nav-account-link">My Account</a>
+                            <% } %>
+        </div>
+    </div>
