@@ -1,0 +1,28 @@
+ # ─── Environment & secrets ────────────────────
+.env
+.env.local
+.env.production
+
+# ─── Dependencies ─────────────────────────────
+node_modules/
+package-lock.json
+
+# ─── Logs ─────────────────────────────────────
+logs/
+*.log
+npm-debug.log*
+
+# ─── OS files ─────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ─── VS Code ──────────────────────────────────
+.vscode/
+*.code-workspace
+
+# ─── Build output ─────────────────────────────
+dist/
+build/
+
+# ─── Coverage ─────────────────────────────────
+coverage/

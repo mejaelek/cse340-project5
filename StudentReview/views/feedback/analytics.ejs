@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Analytics | EduPulse</title>
+    <link rel="stylesheet" href="/css/feedback.css">
+</head>
+
+<body>
+    <%- include('../partials/header') %>
+
+        <main class="ep-container">
+
+            <div class="ep-page-header">
+                <div>
+                    <h1 class="ep-page-title">Feedback Analytics</h1>
+                    <p class="ep-page-sub">Rating breakdown for course #<%= course_id %>
+                    </p>
+                </div>
+                <a href="/courses/<%= course_id %>/feedback" class="ep-btn ep-btn-outline">
+                    ← All reviews
+                </a>
+            </div>
+
+            <!-- Summary cards -->
+            <div class="ep-stats-row">
+                <div class="ep-stat-card">
+                    <div class="ep-stat-label">Average rating</div>
+                    <div class="ep-stat-value">
+                        <%= avg || 'N/A' %>
+                    </div>
+                    <%- include('../partials/stars', { rating: avg || 0 }) %>
+                </div>
+                <div class="ep-stat-card">
+                    <div class="ep-stat-label">Total responses</div>
+                    <div class="ep-stat-value">
+                        <%= distribution.reduce((sum, r)=> sum + parseInt(r.count), 0) %>
+                    </div>
+                </div>
+                <div class="ep-stat-card">
+                    <div class="ep-stat-label">Highest rated</div>
+                    <div class="ep-stat-value">
+                        <% const topRow=distribution.reduce((best, r)=>
+                            parseInt(r.count) > parseInt(best.count) ? r : best,
+                            distribution[0] || { rating: 0, count: 0 });
+                            %>
+                            <%= topRow.rating %> ★
+                    </div>
+                </div>
+            </div>
+
+            <!-- Distribution chart -->
+            <div class="ep-card">
+                <h2 class="ep-card-title">Rating distribution</h2>
+                <% const totalCount=distribution.reduce((s,r)=> s + parseInt(r.count), 0);
+                    const ratingMap = {};
+                    distribution.forEach(r => ratingMap[r.rating] = parseInt(r.count));
+                    %>
+                    <div class="ep-bar-chart">
+                        <% for (let star=5; star>= 1; star--) { %>
+                            <% const count=ratingMap[star] || 0; const pct=totalCount> 0 ? Math.round((count /
+                                totalCount) * 100) : 0;
+                                const colors = { 5:'#1D9E75', 4:'#3B8BD4', 3:'#BA7517', 2:'#D85A30', 1:'#E24B4A' };
+                                %>
+                                <div class="ep-bar-row">
+                                    <div class="ep-bar-label">
+                                        <%= star %> ★
+                                    </div>
+                                    <div class="ep-bar-track">
+                                        <div class="ep-bar-fill"
+                                            style="width:<%= pct %>%; background:<%= colors[star] %>;">
+                                        </div>
+                                    </div>
+                                    <div class="ep-bar-stats">
+                                        <span class="ep-bar-pct">
+                                            <%= pct %>%
+                                        </span>
+                                        <span class="ep-bar-count">(<%= count %>)</span>
+                                    </div>
+                                </div>
+                                <% } %>
+                    </div>
+            </div>
+
+            <!-- Recommendation breakdown -->
+            <div class="ep-card" style="margin-top:1.25rem;">
+                <h2 class="ep-card-title">Recommendation breakdown</h2>
+                <% const recLabels=[ { key:'yes', label:'Would recommend', color:'#1D9E75', bg:'#EAF3DE',
+                    textColor:'#3B6D11' }, { key:'maybe', label:'Maybe recommends', color:'#BA7517', bg:'#FAEEDA',
+                    textColor:'#854F0B' }, { key:'no', label:'Would not recommend', color:'#E24B4A', bg:'#FCEBEB',
+                    textColor:'#A32D2D' }, ]; %>
+                    <div class="ep-rec-grid">
+                        <% recLabels.forEach(function(r) { %>
+                            <% const recCount=(locals.recDistribution || []).find(x=> x.recommend === r.key);
+                                const n = recCount ? parseInt(recCount.count) : 0;
+                                const pct = totalCount > 0 ? Math.round((n / totalCount) * 100) : 0;
+                                %>
+                                <div class="ep-rec-card" style="border-left: 3px solid <%= r.color %>;">
+                                    <div class="ep-rec-pct" style="color:<%= r.color %>">
+                                        <%= pct %>%
+                                    </div>
+                                    <div class="ep-rec-label">
+                                        <%= r.label %>
+                                    </div>
+                                    <div class="ep-rec-count">
+                                        <%= n %> response<%= n !==1 ? 's' : '' %>
+                                    </div>
+                                </div>
+                                <% }) %>
+                    </div>
+            </div>
+
+        </main>
+
+        <%- include('../partials/footer') %>
+</body>
+
+</html>

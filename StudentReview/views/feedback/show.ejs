@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Detail | EduPulse</title>
+    <link rel="stylesheet" href="/css/feedback.css">
+</head>
+
+<body>
+    <%- include('../partials/header') %>
+
+        <main class="ep-container">
+
+            <div class="ep-page-header">
+                <div>
+                    <h1 class="ep-page-title">Feedback Detail</h1>
+                    <p class="ep-page-sub">Submitted on
+                        <%= new Date(item.created_at).toLocaleDateString('en-US', { year: 'numeric' , month: 'long' ,
+                            day: 'numeric' }) %>
+                    </p>
+                </div>
+                <a href="javascript:history.back()" class="ep-btn ep-btn-outline">← Back</a>
+            </div>
+
+            <div class="ep-detail-card">
+
+                <!-- Rating row -->
+                <div class="ep-detail-section ep-detail-hero">
+                    <div class="ep-detail-rating-block">
+                        <div class="ep-big-rating">
+                            <%= item.rating %><span>/5</span>
+                        </div>
+                        <%- include('../partials/stars', { rating: item.rating }) %>
+                    </div>
+                    <div class="ep-detail-meta-pills">
+                        <span class="ep-badge ep-badge-blue">
+                            Difficulty: <%= item.difficulty.replace(/_/g,' ') %>
+          </span>
+          <span class="ep-badge ep-badge-<%= item.recommend === ' yes' ? 'green' : item.recommend==='maybe' ? 'amber'
+                                : 'red' %>">
+                                <%= item.recommend==='yes' ? '✓ Recommends this course' : item.recommend==='maybe'
+                                    ? '~ Maybe recommends' : '✗ Does not recommend' %>
+                        </span>
+                    </div>
+                </div>
+
+                <hr class="ep-divider">
+
+                <!-- Enjoyed -->
+                <div class="ep-detail-section">
+                    <h2 class="ep-detail-section-title">What the student enjoyed</h2>
+                    <p class="ep-detail-body">
+                        <%= item.enjoyed %>
+                    </p>
+                </div>
+
+                <hr class="ep-divider">
+
+                <!-- Improve -->
+                <div class="ep-detail-section">
+                    <h2 class="ep-detail-section-title">What could be improved</h2>
+                    <p class="ep-detail-body">
+                        <%= item.improve %>
+                    </p>
+                </div>
+
+                <hr class="ep-divider">
+
+                <!-- Admin delete -->
+                <% if (locals.userId && (userId===item.student_id || locals.isAdmin)) { %>
+                    <div class="ep-detail-section ep-detail-danger">
+                        <h2 class="ep-detail-section-title" style="color:#D85A30;">Danger zone</h2>
+                        <p style="font-size:13px;color:var(--ep-text-muted);margin-bottom:12px;">
+                            Deleting this feedback is permanent and cannot be undone.
+                        </p>
+                        <form method="POST" action="/courses/<%= item.course_id %>/feedback/<%= item.id %>/delete"
+                            onsubmit="return confirm('Are you sure you want to delete this feedback?')">
+                            <button type="submit" class="ep-btn ep-btn-danger">Delete feedback</button>
+                        </form>
+                    </div>
+                    <% } %>
+
+            </div>
+        </main>
+
+        <%- include('../partials/footer') %>
+</body>
+
+</html>

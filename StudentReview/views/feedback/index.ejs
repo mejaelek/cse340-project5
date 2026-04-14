@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Feedback | EduPulse</title>
+    <link rel="stylesheet" href="/css/feedback.css">
+</head>
+
+<body>
+    <%- include('../partials/header') %>
+
+        <main class="ep-container">
+
+            <!-- Page heading -->
+            <div class="ep-page-header">
+                <div>
+                    <h1 class="ep-page-title">Course Feedback</h1>
+                    <p class="ep-page-sub">Student reviews for course #<%= course_id %>
+                    </p>
+                </div>
+                <div class="ep-header-actions">
+                    <a href="/courses/<%= course_id %>/feedback/analytics" class="ep-btn ep-btn-outline">
+                        View Analytics
+                    </a>
+                    <a href="/courses/<%= course_id %>/feedback/new" class="ep-btn ep-btn-primary">
+                        + Leave Feedback
+                    </a>
+                </div>
+            </div>
+
+            <!-- Notice banner -->
+            <% if (locals.query && query.notice==='submitted' ) { %>
+                <div class="ep-alert ep-alert-success">
+                    Your feedback was submitted successfully. Thank you!
+                </div>
+                <% } %>
+                    <% if (locals.query && query.notice==='already_submitted' ) { %>
+                        <div class="ep-alert ep-alert-warning">
+                            You have already submitted feedback for this course.
+                        </div>
+                        <% } %>
+
+                            <!-- Summary stats -->
+                            <div class="ep-stats-row">
+                                <div class="ep-stat-card">
+                                    <div class="ep-stat-label">Average rating</div>
+                                    <div class="ep-stat-value">
+                                        <%= avg || 'N/A' %>
+                                    </div>
+                                    <%- include('../partials/stars', { rating: avg || 0 }) %>
+                                </div>
+                                <div class="ep-stat-card">
+                                    <div class="ep-stat-label">Total reviews</div>
+                                    <div class="ep-stat-value">
+                                        <%= feedbackList.length %>
+                                    </div>
+                                </div>
+                                <div class="ep-stat-card">
+                                    <div class="ep-stat-label">Recommend rate</div>
+                                    <div class="ep-stat-value">
+                                        <% const yesCount=feedbackList.filter(f=> f.recommend === 'yes').length;
+                                            const pct = feedbackList.length
+                                            ? Math.round((yesCount / feedbackList.length) * 100)
+                                            : 0;
+                                            %>
+                                            <%= pct %>%
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Feedback list -->
+                            <% if (feedbackList.length===0) { %>
+                                <div class="ep-empty">
+                                    <p>No feedback has been submitted for this course yet.</p>
+                                    <a href="/courses/<%= course_id %>/feedback/new" class="ep-btn ep-btn-primary">
+                                        Be the first to review
+                                    </a>
+                                </div>
+                                <% } else { %>
+                                    <div class="ep-feedback-list">
+                                        <% feedbackList.forEach(function(item) { %>
+                                            <div class="ep-feedback-card">
+                                                <div class="ep-fc-top">
+                                                    <div class="ep-fc-author">
+                                                        <div class="ep-avatar">
+                                                            <%= item.student_name ?
+                                                                item.student_name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,2)
+                      : ' AN' %>
+                                                        </div>
+                                                        <div>
+                                                            <div class="ep-fc-name">
+                                                                <%= item.student_name || 'Anonymous' %>
+                                                            </div>
+                                                            <div class="ep-fc-date">
+                                                                <%= new
+                                                                    Date(item.created_at).toLocaleDateString('en-US', {
+                                                                    year: 'numeric' , month: 'short' , day: 'numeric' })
+                                                                    %>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ep-fc-right">
+                                                        <%- include('../partials/stars', { rating: item.rating }) %>
+                                                            <span
+                                                                class="ep-badge ep-badge-<%= item.recommend === 'yes' ? 'green' : item.recommend === 'maybe' ? 'amber' : 'red' %>">
+                                                                <%= item.recommend==='yes' ? 'Recommends' :
+                                                                    item.recommend==='maybe' ? 'Maybe'
+                                                                    : 'Not recommended' %>
+                                                            </span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="ep-fc-body">
+                                                    <div class="ep-fc-section">
+                                                        <span class="ep-fc-section-label">Enjoyed</span>
+                                                        <p>
+                                                            <%= item.enjoyed %>
+                                                        </p>
+                                                    </div>
+                                                    <div class="ep-fc-section">
+                                                        <span class="ep-fc-section-label">Could improve</span>
+                                                        <p>
+                                                            <%= item.improve %>
+                                                        </p>
+                                                    </div>
+                                                </div>
+
+                                                <div class="ep-fc-footer">
+                                                    <span class="ep-difficulty-tag">
+                                                        Difficulty: <%= item.difficulty.replace(/_/g, ' ' ) %>
+                                                    </span>
+                                                    <a href="/courses/<%= course_id %>/feedback/<%= item.id %>"
+                                                        class="ep-link">
+                                                        View full review →
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <% }) %>
+                                    </div>
+                                    <% } %>
+
+        </main>
+
+        <%- include('../partials/footer') %>
+</body>
+
+</html>

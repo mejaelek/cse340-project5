@@ -1,0 +1,27 @@
+{
+    "name": "edupulse",
+    "version": "1.0.0",
+    "description": "Student Feedback and Rating System for CSE 340",
+    "main": "app.js",
+    "scripts": {
+        "start": "node app.js",
+        "dev": "nodemon app.js"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    },
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "connect-flash": "^0.1.1",
+        "dotenv": "^16.4.5",
+        "ejs": "^3.1.10",
+        "express": "^4.19.2",
+        "express-session": "^1.18.0",
+        "pg": "^8.11.3"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.0"
+    },
+    "author": "",
+    "license": "ISC"
+}

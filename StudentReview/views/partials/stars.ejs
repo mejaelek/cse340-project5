@@ -1,0 +1,14 @@
+<% const fullStars=Math.floor(rating); const halfStar=(rating - fullStars)>= 0.5;
+    const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+    %>
+    <div class="ep-stars" aria-label="Rating: <%= rating %> out of 5">
+        <% for (let i=0; i < fullStars; i++) { %>
+            <span class="ep-star ep-star-full" aria-hidden="true">★</span>
+            <% } %>
+                <% if (halfStar) { %>
+                    <span class="ep-star ep-star-half" aria-hidden="true">★</span>
+                    <% } %>
+                        <% for (let i=0; i < emptyStars; i++) { %>
+                            <span class="ep-star ep-star-empty" aria-hidden="true">★</span>
+                            <% } %>
+    </div>

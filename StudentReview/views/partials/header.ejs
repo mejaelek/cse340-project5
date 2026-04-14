@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= typeof title !=='undefined' ? title : 'EduPulse' %>
+    </title>
+    <link rel="stylesheet" href="/css/feedback.css">
+</head>
+
+<body>
+
+    <header class="ep-header">
+        <div class="ep-header-inner">
+
+            <!-- Brand -->
+            <a href="/" class="ep-brand">
+                <div class="ep-brand-dot"></div>
+                EduPulse
+            </a>
+
+            <!-- Desktop nav -->
+            <nav class="ep-nav" aria-label="Main navigation">
+                <a href="/" class="ep-nav-link">Home</a>
+                <a href="/courses" class="ep-nav-link">Courses</a>
+                <% if (locals.loggedIn) { %>
+                    <a href="/account/dashboard" class="ep-nav-link">Dashboard</a>
+                    <% } %>
+            </nav>
+
+            <!-- Auth area -->
+            <div class="ep-header-auth">
+                <% if (locals.loggedIn) { %>
+                    <span class="ep-welcome">
+                        Hi, <%= locals.firstName || 'Student' %>
+                            <% if (locals.isAdmin) { %>
+                                <span class="ep-badge ep-badge-blue" style="margin-left:6px;">Admin</span>
+                                <% } %>
+                    </span>
+                    <a href="/account/logout" class="ep-btn ep-btn-outline ep-btn-sm">Log out</a>
+                    <% } else { %>
+                        <a href="/account/login" class="ep-btn ep-btn-outline ep-btn-sm">Log in</a>
+                        <a href="/account/register" class="ep-btn ep-btn-primary ep-btn-sm">Register</a>
+                        <% } %>
+            </div>
+
+            <!-- Mobile hamburger -->
+            <button class="ep-hamburger" id="ep-hamburger" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+
+        </div>
+
+        <!-- Mobile menu -->
+        <div class="ep-mobile-menu" id="ep-mobile-menu">
+            <a href="/" class="ep-mobile-link">Home</a>
+            <a href="/courses" class="ep-mobile-link">Courses</a>
+            <% if (locals.loggedIn) { %>
+                <a href="/account/dashboard" class="ep-mobile-link">Dashboard</a>
+                <a href="/account/logout" class="ep-mobile-link">Log out</a>
+                <% } else { %>
+                    <a href="/account/login" class="ep-mobile-link">Log in</a>
+                    <a href="/account/register" class="ep-mobile-link">Register</a>
+                    <% } %>
+        </div>
+    </header>
+
+    <!-- Flash messages -->
+    <% if (locals.success && success.length) { %>
+        <div class="ep-flash ep-flash-success">
+            <%= success[0] %>
+                <button class="ep-flash-close" onclick="this.parentElement.remove()">×</button>
+        </div>
+        <% } %>
+            <% if (locals.error && error.length) { %>
+                <div class="ep-flash ep-flash-error">
+                    <%= error[0] %>
+                        <button class="ep-flash-close" onclick="this.parentElement.remove()">×</button>
+                </div>
+                <% } %>
+
+                    <style>
+                        /* ─── Header ───────────────────────────────── */
+                        .ep-header {
+                            background: #ffffff;
+                            border-bottom: 1px solid rgba(0, 0, 0, 0.10);
+                            position: sticky;
+                            top: 0;
+                            z-index: 100;
+                            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+                        }
+
+                        .ep-header-inner {
+                            max-width: 1060px;
+                            margin: 0 auto;
+                            padding: 0 1.25rem;
+                            height: 58px;
+                            display: flex;
+                            align-items: center;
+                            gap: 1.5rem;
+                        }
+
+                        .ep-brand {
+                            display: flex;
+                            align-items: center;
+                            gap: 8px;
+                            font-size: 17px;
+                            font-weight: 700;
+                            color: #185FA5;
+                            text-decoration: none;
+                            flex-shrink: 0;
+                        }
+
+                        .ep-brand:hover {
+                            text-decoration: none;
+                        }
+
+                        .ep-brand-dot {
+                            width: 9px;
+                            height: 9px;
+                            background: #185FA5;
+                            border-radius: 50%;
+                        }
+
+                        .ep-nav {
+                            display: flex;
+                            align-items: center;
+                            gap: 4px;
+                            flex: 1;
+                        }
+
+                        .ep-nav-link {
+                            font-size: 14px;
+                            color: #5F5E5A;
+                            padding: 6px 12px;
+                            border-radius: 6px;
+                            text-decoration: none;
+                            transition: background 0.15s, color 0.15s;
+                        }
+
+                        .ep-nav-link:hover {
+                            background: #F7F6F2;
+                            color: #2C2C2A;
+                            text-decoration: none;
+                        }
+
+                        .ep-header-auth {
+                            display: flex;
+                            align-items: center;
+                            gap: 8px;
+                            flex-shrink: 0;
+                        }
+
+                        .ep-welcome {
+                            font-size: 13px;
+                            color: #5F5E5A;
+                            display: flex;
+                            align-items: center;
+                        }
+
+                        .ep-btn-sm {
+                            padding: 6px 14px !important;
+                            font-size: 13px !important;
+                        }
+
+                        /* ─── Hamburger ─────────────────────────────── */
+                        .ep-hamburger {
+                            display: none;
+                            flex-direction: column;
+                            gap: 5px;
+                            background: none;
+                            border: none;
+                            cursor: pointer;
+                            padding: 4px;
+                            margin-left: auto;
+                        }
+
+                        .ep-hamburger span {
+                            display: block;
+                            width: 22px;
+                            height: 2px;
+                            background: #2C2C2A;
+                            border-radius: 2px;
+                            transition: all 0.2s;
+                        }
+
+                        /* ─── Mobile menu ───────────────────────────── */
+                        .ep-mobile-menu {
+                            display: none;
+                            flex-direction: column;
+                            padding: 0.5rem 1.25rem 1rem;
+                            border-top: 1px solid rgba(0, 0, 0, 0.08);
+                            background: #ffffff;
+                        }
+
+                        .ep-mobile-menu.open {
+                            display: flex;
+                        }
+
+                        .ep-mobile-link {
+                            font-size: 15px;
+                            color: #2C2C2A;
+                            padding: 10px 0;
+                            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+                            text-decoration: none;
+                        }
+
+                        .ep-mobile-link:last-child {
+                            border-bottom: none;
+                        }
+
+                        /* ─── Flash ─────────────────────────────────── */
+                        .ep-flash {
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            padding: 12px 1.5rem;
+                            font-size: 14px;
+                            font-weight: 500;
+                        }
+
+                        .ep-flash-success {
+                            background: #EAF3DE;
+                            color: #3B6D11;
+                            border-bottom: 1px solid #C0DD97;
+                        }
+
+                        .ep-flash-error {
+                            background: #FCEBEB;
+                            color: #A32D2D;
+                            border-bottom: 1px solid #F09595;
+                        }
+
+                        .ep-flash-close {
+                            background: none;
+                            border: none;
+                            font-size: 18px;
+                            cursor: pointer;
+                            color: inherit;
+                            opacity: 0.6;
+                            line-height: 1;
+                            padding: 0 4px;
+                        }
+
+                        .ep-flash-close:hover {
+                            opacity: 1;
+                        }
+
+                        /* ─── Responsive ────────────────────────────── */
+                        @media (max-width: 640px) {
+                            .ep-nav {
+                                display: none;
+                            }
+
+                            .ep-header-auth {
+                                display: none;
+                            }
+
+                            .ep-hamburger {
+                                display: flex;
+                            }
+                        }
+                    </style>
+
+                    <script>
+                        const hamburger = document.getElementById('ep-hamburger')
+                        const mobileMenu = document.getElementById('ep-mobile-menu')
+                        if (hamburger && mobileMenu) {
+                            hamburger.addEventListener('click', () => {
+                                mobileMenu.classList.toggle('open')
+                            })
+                        }
+                    </script>
